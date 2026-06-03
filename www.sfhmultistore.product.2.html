@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>SFH Multistore - Mini Disposable Travel Paper Soap</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+background:#050816;
+color:white;
+}
+
+header{
+  background:#111827;
+  padding:20px;
+  text-align:center;
+  font-size:28px;
+  font-weight:bold;
+  color:#60a5fa;
+}
+ header:hover{
+     color:red
+    }
+
+/* NAVBAR */
+
+nav{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:22px 8%;
+position:fixed;
+top:0;
+width:100%;
+backdrop-filter:blur(18px);
+background:rgba(5,8,22,0.75);
+z-index:1000;
+border-bottom:1px solid rgba(255,255,255,0.08);
+}
+
+.logo{
+font-size:28px;
+font-weight:700;
+background:linear-gradient(90deg,#60a5fa,#a855f7);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+}
+
+nav ul{
+display:flex;
+list-style:none;
+gap:30px;
+}
+
+nav a{
+color:white;
+text-decoration:none;
+font-size:15px;
+transition:0.3s;
+}
+
+nav ul:hover{
+color: red;
+}
+
+nav a:hover{
+color:#60a5fa;
+}
+
+/* CONTAINER */
+.container{
+max-width:1100px;
+margin:auto;
+padding:30px 8%;
+}
+
+/* IMAGE GALLERY TOP */
+.gallery{
+  display: flex;
+  flex-wrap: nowrap;
+  width: 100%;
+  padding-bottom:15px;
+  gap: 20px;
+  overflow-x: auto;
+  max-width: 100%;
+  padding: 10px;
+}
+
+.gallery-img{
+width:300px;
+height: 300px;
+object-fit:cover;
+border-radius:18px;
+cursor:zoom-in;
+border:1px solid rgba(255,255,255,0.1);
+transition:0.3s;
+}
+
+.gallery-img:hover{
+transform:scale(1.03);
+}
+
+
+.zoom-container {
+
+   flex: 0 0 300px;
+
+  width: 300px;
+
+  position: relative;
+
+}
+
+
+.productImage {
+ width:300px;
+height: 300px;
+object-fit:cover;
+border-radius:18px;
+cursor:zoom-in;
+border:1px solid rgba(255,255,255,0.1);
+transition:0.3s;
+ width: 100%;
+
+  border: 1px solid #ddd;
+
+  cursor: crosshair;
+}
+
+.productImgage:hover{
+transform:scale(1.03);
+}
+
+.zoomResult {
+   position: relative;
+  width: 450px;
+  height: 450px;
+  margin-top: 20px;
+  border: 1px solid #ddd;
+  background-repeat: no-repeat;
+  display: none;
+}
+
+
+/* PRODUCT TITLE */
+.title{
+font-size:36px;
+font-weight:700;
+margin-top:30px;
+}
+
+.price{
+font-size:24px;
+color:#60a5fa;
+margin:15px 0;
+}
+
+.reviews {
+
+  margin-top: 30px;
+
+
+  margin-bottom: 20px;
+
+  padding: 20px;
+
+  border: 1px solid #ddd;
+
+  border-radius: 8px;
+
+  background:rgba(255,255,255,0.05);
+
+  margin-bottom: 50px;}
+
+.review {
+
+  margin-top: 15px;
+
+  padding: 15px;
+
+  background: white;
+
+  border-radius: 8px;
+
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+
+  margin-bottom: 50px;
+}
+.review {
+
+  border: 1px solid #ddd;
+
+  padding: 15px;
+
+  margin-bottom: 15px;
+
+  border-radius: 8px;
+
+}
+
+.desc{
+color:#cbd5e1;
+line-height:1.8;
+font-size:15px;
+margin-bottom:20px;
+}
+
+/* VARIANTS */
+.variant{
+background:rgba(255,255,255,0.05);
+padding:15px;
+border-radius:12px;
+margin-top:10px;
+border:1px solid rgba(255,255,255,0.1);
+}
+
+.btn-primary{
+  display:inline-block;
+
+  padding:14px 30px;
+
+  background:linear-gradient(90deg,#3b82f6,#8b5cf6) !important;;
+
+  color:white !important;;
+
+  border:none;
+
+  border-radius:50px;
+
+  text-decoration:none;
+
+  font-weight:600;
+
+  cursor:pointer;
+
+}
+.btn-remove{
+  background: #ef4444 !important;
+  color: white !important;
+  border: none;
+  padding: 5px 5px;
+  border-radius: 4px;
+}
+
+/* SECTIONS */
+.section{
+background:#1e293b;
+  margin-top:10px;
+  border-radius:15px;
+  padding:10px;
+}
+
+.section h2{
+  margin-bottom:15px;
+  color:#60a5fa;
+}
+ul{
+  padding-left:20px;
+  line-height:2;
+}
+table{
+  width:100%;
+  border-collapse:collapse;
+}
+
+td{
+  padding:12px;
+  border-bottom:2px solid #334155;
+}
+/* MOBILE */
+@media(max-width:768px){
+.gallery img{
+width:220px;
+height:220px;
+}
+.title{
+font-size:28px;
+}
+}
+
+.cart-btn{
+display:inline-block;
+margin-top:10px;
+width: 320px;
+padding: 15px;
+border-radius: 12px;
+background:#10b981;
+color:red;
+text-decoration:none;
+font-weight:600;
+border:none;
+outline:none;
+appearance:none;
+cursor:pointer;
+transition:0.3s;
+}
+
+.cart-btn:hover{
+transform:translateY(-3px);
+background:#059669;
+}
+
+
+</style>
+</head>
+
+<body>
+
+<nav>
+
+<a href="www.sfhmultistore.html">
+<div class="logo">SFH Multistore</div>
+
+<ul>
+<li><a href="www.sfhmultistore.html#">Home</a></li>
+<li><a href="www.sfhmultistore.html.#products">Products</a></li>
+<li><a href="www.sfhmultistore.html.#about">About</a></li>
+<li><a href="www.sfhmultistore.html.#contact">Contact</a></li>
+</ul>
+
+</nav>
+<header>f</header>
+
+<div class="container">
+
+<!-- IMAGE GALLERY (TOP) -->
+<div class="gallery">
+<div class="zoom-container">
+    <img class="productImage" src="https://img.drz.lazcdn.com/static/pk/p/797f005974e4ec33a905cc8de66811e9.jpg_2200x2200q80.jpg_.webp">
+    <div class="zoomResult"></div>
+  </div>
+<div class="zoom-container">    
+     <img class="productImage" src="https://static-01.daraz.pk/p/c35b33165fd641fd9064ecb11ba98d64.jpg">
+    <div class="zoomResult"></div>
+   </div>
+<div class="zoom-container">    
+     <img class="productImage" src="https://img.drz.lazcdn.com/static/pk/p/5386969faa1e925752f638df5336e3fd.jpg_2200x2200q80.jpg_.webp">
+    <div class="zoomResult"></div>
+   </div>
+<div class="zoom-container">    
+     <img class="productImage" src="https://img.drz.lazcdn.com/static/pk/p/bdc2a095bb3aa78ec60df49e7d785e70.jpg_2200x2200q80.jpg_.webp">
+    <div class="zoomResult"></div>
+   </div>
+<div class="zoom-container">    
+     <img class="productImage" src="https://img.drz.lazcdn.com/static/pk/p/afc0345352d3c863d7526858235210d0.jpg_2200x2200q80.jpg_.webp">
+    <div class="zoomResult"></div>
+   </div>
+</div>
+<!-- TITLE -->
+<div class="title">
+Mini Disposable Travel Paper Soap
+</div>
+
+<div class="price">Rs. 87</div>
+
+<div class="desc">
+<h2>Product Description</h2>
+
+
+Stay fresh, clean, and hygienic wherever you go with our Pocket Travel Paper Soap Sheets — the perfect portable hygiene solution for modern daily life. Designed for convenience and ease of use, these lightweight disposable soap sheets are ideal for travel, school, college, office, camping, picnics, hiking, shopping trips, and emergency situations where regular soap may not be available. These ultra-thin soap sheets instantly dissolve in water to create a rich cleansing foam that helps wash away dirt, oil, and germs from your hands. Simply take out a sheet, add a little water, rub your hands together, and enjoy a quick and refreshing hand wash anytime, anywhere.
+
+</div>
+
+<div class="desc">
+Unlike bulky liquid soaps or messy hand wash bottles, these paper soap sheets are compact, leak-proof, and easy to carry in your pocket, wallet, handbag, school bag, travel pouch, or even your phone cover. Their small size makes them extremely travel-friendly while still providing effective cleanliness whenever needed. Made with skin-friendly ingredients, the soap is gentle on hands and suitable for regular use. Each sheet is intended for single use, helping maintain better hygiene and reducing contamination compared to shared soaps.
+
+</div>
+
+<div class="desc">
+Whether you are a student needing quick hand cleaning at school, a traveler on the road, an office worker commuting daily, or someone who simply values personal hygiene, these portable paper soap sheets are a must-have everyday essentials.
+
+</div>
+
+
+<div class="variant">
+<h1>Pink - Rs. 87.00</h1>
+<h2><s>Rs. 129.00</s> 33% OFF!</h2>
+<b> 3 Left - Hurry Up!</b>
+</div>
+<button class="btn-primary" onclick="addToCart(variant3)">
+  Add to Cart
+</button>
+
+
+<div class="variant">
+<h1>Blue - Rs. 87.00</h1>
+<h2><s>Rs. 129.00</s> 33% OFF!</h2>
+<b> 3 Left - Hurry Up!</b>
+</div>
+<button class="btn-primary" onclick="addToCart(variant4)">
+  Add To Cart 
+</button>
+
+
+<div class="variant">
+<h1>Green - Rs. 87.00</h1>
+<h2><s>Rs. 129.00</s> 33% OFF!</h2>
+<b> 3 Left - Hurry Up!</b>
+</div>
+<button class="btn-primary" onclick="addToCart(variant5)">
+  Add To Cart 
+</button>
+
+
+<div class="reviews" id="reviewsBox">
+
+  <h2>Customer Reviews</h2>
+<h3> No reviews yet</h3>
+</div>
+<!-- DETAILS -->
+<div class="section">
+<h2>Product Highlights</h2>
+<ul>
+<li>Portable & lightweight – ideal for travel and daily use</li>
+<li>Instant dissolving paper soap – just add water</li>
+<li>Gentle on skin, strong on dirt and germs</li>
+<li>No mess, no leakage like liquid soaps</li>
+<li>Perfect for school, travel, hiking, office & public places</li>
+<li>Hygienic single-use sheets for safety</li>
+</ul>
+</div>
+
+<!-- SPEC -->
+<div class="section">
+<h2>Specifications</h2>
+
+<table>
+<td></td>
+<td></td>
+<tr>
+<td>Brand</td>
+<td>No Brand</td>
+</tr>
+<tr>
+<td>Beauty Features</td>
+<td>Vibrant and Fragrant Mini Disposable Travel Paper Soaps, made exactly to suit your needs and desires!</td>
+</tr>
+<tr>
+<td>What’s in the box?</td>
+<td>1 Pack of Disposable Mini Travel Paper Soap</td>
+</tr>
+<tr>
+<td>Country of origin</td>
+<td>China</td>
+</tr>
+
+<tr>
+<td>Model</td>
+<td>0268-11</td>
+</tr>
+</table>
+</div>
+
+</div>
+
+
+
+<script>
+
+let variant3 = {
+  name: "Travel Paper Soap Pink",
+  price: 87.00,
+  stock: 3
+};
+
+let variant4 = {
+  name: "Travel Paper Soap Blue",
+  price: 87.00,
+  stock: 3
+};
+
+let variant5 = {
+  name: "Travel Paper Soap Green",
+  price: 87.00,
+  stock: 3
+};
+
+document.querySelectorAll(".zoom-container").forEach(container => {
+
+  let img = container.querySelector(".productImage");
+  let zoom = container.querySelector(".zoomResult");
+
+  img.addEventListener("mousemove", function(e) {
+
+    zoom.style.display = "block";
+
+    let rect = img.getBoundingClientRect();
+
+    let x = e.clientX - rect.left;
+    let y = e.clientY - rect.top;
+
+    let xPercent = (x / rect.width) * 100;
+    let yPercent = (y / rect.height) * 100;
+
+    zoom.style.backgroundImage = `url(${img.src})`;
+
+    let zoomLevel = 3;
+
+    zoom.style.backgroundSize =
+      `${rect.width * zoomLevel}px ${rect.height * zoomLevel}px`;
+
+    zoom.style.backgroundPosition =
+      `${xPercent}% ${yPercent}%`;
+
+  });
+
+  img.addEventListener("mouseleave", function() {
+    zoom.style.display = "none";
+  });
+
+});
+
+</script>
+<--CART PANEL-->
+<div id="cartBox" style="
+position:fixed;
+right:20px;
+bottom:20px;
+width:350px;
+background:#111827;
+border:1px solid rgba(255,255,255,0.1);
+border-radius:15px;
+padding:15px;
+z-index:9999;
+">
+
+
+<h3>🛒 Cart</h3>
+
+<div id="cartItems" style="margin:10px 0; font-size:14px; color:#cbd5e1; white-space:nowrap;">
+No items yet
+</div>
+
+<div id="total" style="margin:10px 0; font-weight:600;">
+Total: Rs. 0.00
+</div>
+
+<button onclick="goToCheckout()" style="
+width:100%;
+padding:10px;
+border:none;
+border-radius:10px;
+background:linear-gradient(90deg,#3b82f6,#8b5cf6);
+color:white;
+font-weight:600;
+cursor:pointer;
+">
+Checkout via WhatsApp
+</button>
+
+</div>
+
+<script>
+function formatPKR(amount) {
+  return "Rs. " + Number(amount).toLocaleString("en-PK", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  });
+}
+
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+function saveCart() {
+  localStorage.setItem("cart", JSON.stringify(cart));
+}
+
+function addToCart(v) {
+
+  // get cart
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+  // find existing item
+  let item = cart.find(i => i.name === v.name);
+
+  // stock check
+  let qty = item ? item.quantity : 0;
+
+  if (qty >= v.stock) {
+    alert("Out of stock");
+    return;
+  }
+
+  // add quantity
+  if (item) {
+
+    item.quantity++;
+
+  } else {
+
+    cart.push({
+      name: v.name,
+      price: v.price,
+      quantity: 1
+    });
+
+  }
+
+  localStorage.setItem("cart", JSON.stringify(cart));
+  renderCart();
+  renderTotal();
+}
+
+
+function getCart() {
+  return JSON.parse(localStorage.getItem("cart")) || [];
+}
+
+
+function renderCart() {
+
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+  let box = document.getElementById("cartItems");
+
+  box.innerHTML = "";
+
+  if (cart.length === 0) {
+    box.innerHTML = "Cart is empty";
+    return;
+  }
+
+  cart.forEach((item, index) => {
+
+    box.innerHTML += `
+      <div>
+        ${item.name} x ${item.quantity} - Rs. ${item.price}
+
+        <button class="btn-remove" onclick="removeItem(${index})" style="
+background: #ef4444 !important;
+  color: white !important;
+  border: none;
+  padding: 5px 5px !important;
+  border-radius: 4px !important;
+">
+x</button>
+      </div>
+    `;
+
+  });
+localStorage.setItem("total", formatPKR(total));
+}
+
+
+function removeItem(index) {
+
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+  if (cart[index].quantity > 1) {
+    cart[index].quantity -= 1;
+  } else {
+    cart.splice(index, 1);
+  }
+
+  localStorage.setItem("cart", JSON.stringify(cart));
+
+  renderCart();
+  renderTotal();
+}
+
+let html = "";
+let total = 0;
+
+cart.forEach((item,qty)=>{
+html += `
+<div style="margin-bottom:8px;">
+${item.name} - Rs. ${item.price}
+<button class="btn-remove" onclick="removeItem(${qty})" style="
+background: #ef4444 !important;
+  color: white !important;
+  border: none;
+  padding: 5px 5px !important;
+  border-radius: 4px !important;
+">X</button>
+</div>
+`;
+total += item.price;
+});
+
+function getTotal() {
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+  let total = 0;
+
+  cart.forEach(item => {
+    total += Number(item.price) * Number(item.quantity);
+  });
+
+  return formatPKR("total");
+}
+
+
+
+function renderTotal() {
+
+  let totalBox = document.getElementById("total");
+
+  if (!totalBox) return;
+
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+  let total = 0;
+
+  cart.forEach(item => {
+    total += Number(item.price) * Number(item.quantity || 1);
+  });
+
+  console.log("TOTAL RAW:", total);
+
+  totalBox.innerHTML = "Total:    " + formatPKR(total);
+}
+
+
+let box = document.getElementById("cartItems");
+let totalBox = document.getElementById("total");
+  if (box) {
+box.innerHTML = html;
+totalBox.innerHTML = "Total:    "  + formatPKR(total);
+}
+
+function checkout() {
+
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+  let box = document.getElementById("cartItems");
+
+  box.innerHTML = "";
+
+  if (cart.length === 0) {
+    box.innerHTML = "Cart is empty";
+    return;
+  }
+
+  cart.forEach((item, index) => {
+
+    box.innerHTML += `
+      <div>
+        ${item.name} x ${item.quantity} - Rs. ${item.price}
+
+        <button onclick="removeItem(${index})" style="
+display:inline-block;
+
+  padding:5px 5px;
+
+  background:#ef4444;
+
+  color:white;
+
+  border:none;
+
+  border-radius:4px;
+
+  cursor:pointer;
+
+  line-height:2;
+
+  font-size:10px;
+
+  outline:none;
+
+  box-sizing:border-box;
+
+">
+          X
+        </button>
+      </div>
+    `;
+
+  });
+
+}
+function goToCheckout() {
+
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+  if (!cart || cart.length === 0) {
+    alert("Cart is empty");
+    return; 
+  }
+
+  window.location.href = "www.sfhmultistore.checkout.html";
+}
+
+window.onload = function () {
+  renderCart();
+  renderTotal();
+  checkout();
+};
+
+console.log(JSON.parse(localStorage.getItem("cart")));
+</script>
+</body>
+</html>

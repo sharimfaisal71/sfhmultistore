@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>SFH Multistore Products Checkout</title>
+
+  <style>
+ 
+     header{
+     background:#111827;
+     padding:20px;
+     text-align:center;
+     font-size:28px;
+     font-weight:bold;
+     color:#60a5fa;
+    }
+    header:hover{
+     color:red;
+    }
+     
+    body {
+      font-family: Arial;
+      background: 
+      linear-gradient(90deg,#050816,#2D336B);
+    }
+       
+    .checkout-container {
+      width: 500px;
+      margin: 30px auto;
+      background:
+      linear-gradient(90deg,#60a5fa,#a855f7);
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #ddd;
+    }
+
+    input, select {
+      width: 96%;
+      margin: 8px 0;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    textarea {
+      overflow: auto;
+      width: 90%;
+      margin: 8px 0;
+      padding: 25px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background: green;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .summary {
+      background: #111827;
+      padding: 10px;
+      margin-top: 10px;
+      border-radius: 5px;
+    }
+
+    .cart-box {
+      font-size: 14px;
+      margin: 5px 0;
+    }
+
+  </style>
+</head>
+
+<body>
+
+
+<a href="www.sfhmultistore.html">
+<header>SFH Multistore</header>
+</a>
+
+<div class="checkout-container">
+
+<body>
+
+
+
+  <!-- CART DISPLAY -->
+  <h3>Cart Items</h3>
+  <div id="cartBox"></div>
+
+  <!-- SUMMARY -->
+  <div class="summary" style="
+color: white;">
+    <p>Subtotal:  <span style="font-weight: bold;" id="subtotal"></span></p>
+    <p>Shipping:  <span style="font-weight: bold;" id="shipping"></span></p>
+    <p><b>Total:  <span style="font-weight: 800" id="total"></span></b></p>
+  </div>
+
+  <h2>Checkout</h2>
+
+  <!-- CUSTOMER DETAILS -->
+<label style="font-weight: bold; color:pink;">
+  Full Name <span style="color:red;">*</span>
+</label>
+  <input type="text" id="name" placeholder="Full Name"  />
+<label style="font-weight: bold; color:pink;">
+  Mobile Number <span style="color:red;">*</span>
+</label>
+  <input type="text" id="phone" placeholder="Mobile Number" oninput="this.value=this.value.replace(/[^0-9+]/g,'')"/>
+<label style="font-weight: bold; color:pink;">
+  City (Free Shipping on Orders over Rs. 1500!) <span style="color:red;">*</span>
+</label>
+  <select id="city" onchange="updateShipping()">
+    <option value="">Select City</option> 
+    <option value="Islamabad">Islamabad</option>
+   <option value="Karachi">Karachi</option>
+     <option value="Lahore">Lahore</option>
+    <option value="Multan">Multan</option>
+    <option value="Peshawar">Peshawar</option>
+    <option value="Rawalpindi">Rawalpindi</option>
+    <option value="Other">Other Cities</option>
+  </select>
+
+
+
+<label style="font-weight: bold; color:pink;">
+  Complete Address <span style="color:red;">*</span>
+</label>
+  <textarea id="address" placeholder="Complete Address
+
+"></textarea>
+
+
+<button onclick="placeOrder()">Confirm Order on WhatsApp</button>
+
+<div id="invoice">
+
+  <p id="invNumber"></p>
+  <p id="custInfo"></p>
+  <div id="invItems"></div>
+  <h3 id="invTotal"></h3>
+
+</div>
+
+<h3>Payment QR</h3>
+
+<p id="orderIdText"></p>
+
+<img id="qrImage" style="width:200px; display:none;">
+
+<button id="qrBtn" onclick="generateOrderQR()">
+Generate Payment QR
+</button>
+
+<button onclick="downloadInvoice()">Print Invoice</button>
+
+<script>
+
+function addToCart(name, variant, price, qty = 1) {
+ 
+  let item = cart.find(i => i.name === name && i.variant === variant);
+
+  if (item) {
+    item.qty += qty;
+   } else {
+    cart.push({ name, variant, price, qty });
+   }
+
+ saveCart();
+ renderCart();
+ }
+
+window.addToCart = addToCart;
+</script>
+<script>
+
+function formatPKR(amount) {
+  return "Rs. " + Number(amount).toLocaleString("en-PK", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  });
+}
+
+/* =========================
+   CART SYSTEM
+========================= */
+
+let cart =
+JSON.parse(localStorage.getItem("cart")) || [];
+
+let shippingFee = 0;
+
+const shippingRates = {
+  Lahore: 250,
+  Karachi: 250,
+  Islamabad: 250,
+  Peshawar: 250,
+  Multan: 250,
+  Rawalpindi: 250,
+  Other: 250
+};
+
+/* =========================
+   SAVE CART
+========================= */
+
+function saveCart() {
+  localStorage.setItem("cart", JSON.stringify(cart));
+}
+
+/* =========================
+   RENDER CHECKOUT CART
+========================= */
+
+function renderCart() {
+updateShipping();
+
+  let container =
+  document.getElementById("cartBox");
+
+  container.innerHTML = "";
+
+
+
+  let subtotal = 0;
+
+  cart.forEach((item, index) => {
+
+    let itemTotal =
+    Number(item.price) * Number(item.quantity);
+
+    subtotal += itemTotal;
+
+    container.innerHTML += `
+
+      <div class="cart-box">
+
+        • ${item.name}
+        | Quantity: ${item.quantity}
+        | Rs. ${item.price}
+        | = <b style="font-weight: 700;" >Rs. ${itemTotal}</b>
+
+      </div>
+
+    `;
+  });
+  localStorage.setItem("total", subtotal);
+
+  updateShipping();
+
+
+  document.getElementById("subtotal")
+  .innerHTML = formatPKR(subtotal);
+
+let shipping = 0;
+let total = subtotal + shipping;
+
+  document.getElementById("shipping")
+  .innerHTML = formatPKR(shipping);
+
+  document.getElementById("total")
+  .innerHTML = formatPKR(total);
+
+}
+
+/* =========================
+   REMOVE ITEM
+========================= */
+
+function removeItem(index) {
+
+  cart.splice(index, 1);
+
+  saveCart();
+
+  renderCart();
+}
+
+/* =========================
+   SHIPPING
+========================= */
+
+function updateShipping() {
+
+  let city =
+    document.getElementById("city").value;
+
+  let subtotal =
+    Number(localStorage.getItem("total")) || 0;
+
+  if (isNaN(subtotal)) subtotal = 0;
+
+   if (!city) {
+let shipping = 0;
+
+  }
+
+  if (subtotal >= 1500) {
+
+    shippingFee = 0;
+
+  } else {
+
+    shippingFee =
+    shippingRates[city] || 0;
+  }
+
+  let shipping =
+    shippingRates[city] || 0;
+
+
+
+  let total = subtotal + shipping;
+
+  // SUMMARY DISPLAY
+  document.getElementById("subtotal").innerHTML =
+    formatPKR(subtotal);
+
+  document.getElementById("shipping").innerHTML =
+    formatPKR(shipping);
+
+  document.getElementById("total").innerHTML =
+    formatPKR(total);
+}
+
+
+
+
+/* =========================
+   WHATSAPP ORDER
+========================= */
+
+function placeOrder() {
+
+
+  let name =
+  document.getElementById("name").value;
+
+  let phone =
+  document.getElementById("phone").value;
+
+  let city =
+  document.getElementById("city").value;
+
+  let address =
+  document.getElementById("address").value;
+
+
+ if (
+  name.trim() === "" ||
+  phone.trim() === "" ||
+  address.trim() === "" ||
+  city === "" 
+) {
+
+  alert("Please fill in all the details");
+
+  return;
+}
+
+  let subtotal =
+  Number(localStorage.getItem("total")) || 0;
+
+  let ftotal =
+  subtotal + shippingFee;
+
+
+
+  let message = `🛒 SFH MULTISTORE ORDER
+
+Name: ${name}
+Phone: ${phone}
+City: ${city}
+Address: ${address}
+
+--- ITEMS ---`;
+
+  cart.forEach(item => {
+
+    message += `
+
+• ${item.name}
+Qty: ${item.quantity}
+Price: Rs. ${item.price}`;
+  });
+
+  message += `
+
+Subtotal: Rs. ${subtotal}
+Shipping: Rs. ${shippingFee}
+Total: Rs. ${ftotal}`;
+
+  let number = "923291615406";
+
+  window.open(
+    `https://wa.me/${number}?text=${encodeURIComponent(message)}`
+  );
+ }
+
+/* =========================
+   INIT
+========================= */
+
+
+
+function downloadInvoice() {
+
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+
+  let cart =
+    JSON.parse(localStorage.getItem("cart")) || [];
+
+  if (cart.length === 0) {
+    alert("Cart is empty");
+    return;
+  }
+
+  let y = 10;
+
+let baseInvoice = 194234571212;
+
+let lastInvoice =
+  Number(localStorage.getItem("lastInvoice")) || 194234571212;
+
+let newInvoice = lastInvoice + 1;
+
+localStorage.setItem("lastInvoice", newInvoice);
+
+  let invNo =
+    "SFH-" + newInvoice;
+
+  doc.setFontSize(16);
+  doc.text("SFH MULTISTORE INVOICE", 10, y);
+
+  y += 10;
+
+  doc.setFontSize(12);
+  doc.text("Invoice Number: " + invNo, 10, y);
+
+  y += 10;
+
+  // Customer details (FIXED SAFETY CHECK)
+  let name =
+    document.getElementById("name")?.value || "N/A";
+
+  let phone =
+    document.getElementById("phone")?.value || "N/A";
+
+  let city =
+    document.getElementById("city")?.value || "N/A";
+
+  doc.text("Name: " + name, 10, y); y += 7;
+  doc.text("Phone: " + phone, 10, y); y += 7;
+  doc.text("City: " + city, 10, y); y += 10;
+
+  let subtotal = 0;
+
+  doc.text("Items:", 10, y);
+  y += 8;
+
+  cart.forEach(item => {
+
+    let itemTotal =
+      Number(item.price) * Number(item.quantity);
+
+    subtotal += itemTotal;
+
+    doc.text(
+      `${item.name} x ${item.quantity} = Rs. ${itemTotal}`,
+      10,
+      y
+    );
+
+    y += 7;
+  });
+
+  y += 5;
+
+  doc.text("Subtotal: Rs. " + subtotal, 10, y);
+
+  y += 7;
+
+  let shipping =
+    Number(localStorage.getItem("shipping")) || 0;
+
+  let total = subtotal + shipping;
+
+  doc.text("Shipping: Rs. " + shipping, 10, y);
+
+  y += 7;
+
+  doc.text("Total: Rs. " + total, 10, y);
+
+  doc.save("sfh.multistore.invoice.pdf");
+}
+
+window.onload = function () {
+
+  let lastOrder = JSON.parse(localStorage.getItem("orders"))?.slice(-1)[0];
+
+  if (lastOrder) {
+    document.getElementById("orderIdText").innerText =
+      "Last Order: " + lastOrder.orderId + " | Rs. " + lastOrder.total;
+  }
+  renderCart();
+ updateShipping();
+
+};
+
+function generateOrderQR() {
+
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+  if (cart.length === 0) {
+    alert("Cart is empty!");
+    return;
+  }
+  // 1. Order ID
+  let baseInvoice = 194234571212;
+
+let lastInvoice =
+  Number(localStorage.getItem("lastInvoice")) || 194234571212;
+
+let newInvoice = lastInvoice + 1;
+
+localStorage.setItem("lastInvoice", newInvoice);
+
+
+  // 2. Calculate total
+  let subtotal = 0;
+
+  cart.forEach(item => {
+    subtotal += Number(item.price) * Number(item.quantity);
+  });
+
+  let shipping = 250;
+  let total = subtotal + shipping;
+
+  // 3. Payment text (this goes inside QR)
+  let qrText =
+    `Order:${newInvoice}|Amount:${total}|Store:SFH Multistore`;
+
+  // 4. Generate QR
+  let qrURL =
+    "http/api.qrservers.com/v1/create-qr-code/?size=200x200&data="
+    + encodeURIComponent(qrText);
+
+  // 5. Show UI
+  document.getElementById("orderIdText").innerText =
+    "Order ID: " + newInvoice + " | Total: Rs. " + total;
+
+  let img = document.getElementById("qrImage");
+  img.src = qrURL;
+  img.style.display = "block";
+
+  // 6. Save order locally
+  let orders = JSON.parse(localStorage.getItem("orders")) || [];
+
+  orders.push({
+    newInvoice,
+    cart,
+    total,
+    status: "Pending"
+  });
+
+  localStorage.setItem("orders", JSON.stringify(orders));
+ let btn = document.getElementById("qrBtn");
+
+  // 🚫 prevent multiple clicks
+  if (btn.disabled) return;
+
+  btn.disabled = true;
+  btn.innerText = "QR Generated ✔";}
+
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</body>
+</html>

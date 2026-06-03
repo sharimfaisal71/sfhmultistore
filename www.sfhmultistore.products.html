@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>SFH Multistore</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+scroll-behavior:smooth;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  color: white;
+}
+
+/* NAVBAR */
+
+nav{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:22px 8%;
+position:fixed;
+top:0;
+width:100%;
+backdrop-filter:blur(18px);
+background:rgba(5,8,22,0.75);
+z-index:1000;
+border-bottom:1px solid rgba(255,255,255,0.08);
+}
+
+.logo{
+font-size:28px;
+font-weight:700;
+background:linear-gradient(90deg,#60a5fa,#a855f7);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+}
+
+nav ul{
+display:flex;
+list-style:none;
+gap:30px;
+}
+
+nav a{
+color:white;
+text-decoration:none;
+font-size:15px;
+transition:0.3s;
+}
+
+nav a:hover{
+color:#60a5fa;
+}
+
+/* HERO */
+
+
+.hero{
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+text-align:center;
+padding:0 10%;
+background:
+radial-gradient(circle at top left,#1d4ed8 0%,transparent 30%),
+radial-gradient(circle at bottom right,#9333ea 0%,transparent 30%),
+#050816;
+}
+
+.hero-content h1{
+font-size:72px;
+line-height:1.1;
+margin-bottom:25px;
+}
+
+.hero-content p{
+max-width:700px;
+margin:auto;
+font-size:18px;
+line-height:1.8;
+color:#cbd5e1;
+margin-bottom:35px;
+}
+
+.btn{
+display:inline-block;
+padding:16px 34px;
+border-radius:50px;
+background:linear-gradient(90deg,#3b82f6,#8b5cf6);
+text-decoration:none;
+color:white;
+font-weight:600;
+transition:0.3s;
+box-shadow:0 15px 40px rgba(59,130,246,0.25);
+}
+
+.btn:hover{
+transform:translateY(-5px);
+}
+
+/* PRODUCTS */
+
+.products{
+padding:120px 8%;
+background:
+radial-gradient(circle at top left,#2C5F2D 0%,transparent 30%),
+radial-gradient(circle at bottom right,#97BC62 0%,transparent 30%),
+#050816;
+}
+}
+
+.section-title{
+text-align:center;
+font-size:48px;
+margin-bottom:70px;
+}
+
+.product-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(300px,372px));
+gap:35px;
+}
+
+.card{
+background:rgba(255,255,255,0.05);
+border:1px solid rgba(255,255,255,0.08);
+backdrop-filter:blur(20px);
+border-radius:25px;
+overflow:hidden;
+transition:0.4s;
+position: relative;
+}
+
+.card:hover{
+transform:translateY(-12px);
+box-shadow:0 20px 50px rgba(59,130,246,0.2);
+}
+
+.card img{
+  max-width: 100%;
+  height: auto;
+}
+
+
+.card-content{
+padding:25px;
+}
+
+.card-content h3{
+font-size:24px;
+margin-bottom:12px;
+}
+
+.card-content p{
+font-size:14px;
+line-height:1.7;
+color:#cbd5e1;
+margin-bottom:20px;
+}
+
+.price{
+font-size:22px;
+font-weight:700;
+color:#60a5fa;
+margin-bottom:20px;
+}
+
+.tag{
+display:inline-block;
+padding:7px 14px;
+background:rgba(59,130,246,0.15);
+border:1px solid rgba(96,165,250,0.2);
+border-radius:30px;
+font-size:12px;
+margin-bottom:18px;
+color:#93c5fd;
+}
+
+/* ABOUT */
+
+.about{
+padding:120px 10%;
+text-align:center;
+background:
+radial-gradient(circle at top left,#2D336B 0%,transparent 30%),
+radial-gradient(circle at bottom right,#6F9BD1 0%,transparent 30%),
+#050816;
+}
+
+.about h2{
+font-size:46px;
+margin-bottom:25px;
+}
+
+.about p{
+max-width:850px;
+margin:auto;
+font-size:18px;
+line-height:1.9;
+color:#cbd5e1;
+}
+
+/* CONTACT */
+
+.contact{
+padding:100px 10%;
+text-align:center;
+background:
+radial-gradient(circle at top left,#DF3C5F 0%,transparent 30%),
+radial-gradient(circle at bottom right,#FFF0F5 0%,transparent 30%),
+#050816;
+}
+
+.contact h2{
+font-size:42px;
+margin-bottom:20px;
+}
+
+.contact p{
+color:#cbd5e1;
+margin-bottom:30px;
+}
+
+/* FOOTER */
+
+footer{
+padding:40px;
+text-align:center;
+border-top:1px solid rgba(255,255,255,0.08);
+color:#94a3b8;
+background:
+radial-gradient(circle at top left,#393939 0%,transparent 30%),
+radial-gradient(circle at bottom right,#FF5A09 0%,transparent 30%),
+#050816;
+}
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+.hero-content h1{
+font-size:46px;
+}
+
+.section-title{
+font-size:38px;
+}
+
+nav ul{
+display:none;
+}
+
+}
+
+.cart-btn{
+display:inline-block;
+margin-top:10px;
+width: 320px;
+padding: 15px;
+border-radius: 12px;
+background:#10b981;
+color:red;
+text-decoration:none;
+font-weight:600;
+border:none;
+outline:none;
+appearance:none;
+cursor:pointer;
+transition:0.3s;
+}
+
+.cart-btn:hover{
+transform:translateY(-3px);
+background:#059669;
+}
+
+    
+    #searchBar {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 20px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    .hidden{
+  display:none !important;
+}
+
+</style>
+</head>
+
+<body>
+
+<nav>
+<a href="www.sfhmultistore.html">
+<div class="logo">SFH Multistore</div>
+
+<ul>
+<li><a href="#">Home</a></li>
+<li><a href="#products">Products</a></li>
+<li><a href="#about">About</a></li>
+<li><a href="#contact">Contact</a></li>
+</ul>
+
+</nav>
+
+
+<section class="products" id="products">
+
+
+<h2 class="section-title">
+Featured Products </h2>
+<input
+  type="text"
+  id="searchBar"
+  placeholder="Search products..."
+  onkeyup="searchProducts()"
+/>
+
+   
+
+
+<div class="product-grid">
+
+<!-- PRODUCT 1 -->
+
+<div class="card">
+
+<img src="https://img.drz.lazcdn.com/g/kf/Sc6f31a7ac7334ad8a98f99a000113b16a.jpg_1000x1000q1000.jpg_.webp">
+
+<div class="card-content">
+
+<div class="tag">Sports</div>
+
+<h3 class="product-title">Rubber Tennis Cricket Ball</h3>
+
+<p>
+Premium lightweight rubber cricket ball suitable
+for kids and adults. Ideal for casual cricket,
+practice sessions, and outdoor games.
+</p>
+
+<div class="price">Excellent Bounce</div>
+
+<div class="price">Rs. 134 – 399</div>
+
+<a class="btn" href="www.sfhmultistore.product.1.html">
+Order Now
+</a>
+
+</div>
+
+</div>
+
+<!-- PRODUCT 2 -->
+
+<div class="card">
+
+<img src="https://img.drz.lazcdn.com/g/kf/Se78be87a53ed46998a96e9e6b31f1437e.jpg_1000x1000q1000.jpg_.webp">
+
+<div class="card-content">
+
+<div class="tag">Travel Hygiene</div>
+
+<h3 class="product-title">Travel Paper Soap Sheets</h3>
+
+<p>
+Pocket-sized disposable soap sheets for travel,
+camping, school, office, and outdoor hygiene.
+Easy to carry and instantly dissolves in water.
+</p>
+
+<div class="price">Portable & Convenient</div>
+
+<div class="price">Rs. 87</div>
+
+<a class="btn" href="www.sfhmultistore.product.2.html">
+Order Now
+</a>
+
+</div>
+
+</div>
+
+<!-- PRODUCT 3 -->
+
+<div class="card">
+
+<img src="https://img.drz.lazcdn.com/g/kf/S549068cd29164ddf98d2b280858192cfa.jpg_1000x1000q1000.jpg_.webp">
+
+<div class="card-content">
+
+<div class="tag">Jewellery Making</div>
+
+<h3 class="product-title">Crystal Tec Elastic Beading Wire</h3>
+
+<p>
+Clear durable stretch thread for jewellery making,
+bracelets, beading crafts, and DIY accessories.
+Strong and flexible premium quality material.
+</p>
+
+<div class="price">8 Meter Roll</div>
+
+<div class="price">Rs. 160</div>
+
+<a class="btn" href="www.sfhmultistore.product.3.html">
+Order Now
+</a>
+
+</div>
+
+</div>
+
+<!-- PRODUCT 4 -->
+
+<div class="card">
+
+<img src="https://img.drz.lazcdn.com/g/kf/Scbf6f571be734590b0bae248ea99b9fcY.jpg">
+
+<div class="card-content">
+
+<div class="tag">Baby Care</div>
+
+<h3 class="product-title">Junior Baba Baby Wipes</h3>
+
+<p>
+Alcohol-free hypoallergenic baby wipes enriched
+with Aloe Vera and Vitamin E for gentle
+and effective cleaning.
+</p>
+
+<div class="price">72 Wipes Pack</div>
+
+<div class="price">Rs. 299</div>
+
+<a class="btn" href="www.sfhmultistore.product.4.html">
+
+Order Now
+</a>
+
+</div>
+
+</div>
+
+
+<!-- PRODUCT 5 -->
+
+<div class="card">
+
+<img src="https://img.drz.lazcdn.com/g/kf/Sc87061ccd5ab46f4ba76aa8e555c82a51.jpg_2200x2200q80.jpg_.webp">
+
+<div class="card-content">
+
+<div class="tag">Oral Hygiene</div>
+
+<h3 class="product-title">Eco-Friendly Bamboo Toothpicks</h3>
+
+<p>
+Ideal hygienic and convenient toothpicks pack with 2 sides and sharp ends for excellent Oral Care purposes.
+</p>
+
+<div class="price">Starting From 200-Picks Pack</div>
+
+<div class="price">Rs. 134</div>
+
+<a class="btn" href="www.sfhmultistore.product.5.html">
+Order Now
+</a>
+
+</div>
+
+</div>
+<!-- PRODUCT 6 -->
+
+<div class="card">
+
+<img src="https://img.drz.lazcdn.com/static/pk/p/4f7408719e93c1ed87839518e8829c63.jpg_2200x2200q80.jpg_.webp">
+
+<div class="card-content">
+
+<div class="tag">Wedding and Event Accessories</div>
+
+<h3 class="product-title">Luxurious Decorative Elegant Rose Nikkah Pen</h3>
+
+<p>
+Aesthetic stylish Rose Nikkah pen made especially to suit the needs of aesthetic vibes, Events, Gatherings, Weddings and Nikkahs.
+</p>
+
+<div class="price">Practical Press Writing Technology For Ease</div>
+
+<div class="price">Rs. 99</div>
+
+<a class="btn" href="www.sfhmultistore.product.6.html">
+Order Now
+</a>
+
+</div>
+
+</div>
+
+
+</div>
+
+<p id="noResults"
+   style="display:none;   grid-column:1/-1;
+  text-align:center;
+  font-size:72px;
+  font-weight:bold;
+  color:white;
+  padding:40px 0;">
+  No products found!
+</p>
+
+</section>
+<!-- CART PANEL -->
+<div id="cartBox" style="
+position:fixed;
+right:20px;
+bottom:20px;
+width:350px;
+background:#111827;
+border:1px solid rgba(255,255,255,0.1);
+border-radius:15px;
+padding:15px;
+z-index:9999;
+">
+
+
+<h3>🛒 Cart</h3>
+
+<div id="cartItems" style="margin:10px 0; font-size:14px; color:#cbd5e1;  white-space: nowrap;">
+No items yet
+</div>
+
+<div id="total" style="margin:10px 0; font-weight:600;">
+Total: Rs. 0.00
+</div>
+
+<button onclick="goToCheckout()" style="
+width:100%;
+padding:10px;
+border:none;
+border-radius:10px;
+background:linear-gradient(90deg,#3b82f6,#8b5cf6);
+color:white;
+font-weight:600;
+cursor:pointer;
+">
+Checkout via WhatsApp
+</button>
+</div>
+
+
+
+<section class="contact" id="contact">
+
+<h2>Contact Us</h2>
+
+<p>
+For orders, inquiries, or collaborations,
+contact SFH Multistore through social media
+or messaging platforms.
+</p>
+
+<a class="btn" href="https://wa.me/923291615406">
+Message Us
+</a>
+
+</section>
+
+<footer>
+
+� 2026 SFH Multistore � All Rights Reserved
+
+</footer>
+<script>
+function searchProducts() {
+
+  let search =
+    document.getElementById("searchBar")
+    .value
+    .toLowerCase();
+
+  let products =
+    document.querySelectorAll(".card");
+  
+  let found = false;
+
+  products.forEach(card => {
+
+    let text =
+      card.innerText.toLowerCase();
+
+    if (text.includes(search)) {
+
+      card.style.display = "inline-block";
+
+    } else {
+
+      card.style.display = "none";
+
+
+  }
+
+  });
+document.getElementById("noResults").style.display =
+ found ? "none" : "block";
+}
+
+function formatPKR(amount) {
+  return "Rs. " + Number(amount).toLocaleString("en-PK", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  });
+}
+
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+function saveCart() {
+  localStorage.setItem("cart", JSON.stringify(cart));
+}
+
+function addToCart(v) {
+
+  
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+ 
+  let item = cart.find(i => i.name === v.name);
+
+ 
+  let qty = item ? item.quantity : 0;
+
+  if (qty >= v.stock) {
+    alert("Out of stock");
+    return;
+  }
+
+
+  if (item) {
+
+    item.quantity++;
+
+  } else {
+
+    cart.push({
+      name: v.name,
+      price: v.price,
+      quantity: 1
+    });
+
+  }
+
+  localStorage.setItem("cart", JSON.stringify(cart));
+  renderCart();
+  renderTotal();
+}
+
+
+function getCart() {
+  return JSON.parse(localStorage.getItem("cart")) || [];
+}
+
+
+function renderCart() {
+
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+  let box = document.getElementById("cartItems");
+
+  box.innerHTML = "";
+
+  if (cart.length === 0) {
+    box.innerHTML = "Cart is empty";
+    return;
+  }
+
+  cart.forEach((item, index) => {
+
+    box.innerHTML += `
+      <div>
+        ${item.name} x ${item.quantity} - Rs. ${item.price}
+        
+        <button class="btn-remove" onclick="removeItem(${index})" style="
+background: #ef4444 !important;
+  color: white !important;
+  border: none;
+  padding: 5px 5px !important;
+  border-radius: 4px !important;
+">
+x</button>
+      </div>
+    `;
+
+  });
+}
+
+
+
+function removeItem(index) {
+
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+  if (cart[index].quantity > 1) {
+    cart[index].quantity -= 1;
+  } else {
+    cart.splice(index, 1);
+  }
+
+  localStorage.setItem("cart", JSON.stringify(cart));
+
+  renderCart();
+  renderTotal();
+}
+
+let html = "";
+let total = 0;
+
+cart.forEach((item,qty)=>{
+html += `
+<div style="margin-bottom:8px;">
+${item.name} - Rs. ${item.price}
+
+<button class="btn-remove" onclick="removeItem(${qty})" style="
+background: #ef4444 !important;
+  color: white !important;
+  border: none;
+  padding: 5px 5px !important;
+  border-radius: 4px !important;
+">X</button>
+</div>
+`;
+total += item.price;
+});
+
+function getTotal() {
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+  let total = 0;
+
+  cart.forEach(item => {
+    total += Number(item.price) * Number(item.quantity);
+  });
+
+  return formatPKR("total");
+}
+
+
+
+function renderTotal() {
+
+  let totalBox = document.getElementById("total");
+
+  if (!totalBox) return;
+
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+  let total = 0;
+
+  cart.forEach(item => {
+    total += Number(item.price) * Number(item.quantity || 1);
+  });
+
+  console.log("TOTAL RAW:", total);
+
+  totalBox.innerHTML = "Total:    " + formatPKR(total);
+}
+
+
+let box = document.getElementById("cartItems");
+let totalBox = document.getElementById("total");
+  if (box) {
+box.innerHTML = html;
+totalBox.innerHTML = "Total:    "  + formatPKR(total);
+}
+
+function checkout() {
+
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+  let box = document.getElementById("cartItems");
+
+  box.innerHTML = "";
+
+  if (cart.length === 0) {
+    box.innerHTML = "Cart is empty";
+    return;
+  }
+
+  cart.forEach((item, index) => {
+
+    box.innerHTML += `
+      <div>
+        ${item.name} x ${item.quantity} - Rs. ${item.price}
+
+        <button onclick="removeItem(${index})" style="
+display:inline-block;
+
+  padding:5px 5px;
+
+  background:#ef4444;
+
+  color:white;
+
+  border:none;
+
+  border-radius:4px;
+
+  cursor:pointer;
+
+  line-height:2;
+
+  font-size:10px;
+
+  outline:none;
+
+  box-sizing:border-box;
+
+">
+          X
+        </button>
+      </div>
+    `;
+
+  });
+}
+function goToCheckout() {
+
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+  if (!cart || cart.length === 0) {
+    alert("Cart is empty");
+    return; 
+  }
+
+  window.location.href = "www.sfhmultistore.checkout.html";
+}
+
+window.onload = function () {
+  renderCart();
+  renderTotal();
+  checkout();
+};
+
+console.log(JSON.parse(localStorage.getItem("cart")));
+</script>
+</body>
+</html>

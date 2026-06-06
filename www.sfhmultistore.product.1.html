@@ -782,7 +782,7 @@ function goToCheckout() {
   let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
   if (!cart || cart.length === 0) {
-    alert("Cart is empty");
+    alert("Cart is empty!");
     return; 
   }
 

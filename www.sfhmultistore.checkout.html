@@ -85,7 +85,6 @@
 
 <div class="checkout-container">
 
-<body>
 
 
 
@@ -138,20 +137,20 @@ color: white;">
 
 <button onclick="placeOrder()">Confirm Order on WhatsApp</button>
 
-
+</div>
 
 
 
 <script>
 
-function addToCart(name, variant, price, qty = 1) {
+function addToCart(name, variant, price, quantity = 1) {
  
   let item = cart.find(i => i.name === name && i.variant === variant);
 
   if (item) {
-    item.qty += qty;
+    item.quantity += qty;
    } else {
-    cart.push({ name, variant, price, qty });
+    cart.push({ name, variant, price, quantity });
    }
 
  saveCart();
@@ -240,11 +239,10 @@ updateShipping();
   document.getElementById("subtotal")
   .innerHTML = formatPKR(subtotal);
 
-let shipping = 0;
-let total = subtotal + shipping;
+let total = subtotal + shippingFee;
 
   document.getElementById("shipping")
-  .innerHTML = formatPKR(shipping);
+  .innerHTML = formatPKR(shippingFee);
 
   document.getElementById("total")
   .innerHTML = formatPKR(total);
@@ -293,8 +291,7 @@ let shipping = 0;
     shippingRates[city] || 0;
   }
 
-  let shipping =
-    shippingRates[city] || 0;
+  let shipping = shippingFee;
 
 
 
@@ -392,7 +389,10 @@ Total: Rs. ${ftotal}`;
 
 
     
-
+window.onload = function () {
+  renderCart();
+  updateShipping();
+};
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </body>

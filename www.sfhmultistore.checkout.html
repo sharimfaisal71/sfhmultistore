@@ -232,7 +232,7 @@ updateShipping();
 
     `;
   });
-  localStorage.setItem("total", subtotal);
+  localStorage.setItem("subtotal", subtotal);
 
   updateShipping();
 
@@ -247,7 +247,7 @@ let total = subtotal + shipping;
   .innerHTML = formatPKR(shipping);
 
   document.getElementById("total")
-  .innerHTML = formatPKR(ftotal);
+  .innerHTML = formatPKR(total);
 
 }
 
@@ -308,7 +308,7 @@ let shipping = 0;
     formatPKR(shipping);
 
   document.getElementById("total").innerHTML =
-    formatPKR(ftotal);
+    formatPKR(total);
 }
 
 

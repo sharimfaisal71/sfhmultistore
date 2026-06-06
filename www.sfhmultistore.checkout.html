@@ -113,7 +113,7 @@ color: white;">
 </label>
   <input type="text" id="phone" placeholder="Mobile Number" oninput="this.value=this.value.replace(/[^0-9+]/g,'')"/>
 <label style="font-weight: bold; color:pink;">
-  City (Free Shipping on Orders over Rs. 1500!) <span style="color:red;">*</span>
+  City (Free Shipping on Orders over Rs. 1000!) <span style="color:red;">*</span>
 </label>
   <select id="city" onchange="updateShipping()">
     <option value="">Select City</option> 
@@ -283,7 +283,7 @@ let shipping = 0;
 
   }
 
-  if (subtotal >= 1500) {
+  if (subtotal >= 1000) {
 
     shippingFee = 0;
 
@@ -347,7 +347,7 @@ function placeOrder() {
 }
 
   let subtotal =
-  Number(localStorage.getItem("total")) || 0;
+  Number(localStorage.getItem("subtotal")) || 0;
 
   let ftotal =
   subtotal + shippingFee;

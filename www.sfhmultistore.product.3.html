@@ -279,6 +279,26 @@ td{
 }
 /* MOBILE */
 @media(max-width:768px){
+  .logo{
+   font-size: 15px;
+}
+.hero-content h1{
+font-size:46px;
+}
+
+.section-title{
+font-size:38px;
+}
+
+nav ul{
+display:flex;
+font-size: 0px;
+gap: 10px;
+}
+
+nav a{
+    font-size: 10px;
+  }
 .gallery img{
 width:220px;
 height:220px;
@@ -323,6 +343,7 @@ background:#059669;
 
 <ul>
 <li><a href="www.sfhmultistore.html#">Home</a></li>
+<li><a href="https://www.dex.com.pk/">Track My Parcel</a></li>
 <li><a href="www.sfhmultistore.html.#products">Products</a></li>
 <li><a href="www.sfhmultistore.html.#about">About</a></li>
 <li><a href="www.sfhmultistore.html.#contact">Contact</a></li>
@@ -587,7 +608,7 @@ function renderCart() {
   box.innerHTML = "";
 
   if (cart.length === 0) {
-    box.innerHTML = "Cart is empty";
+    box.innerHTML = "No items yet";
     return;
   }
 
@@ -706,7 +727,7 @@ function checkout() {
   box.innerHTML = "";
 
   if (cart.length === 0) {
-    box.innerHTML = "Cart is empty";
+    box.innerHTML = "No items yet";
     return;
   }
 
@@ -752,7 +773,7 @@ function goToCheckout() {
   let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
   if (!cart || cart.length === 0) {
-    alert("Cart is empty");
+    alert("Cart is empty!");
     return; 
   }
 

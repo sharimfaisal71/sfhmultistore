@@ -230,6 +230,21 @@ updateShipping();
       </div>
 
     `;
+    if(cart.length === 0){
+    container.innerHTML =
+    "<p><b>Cart is empty!</b></p>";
+
+    document.getElementById("subtotal").innerHTML =
+    formatPKR(0);
+
+    document.getElementById("shipping").innerHTML =
+    formatPKR(0);
+
+    document.getElementById("total").innerHTML =
+    formatPKR(0);
+
+    return;
+    }
   });
   localStorage.setItem("total", subtotal);
 

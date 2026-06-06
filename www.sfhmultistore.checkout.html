@@ -85,9 +85,13 @@
 
 <div class="checkout-container">
 
+<body>
+
+
+
   <!-- CART DISPLAY -->
   <h3>Cart Items</h3>
-  <div id="cartItems"></div>
+  <div id="cartBox"></div>
 
   <!-- SUMMARY -->
   <div class="summary" style="
@@ -134,15 +138,9 @@ color: white;">
 
 <button onclick="placeOrder()">Confirm Order on WhatsApp</button>
 
-<div id="invoice">
 
-  <p id="invNumber"></p>
-  <p id="custInfo"></p>
-  <div id="invItems"></div>
-  <h3 id="invTotal"></h3>
 
-</div>
-</div>
+
 
 <script>
 
@@ -234,7 +232,7 @@ updateShipping();
 
     `;
   });
-  localStorage.setItem("subtotal", subtotal);
+  localStorage.setItem("total", subtotal);
 
   updateShipping();
 
@@ -393,10 +391,7 @@ Total: Rs. ${ftotal}`;
 
 
 
-
-
-};
-
+    
 
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>

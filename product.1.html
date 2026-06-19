@@ -696,7 +696,42 @@ function getTotal() {
 
 }
 
+cart = cart.filter(item => {
 
+  let product = products.find(
+    p => p.name === item.name
+  );
+
+  return product && product.stock > 0;
+
+});
+
+function syncCartWithStock() {
+
+  cart.forEach(item => {
+
+    let product = products.find(
+      p => p.name === item.name
+    );
+
+    if (!product) return;
+
+    if (item.quantity > product.stock) {
+
+      item.quantity = product.stock;
+
+      alert(
+        item.name +
+        " quantity was reduced to " +
+        product.stock +
+        " because stock changed."
+      );
+    }
+
+  });
+
+  saveCart();
+}
 
 function renderTotal() {
 
@@ -786,10 +821,11 @@ function goToCheckout() {
     return; 
   }
 
-  window.location.href = "https://www.sfhmultistore.online/checkout";
+  window.location.href = "https://sfhmultistore.pages.dev/checkout";
 }
 
 window.onload = function () {
+  syncCartWithStock();
   renderCart();
   renderTotal();
   checkout();

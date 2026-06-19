@@ -368,7 +368,7 @@ function placeOrder() {
 
 
 
-  let message = `&#x1F6D2 SFH MULTISTORE ORDER
+  let message = &#x1F6D2 `SFH MULTISTORE ORDER
 
 Name: ${name}
 Phone: ${phone}
@@ -381,9 +381,9 @@ Address: ${address}
 
     message += `
 
-• ${item.name}
+<li> ${item.name}
 Qty: ${item.quantity}
-Price: Rs. ${item.price}`;
+Price: Rs. ${item.price}</l1>`;
   });
 
   message += `

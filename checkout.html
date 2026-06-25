@@ -325,7 +325,45 @@ let shipping = 0;
 }
 
 
+function checkStock() {
 
+
+  cart = cart.filter(function(item) {
+    let variant = eval(item.id);
+        let oldquantity = item.quantity;
+    if (!variant) {
+      return false;
+    }
+
+    if (variant.stock <= 0) {
+      return false;
+    }
+
+    if (item.quantity > variant.stock) {
+      item.quantity = variant.stock;
+    alert(
+    item.name +
+    "'s quantity changed from " +
+    oldquantity +
+    " to " +
+    item.quantity +
+    " in Cart"
+    );
+    }
+
+    return true;
+
+  });
+  
+  localStorage.setItem("cart", JSON.stringify(cart));
+  
+  saveCart();
+  getTotal();
+  renderTotal();
+  renderCart();
+
+
+};
 
 /* =========================
    WHATSAPP ORDER
@@ -409,6 +447,7 @@ Payment Method: Cash On Delivery` ;
 window.onload = function () {
   renderCart();
   updateShipping();
+  checkStock();
 };
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>

@@ -579,6 +579,7 @@ function addToCart(v) {
   } else {
 
     cart.push({
+      id: v.id,
       name: v.name,
       price: v.price,
       quantity: 1
@@ -708,7 +709,46 @@ let totalBox = document.getElementById("total");
 box.innerHTML = html;
 totalBox.innerHTML = "Total:    "  + formatPKR(total);
 }
+function checkStock() {
 
+
+  cart = cart.filter(function(item) {
+    let variant = eval(item.id);
+        let oldquantity = item.quantity;
+    if (!variant) {
+      return false;
+    }
+
+    if (variant.stock <= 0) {
+      return false;
+    }
+
+    if (item.quantity > variant.stock) {
+      item.quantity = variant.stock;
+    alert(
+    item.name +
+    "'s quantity changed from " +
+    oldquantity +
+    " to " +
+    item.quantity +
+    " in Cart"
+    );
+    }
+
+    return true;
+
+  });
+  
+  localStorage.setItem("cart", JSON.stringify(cart));
+  
+  saveCart();
+  getTotal();
+  renderTotal();
+  renderCart();
+
+
+};
+  
 function checkout() {
 
   let cart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -774,6 +814,7 @@ function goToCheckout() {
 window.onload = function () {
   renderCart();
   renderTotal();
+  checkStock();
   checkout();
 };
 

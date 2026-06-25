@@ -470,11 +470,13 @@ Enjoy exciting cricket matches with this high-quality Cricket Tennis Ball, desig
 
 let variant1 = {
   name: "Cricket Tennis Ball Pack of 1",
+  id: "variant1",
   price: 134.00,
   stock: 3
 };
 let variant2 = {
   name: "Cricket Tennis Ball Pack of 3",
+  id: "variant2",
   price: 349.00,
   stock: 1
 };
@@ -590,6 +592,7 @@ function addToCart(v) {
   } else {
 
     cart.push({
+      id: v.id,
       name: v.name,
       price: v.price,
       quantity: 1
@@ -777,6 +780,47 @@ display:inline-block;
 
   });
 }
+
+function checkStock() {
+
+
+  cart = cart.filter(function(item) {
+    let variant = eval(item.id);
+        let oldquantity = item.quantity;
+    if (!variant) {
+      return false;
+    }
+
+    if (variant.stock <= 0) {
+      return false;
+    }
+
+    if (item.quantity > variant.stock) {
+      item.quantity = variant.stock;
+    alert(
+    item.name +
+    "'s quantity changed from " +
+    oldquantity +
+    " to " +
+    item.quantity +
+    " in Cart"
+    );
+    }
+
+    return true;
+
+  });
+  
+  localStorage.setItem("cart", JSON.stringify(cart));
+  
+  saveCart();
+  getTotal();
+  renderTotal();
+  renderCart();
+
+
+};
+  
 function goToCheckout() {
 
   let cart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -792,6 +836,7 @@ function goToCheckout() {
 window.onload = function () {
   renderCart();
   renderTotal();
+  checkStock();
   checkout();
 };
 

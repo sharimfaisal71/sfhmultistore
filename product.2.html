@@ -493,18 +493,21 @@ Whether you are a student needing quick hand cleaning at school, a traveler on t
 
 let variant3 = {
   name: "Travel Paper Soap Pink",
+  id: "variant3",
   price: 87.00,
   stock: 3
 };
 
 let variant4 = {
   name: "Travel Paper Soap Blue",
+  id: "variant4",
   price: 87.00,
   stock: 3
 };
 
 let variant5 = {
   name: "Travel Paper Soap Green",
+  id: "variant5",
   price: 87.00,
   stock: 3
 };
@@ -621,6 +624,7 @@ function addToCart(v) {
   } else {
 
     cart.push({
+      id: v.id,
       name: v.name,
       price: v.price,
       quantity: 1
@@ -750,6 +754,46 @@ box.innerHTML = html;
 totalBox.innerHTML = "Total:    "  + formatPKR(total);
 }
 
+function checkStock() {
+
+
+  cart = cart.filter(function(item) {
+    let variant = eval(item.id);
+        let oldquantity = item.quantity;
+    if (!variant) {
+      return false;
+    }
+
+    if (variant.stock <= 0) {
+      return false;
+    }
+
+    if (item.quantity > variant.stock) {
+      item.quantity = variant.stock;
+    alert(
+    item.name +
+    "'s quantity changed from " +
+    oldquantity +
+    " to " +
+    item.quantity +
+    " in Cart"
+    );
+    }
+
+    return true;
+
+  });
+  
+  localStorage.setItem("cart", JSON.stringify(cart));
+  
+  saveCart();
+  getTotal();
+  renderTotal();
+  renderCart();
+
+
+};
+  
 function checkout() {
 
   let cart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -816,6 +860,7 @@ function goToCheckout() {
 window.onload = function () {
   renderCart();
   renderTotal();
+  checkStock();
   checkout();
 };
 

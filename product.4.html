@@ -451,6 +451,7 @@ Made with ultra-soft, skin-friendly material, these wipes ensure a comfortable c
 
 let variant7 = {
   name: "Junior Baba Baby Wipes Blue",
+  pid: "Junior Baba Baby Wipes",
   id: "variant7",
   price: 299.00,
   stock: 1
@@ -568,6 +569,7 @@ function addToCart(v) {
   } else {
 
     cart.push({
+      pid: v.pid,
       id: v.id,
       name: v.name,
       price: v.price,

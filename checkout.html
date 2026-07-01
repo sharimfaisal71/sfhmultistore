@@ -136,7 +136,7 @@ color: white;">
 
 
 <button onclick="placeOrder()">Confirm Order on WhatsApp</button>
-
+<button onclick="sendEmail()">Confirm Order on Email</button>
 </div>
 
 
@@ -240,7 +240,7 @@ updateShipping();
         • ${item.name}
         | Quantity: ${item.quantity}
         | Rs. ${item.price}
-        | = <b style="font-weight: 700;" >Rs. ${itemTotal}</b>
+        | = <b style="font-weight: 700;" >Rs. ${itemTotal}.00</b>
 
       </div>
 
@@ -365,13 +365,23 @@ function checkStock() {
 
 };
 
+
+
+let now = new Date();
+
+let invoiceNumber =
+  "SFH-" +
+    now.getFullYear() +
+  String(now.getMonth() + 1).padStart(2,"0") +
+  String(now.getDate()).padStart(2,"0") +
+  String(Date.now()).slice(-5);;
+localStorage.setItem("invoiceNumber", JSON.stringify(invoiceNumber));
 /* =========================
    WHATSAPP ORDER
 ========================= */
 
-function placeOrder() {
 
-
+async function placeOrder() {
   let name =
   document.getElementById("name").value;
 
@@ -397,6 +407,21 @@ function placeOrder() {
   return;
 }
 
+if (
+    confirm(
+"Do you want to confirm your order through Whatsapp?"
+    )
+  ) {
+
+
+
+
+
+
+
+  
+
+
   let subtotal =
   Number(localStorage.getItem("total")) || 0;
 
@@ -411,16 +436,14 @@ Name: ${name}
 Phone: ${phone}
 City: ${city}
 Address: ${address}
-
+Invoice No: ${invoiceNumber}
 --- ITEMS ---`;
 
   cart.forEach(item => {
 
     message += `
 
-• ${item.name}
-Qty: ${item.quantity}
-Price: Rs. ${item.price}`;
+• ${item.name} | Qty: ${item.quantity} | Price: Rs. ${item.price}`;
   });
 
   message += `
@@ -430,13 +453,207 @@ Shipping: Rs. ${shippingFee}
 Total: Rs. ${ftotal}
 Payment Method: Cash On Delivery` ;
 
-  let number = "923291615406";
+let items = "";
+cart.forEach((item) =>{ 
 
-  window.open(
+ let itemTotal = item.price * item.quantity;
+  items += `
+    • ${item.name}.00 | Qty: ${item.quantity} |Price Per Quantity: Rs. ${item.price} | = ${itemTotal}.00
+`});
+
+
+  await setDoc(
+   doc(db, "orders", invoiceNumber), {
+    invoice: invoiceNumber,
+    name: name,
+    phone: phone,
+    city: city,
+    address: address,
+    items: items,
+    cart: cart,
+    subtotal: formatPKR(subtotal),
+    shippingFee: formatPKR(shippingFee),
+    total: formatPKR(ftotal), 
+    status: "⚪ Pending",
+    createdAt: Date.now(),
+    history: [
+        { 
+        status: "⚪ Pending",
+        time: new Date().toLocaleString()
+        }
+]
+      
+
+  });
+
+let invoices = JSON.parse(localStorage.getItem("myInvoices")) || [];
+
+if (!invoices.includes(invoiceNumber)) {
+    invoices.push(invoiceNumber);
+}
+
+localStorage.setItem("myInvoices", JSON.stringify(invoices));
+  let number = "923291615406";
+window.open(
     `https://wa.me/${number}?text=${encodeURIComponent(message)}`
   );
+  
+};
+ 
  }
 
+async function sendEmail(){
+
+
+  let name =
+  document.getElementById("name").value;
+
+  let phone =
+  document.getElementById("phone").value;
+
+  let city =
+  document.getElementById("city").value;
+
+  let address =
+  document.getElementById("address").value;
+
+if (
+  name.trim() === "" ||
+  phone.trim() === "" ||
+  address.trim() === "" ||
+  city === "" 
+) {
+
+  alert("Please fill in all the details");
+
+  return;
+}
+
+if (
+    confirm(
+"Do you want to confirm your order through Email?"
+    )
+  ) {
+let email = prompt("Enter your email:");
+
+
+if(email > "")  
+  {
+if (    confirm(
+"Is " + email + " your email?"
+)
+) {
+
+let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+if (!emailPattern.test(email)) {
+    alert("Invalid email address entered! Reorder by clicking one of the two green confirm buttons below");
+    return;
+}
+
+let otp = Math.floor(100000 + Math.random() * 900000); 
+await emailjs.send(
+  "service_u74gae4",
+  "template_lqgap6d",
+  {
+    otp: otp,
+    email: email,
+    name: name
+  }
+);
+
+    alert("OTP sent!");
+
+let writeotp = prompt("Enter the 6-digit OTP sent to " + email + ":");
+
+if (writeotp == otp) {
+alert("OTP verified!");
+let items = "";
+cart.forEach((item) =>{ 
+
+ let itemTotal = item.price * item.quantity;
+  items += `
+    • ${item.name}.00 | Qty: ${item.quantity} |Price Per Quantity: Rs. ${item.price} | = ${itemTotal}.00
+`});
+
+
+
+
+
+  let subtotal =
+  document.getElementById("subtotal").innerHTML;
+
+
+  let total =
+  document.getElementById("total").innerHTML;
+
+  await setDoc(
+   doc(db, "orders", invoiceNumber), {
+    invoice: invoiceNumber,
+    name: name,
+    phone: phone,
+    city: city,
+    address: address,
+    items: items,
+    cart: cart,
+    subtotal: subtotal,
+    shippingFee: shippingFee,
+    total: total,
+    status: "⚪ Pending",
+    createdAt: Date.now(),
+    history: [
+    {
+        status: "⚪ Pending",
+        time: new Date().toLocaleString()
+    }
+]
+  });
+
+emailjs.send(
+  "service_u74gae4",
+  "template_k8br68f",
+  {
+    invoice: invoiceNumber,
+    email: email,
+    name: name,
+    items: items,
+    phone: phone,
+    city: city,
+    address: address,
+    subtotal: subtotal,
+    shippingFee: shippingFee,
+    ftotal: total
+  })
+
+
+.then(function () {
+
+  alert("Order emailed successfully! Your Invoice No. is " + invoiceNumber + ". Further tracking information will be sent to your Email address.");
+let invoices = JSON.parse(localStorage.getItem("myInvoices")) || [];
+
+if (!invoices.includes(invoiceNumber)) {
+    invoices.push(invoiceNumber);
+}
+
+localStorage.setItem("myInvoices", JSON.stringify(invoices));
+})
+.catch(function (error) {
+
+  alert("Email failed!");
+
+
+})
+ }
+
+ else {
+alert("Incorrect OTP entered! Reorder by clicking one of the two green confirm buttons.");
+}
+}
+
+
+}
+}  
+}
 /* =========================
    INIT
 ========================= */
@@ -451,5 +668,71 @@ window.onload = function () {
 };
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+<script>
+emailjs.init({
+  publicKey: "Fxfq8uo7xbGy-65Gc"
+});
+</script>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+import {
+  getFirestore,
+  collection,
+  setDoc,
+  doc,
+} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+const firebaseConfig = {
+  apiKey: "AIzaSyAIvnb6gO0HwwtNUeK69hXcs5_9Tvoq5io",
+  authDomain: "sfh-multistore.firebaseapp.com",
+  projectId: "sfh-multistore",
+  storageBucket: "sfh-multistore.firebasestorage.app",
+  messagingSenderId: "645514728433",
+  appId: "1:645514728433:web:aefe52d615b1374302aa50",
+  measurementId: "G-E8W2LKR9G3"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+
+  
+let items = "";
+ 
+cart.forEach((item) =>{ 
+  items += `
+    • ${item.name} | Qty: ${item.quantity} |Price Per Quantity: Rs. ${item.price}`;
+
+
+});
+let name =
+  document.getElementById("name").value;
+
+  let phone =
+  document.getElementById("phone").value;
+
+  let city =
+  document.getElementById("city").value;
+
+  let address =
+  document.getElementById("address").value;
+
+  let subtotal =
+  document.getElementById("subtotal").innerHTML;
+
+  let invoice = localStorage.getItem("invoiceNumber").value;
+
+  let total =
+  document.getElementById("total").innerHTML;
+
+
+
+window.db = db;
+window.collection = collection;
+window.setDoc = setDoc;
+window.doc = doc;
+</script>
 </body>
 </html>

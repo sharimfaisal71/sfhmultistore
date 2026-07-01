@@ -466,6 +466,7 @@ Perfect for bracelet making, beading, craft work, and custom jewellery designs, 
 
 let variant6 = {
   name: "Crystal Tec Beading Wire 0.7mm",
+  pid: "Crystal Tec Beading Wire",
   id: "variant6",
   price: 160.00,
   stock: 2
@@ -583,6 +584,7 @@ function addToCart(v) {
   } else {
 
     cart.push({
+      pid: v.pid,
       id: v.id,
       name: v.name,
       price: v.price,

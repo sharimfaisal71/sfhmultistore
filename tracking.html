@@ -1,0 +1,280 @@
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>SFH Multistore Products Checkout</title>
+  <link rel="icon" type="image/png" sizes="144×144" href="https://lzd-img-global.slatic.net/3rd/q/aHR0cHM6Ly9way1saXZlLTIxLnNsYXRpYy5uZXQva2YvU2MwMWM1ZTM4NTNmNzRjZDRiYjk5ZGE5ZTI2MDNiN2FhMC5qcGc=_80x80q80.png_.webp">
+
+  <style>
+ 
+     header{
+     background:#111827;
+     padding:20px;
+     text-align:center;
+     font-size:28px;
+     font-weight:bold;
+     color:#60a5fa;
+    }
+    header:hover{
+     color:red;
+    }
+     
+    body {
+      font-family: Arial;
+      background: 
+      linear-gradient(90deg,#050816,#2D336B);
+    }
+       
+    .checkout-container {
+      width: 500px;
+      margin: 30px auto;
+      background:
+      linear-gradient(90deg,#60a5fa,#a855f7);
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #ddd;
+    }
+
+    input, select {
+      width: 96%;
+      margin: 8px 0;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    textarea {
+      overflow: auto;
+      width: 90%;
+      margin: 8px 0;
+      padding: 25px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background: green;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .summary {
+      background: #111827;
+      padding: 10px;
+      margin-top: 10px;
+      border-radius: 5px;
+    }
+
+    .cart-box {
+      font-size: 14px;
+      margin: 5px 0;
+    }
+
+  </style>
+</head>
+<body>
+<a href="https://www.sfhmultistore.online">
+<header>SFH Multistore</header>
+</a>
+
+<input style="color: black";
+    type="text"
+    id="invoiceInput"
+    list="invoiceList"
+    placeholder="Enter or select Order/ Invoice Number">
+
+<datalist id="invoiceList"></datalist>
+
+<button style="background :white; color: black;" onclick="trackOrder()">Track Order</button>
+<div id="result"></div>
+<div id="history"></div>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+import {
+    collection,
+    getDocs,
+    getDoc,
+    doc,
+    getFirestore,
+    updateDoc
+} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+
+
+  const firebaseConfig = {
+  apiKey: "AIzaSyAIvnb6gO0HwwtNUeK69hXcs5_9Tvoq5io",
+  authDomain: "sfh-multistore.firebaseapp.com",
+  projectId: "sfh-multistore",
+  storageBucket: "sfh-multistore.firebasestorage.app",
+  messagingSenderId: "645514728433",
+  appId: "1:645514728433:web:aefe52d615b1374302aa50",
+  measurementId: "G-E8W2LKR9G3"
+  };
+
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+
+
+
+
+
+
+
+ const snapshot = await getDocs (collection(db, "orders"));
+
+let html = "";
+
+
+
+
+
+
+    
+let invoices = JSON.parse(localStorage.getItem("myInvoices")) || [];
+
+let list = document.getElementById("invoiceList");
+
+invoices.reverse().forEach(invoice => {
+    list.innerHTML += `
+        <option value="${invoice}">
+    `;
+});
+
+
+
+async function trackOrder() {
+
+    let invoiceNumber =
+        document.getElementById("invoiceInput").value ||
+        document.getElementById("invoiceList").value;
+
+    const docRef = doc(db, "orders", invoiceNumber);
+    const snap = await getDoc(docRef);
+
+    if (snap.exists()) {
+
+        const order = snap.data();
+
+
+
+const productIds = [...new Set(order.cart.map(item => item.pid))];
+const products = {};
+
+order.cart.forEach(item => {
+
+    if (!products[item.pid]) {
+
+        products[item.pid] = {
+            pid: item.pid,
+            variants: []
+        };
+
+    }
+
+    products[item.pid].variants.push(item.name);
+
+});
+let reviewButtons = "";
+if (order.status.includes("Delivered")) {
+
+
+Object.values(products).forEach(product => {
+
+   reviewButtons += `
+<div class="product-review">
+
+    <h3>${product.pid}</h3>
+
+    <p><b>Variants purchased:</b></p>
+
+    <ul>
+        ${product.variants.map(v => `<li>${v}</li>`).join("")}
+    </ul>
+
+    <button style="background:green; color:white;" onclick="location.href='review.html?invoice=${invoiceNumber}&prid=${product.pid}'">
+        ⭐ Review Product
+    </button>
+
+</div>
+`;
+
+});
+
+
+};
+console.log(order.cart);
+
+let historyHTML = "";
+
+order.history.forEach(item => {
+
+
+    historyHTML += `<div style="
+    border: 2px solid white;
+    border-radius: 8px;
+    padding: 10px;
+    margin: 10px 0;"
+> 
+        <p> 
+            ✔ <b>${item.status}</b><br>
+            <small>${item.time}</small>
+
+        </p>
+    </div>`;
+
+});
+
+        document.getElementById("result").innerHTML = `
+            <hr>
+            <h3>${invoiceNumber}</h3>
+            <p>Name: ${order.name}</p>
+            <p>Phone: ${order.phone}</p>
+            <p>City: ${order.city}</p>
+            <p>Address: ${order.address}</p>
+            <p>Total: <b>${order.total}</b></p>
+            <p>Status: <b style="
+    border: 2px solid white;
+    border-radius: 0px;
+    padding: 5px;
+    margin: 10px 0;
+">${order.status}</b></p>
+            <p>History: ⚪ Pending | 🟠 Processing | 🟡 Shipped | 🟢 Delivered | 🔴 Cancelled/ Failed | ${historyHTML}</p>
+            <p style="
+        color:black;
+        border:none;
+        padding:12px 20px;
+        border-radius:8px;
+        cursor:pointer;
+        font-size:16px;"> ${reviewButtons}</p>
+`;
+console.log(order.history);
+    } else {
+
+        alert("Order/ Invoice Number not found!");
+
+    };
+
+
+}
+
+
+document.getElementById("history").innerHTML;
+
+window.trackOrder = trackOrder;
+
+</script>
+</body>
+</html>

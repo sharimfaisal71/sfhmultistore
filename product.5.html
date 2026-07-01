@@ -490,9 +490,11 @@ Compact packaging makes it easy to store and carry anywhere, while the natural b
 
 let variant8 = {
   name: " 200 Eco-Friendly Toothpicks",
+  pid: "Eco-Friendly Toothpicks",
   id: "variant8",
   price: 134.00,
-  stock: 4
+  stock: 1
+
 };
 
 document.querySelectorAll(".zoom-container").forEach(container => {
@@ -607,6 +609,7 @@ function addToCart(v) {
   } else {
 
     cart.push({
+      pid: v.pid,
       id: v.id,
       name: v.name,
       price: v.price,

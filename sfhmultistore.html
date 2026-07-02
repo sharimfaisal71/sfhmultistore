@@ -621,7 +621,7 @@ function renderCart() {
 
     box.innerHTML += `
       <div>
-       <button class="btn-remove" onclick="removeItem(${index})" style="
+       <button class="btn-remove" onclick="addToCart(${index})" style="
 background: #00ff00 !important;
   color: white !important;
   border: none;
@@ -630,7 +630,7 @@ background: #00ff00 !important;
 ">
 +</button> ${item.name} x ${item.quantity} - Rs. ${item.price}
         
-        <button class="btn-remove" onclick="addToCart(${index})" style="
+        <button class="btn-remove" onclick="removeItem(${index})" style="
 background: #ef4444 !important;
   color: white !important;
   border: none;

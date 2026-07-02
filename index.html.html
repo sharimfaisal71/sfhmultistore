@@ -618,15 +618,7 @@ function renderCart() {
     box.innerHTML += `
       <div>
         ${item.name} x ${item.quantity} - Rs. ${item.price}
-        
-        <button class="btn-remove" onclick="removeItem(${index})" style="
-background: green !important;
-  color: white !important;
-  border: none;
-  padding: 5px 5px !important;
-  border-radius: 4px !important;
-">
-+</button>
+    
       
     
     <button class="btn-remove" onclick="removeItem(${index})" style="
@@ -637,6 +629,16 @@ background: #ef4444 !important;
   border-radius: 4px !important;
 ">
 x</button>
+
+
+        <button class="btn-remove" onclick="removeItem(${index})" style="
+background: #00ff00 !important;
+  color: white !important;
+  border: none;
+  padding: 5px 5px !important;
+  border-radius: 4px !important;
+">
++</button>
       </div>
     `;
 
@@ -676,13 +678,13 @@ background: #ef4444 !important;
   padding: 5px 5px !important;
   border-radius: 4px !important;
 ">X</button>
-<button class="btn-remove" onclick="addToCart(${qty})" style="
-background: green !important;
+<button class="btn-remove" onclick="removeItem(${qty})" style="
+background: #00ff00 !important;
   color: white !important;
   border: none;
   padding: 5px 5px !important;
   border-radius: 4px !important;
-">+</button>
+">P</button>
 </div>
 `;
 total += item.price;
@@ -813,12 +815,12 @@ display:inline-block;
 ">
           X
         </button>
-         <button onclick="addToCart(${index})" style="
+          <button onclick="removeItem(${index})" style="
 display:inline-block;
 
   padding:5px 5px;
 
-  background:green;
+  background:#00ff00;
 
   color:white;
 
@@ -837,9 +839,9 @@ display:inline-block;
   box-sizing:border-box;
 
 ">
-          +
+          X
         </button>
-      </div>
+        </div>
     `;
 
   });

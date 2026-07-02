@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>SFH Multistore</title>
-<link rel="icon" type="image/png" sizes="144×144" href="https://lzd-img-global.slatic.net/3rd/q/aHR0cHM6Ly9way1saXZlLTIxLnNsYXRpYy5uZXQva2YvU2MwMWM1ZTM4NTNmNzRjZDRiYjk5ZGE5ZTI2MDNiN2FhMC5qcGc=_144x144q80.png_.webp">
+<link rel="icon" type="image/png" sizes="144x144" href="https://lzd-img-global.slatic.net/3rd/q/aHR0cHM6Ly9way1saXZlLTIxLnNsYXRpYy5uZXQva2YvU2MwMWM1ZTM4NTNmNzRjZDRiYjk5ZGE5ZTI2MDNiN2FhMC5qcGc=_144x144q80.png_.webp">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
@@ -580,6 +580,7 @@ function addToCart(v) {
   } else {
 
     cart.push({
+      pid: v.pid,
       id: v.id,
       name: v.name,
       price: v.price,
@@ -618,7 +619,17 @@ function renderCart() {
       <div>
         ${item.name} x ${item.quantity} - Rs. ${item.price}
         
-        <button class="btn-remove" onclick="removeItem(${index})" style="
+        <button class="btn-remove" onclick="addToCart(${index})" style="
+background: #ef4444 !important;
+  color: white !important;
+  border: none;
+  padding: 5px 5px !important;
+  border-radius: 4px !important;
+">
++</button>
+      </div>
+    `;
+    <button class="btn-remove" onclick="removeItem(${v})" style="
 background: #ef4444 !important;
   color: white !important;
   border: none;

@@ -857,5 +857,106 @@ window.onload = function () {
 
 console.log(JSON.parse(localStorage.getItem("cart")));
 </script>
+<script type="module">
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+import {
+    collection,
+    query,
+    where,
+    getDocs,
+    getFirestore
+} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+const firebaseConfig = {
+  apiKey: "AIzaSyAIvnb6gO0HwwtNUeK69hXcs5_9Tvoq5io",
+  authDomain: "sfh-multistore.firebaseapp.com",
+  projectId: "sfh-multistore",
+  storageBucket: "sfh-multistore.firebasestorage.app",
+  messagingSenderId: "645514728433",
+  appId: "1:645514728433:web:aefe52d615b1374302aa50",
+  measurementId: "G-E8W2LKR9G3"
+  };
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+const productId = "Eco-Friendly Toothpicks"; // Current product
+
+const q = query(
+    collection(db, "reviews"),
+    where("productId", "==", productId)
+);
+
+const snapshot = await getDocs(q);
+let reviewsHTML = "";
+if(snapshot.size > 0){
+
+    document.getElementById("reviewsContainer").innerHTML = reviewsHTML;
+
+    document.querySelector(".reviews h3").remove();
+
+}
+snapshot.forEach(doc => {
+
+    const review = doc.data();
+
+    let stars = "";
+
+    for (let i = 1; i <= 5; i++) {
+        stars += i <= review.rating ? "★" : "☆";
+    }
+
+    reviewsHTML += `
+        <div class="review">
+            <h3 class="reviewname">
+                ${review.displayName} |      <b style="color:gold;font-size:20px;">
+                ${stars}</b>
+            </h3>
+
+
+            
+
+            <p style=" white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.6;">${review.review}</p>
+        </div>
+    `;
+
+});
+
+document.getElementById("reviewsContainer").innerHTML = reviewsHTML;
+let total = 0;
+
+snapshot.forEach(doc => {
+    total += doc.data().rating;
+});
+
+let average = 0;
+
+if (snapshot.size > 0) {
+    average = total / snapshot.size;
+}
+
+average = average.toFixed(1);
+
+let starsHTML = "";
+
+for (let i = 1; i <= 5; i++) {
+
+    if (average >= i - 0.5) {
+
+        starsHTML += "★";
+
+    } else {
+
+        starsHTML += "☆";
+
+    }
+
+}
+document.getElementById("stars").textContent = starsHTML;
+document.getElementById("averageRating").textContent =
+`${average}/5 (${snapshot.size} reviews)`;
+</script>  
 </body>
 </html>

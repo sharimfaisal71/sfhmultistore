@@ -704,7 +704,6 @@ function renderTotal() {
     total += Number(item.price) * Number(item.quantity || 1);
   });
 
-  console.log("TOTAL RAW:", total);
 
   totalBox.innerHTML = "Total:    " + formatPKR(total);
 }

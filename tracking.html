@@ -207,7 +207,7 @@ Object.values(products).forEach(product => {
         ${product.variants.map(v => `<li>${v}</li>`).join("")}
     </ul>
 
-    <button style="background:green; color:white;" onclick="location.href='review.html?invoice=${invoiceNumber}&prid=${product.pid}'">
+    <button style="background:green; color:white;" onclick="location.href='https://www.sfhmultistore.online/revewing?invoice=${invoiceNumber}&prid=${product.pid}'">
         ⭐ Review Product
     </button>
 
@@ -218,7 +218,7 @@ Object.values(products).forEach(product => {
 
 
 };
-console.log(order.cart);
+
 
 let historyHTML = "";
 

@@ -14,7 +14,15 @@ font-family:'Poppins',sans-serif;
 scroll-behavior:smooth;
 }
 
-
+body {
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+      color: white;
+      font-family: Arial;
+      background: 
+      linear-gradient(90deg,#050816,#2D336B);
+    }
 
 /* NAVBAR */
 
@@ -313,15 +321,7 @@ background:#059669;
      color:red;
     }
      
-    body {
-      margin: 0;
-      padding: 0;
-      overflow-x: hidden;
-      color: white;
-      font-family: Arial;
-      background: 
-      linear-gradient(90deg,#050816,#2D336B);
-    }
+    
        
     .checkout-container {
       width: 500px;
@@ -403,12 +403,12 @@ color: grey;
   type="text"
   id="invoiceInput"
   list="invoiceList"
-  placeholder="Enter or select Order/ Invoice Number"
+  placeholder="Enter or select Order/ Invoice Number..."
   
-/>
+/><button style="background :white;black: white;" onclick="trackOrder()">&#x1F50D</button>
 <datalist id="invoiceList"></datalist>
 
-<button style="background :white;black: white;" onclick="trackOrder()">&#x1F50D</button>
+
 <div id="result"></div>
 <div id="history"></div>
 </section>

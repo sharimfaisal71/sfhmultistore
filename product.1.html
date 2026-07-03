@@ -408,12 +408,20 @@ Enjoy exciting cricket matches with this high-quality Cricket Tennis Ball, desig
 
 
 
+<div class="reviews"  id="reviewsBox" ">
 
-<div class="reviews" id="reviewsBox">
+  <h2>Customer Reviews</h2> <button class="viewAllBtn" onclick="location.href='all-reviews.html?prid=' + productId">
+        View All →
+    </button>
 
-  <h2>Customer Reviews</h2>
-<h3> No reviews yet</h3>
+<div class="rating">
+    <span id="stars"><h3> No reviews yet </h3></span>
+    <span id="averageRating"></span>
+
 </div>
+
+<div id="reviewsContainer"></div>
+
 
 <!-- DETAILS -->
 <div class="section">
@@ -467,6 +475,8 @@ Enjoy exciting cricket matches with this high-quality Cricket Tennis Ball, desig
 
 <script>
 
+document.body.style.pointerEvents = "none";
+document.body.style.opacity = "0.5";
 
 let variant1 = {
   name: "Cricket Tennis Ball Pack of 1",
@@ -482,6 +492,8 @@ let variant2 = {
   price: 349.00,
   stock: 1
 };
+
+
 
 document.querySelectorAll(".zoom-container").forEach(container => {
 
@@ -832,7 +844,7 @@ function goToCheckout() {
     return; 
   }
 
-  window.location.href = "https://www.sfhmultistore.online/checkout";
+  window.location.href = "file:///e:/hi.html";
 }
 
 window.onload = function () {
@@ -852,6 +864,8 @@ import {
     query,
     where,
     getDocs,
+    orderBy,
+    limit,
     getFirestore
 } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 const firebaseConfig = {
@@ -867,10 +881,13 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 const productId = "Cricket Tennis Ball"; // Current product
-
+window.productId = productId;
 const q = query(
     collection(db, "reviews"),
-    where("productId", "==", productId)
+    where("productId", "==", productId),
+    orderBy("rating", "desc"),
+    orderBy("createdAt", "desc"),
+    limit(4)
 );
 
 const snapshot = await getDocs(q);
@@ -881,6 +898,11 @@ if(snapshot.size === 0){
 
     document.querySelector(".reviews h3").remove();
 
+}
+if (snapshot.size > 4) {
+    document.querySelector(".viewAllBtn").style.display = "inline-block";
+} else {
+    document.querySelector(".viewAllBtn").style.display = "none";
 }
 snapshot.forEach(doc => {
 
@@ -893,14 +915,23 @@ snapshot.forEach(doc => {
     }
 
     reviewsHTML += `
-        <div class="review">
+<div style="border: 1px solid #ddd;
+
+  padding: 15px;
+
+  background:rgba(255,255,255,0.05);
+  
+  margin-top: 10px;
+
+  margin-bottom: 10px;
+
+  border-radius: 8px;">
             <h3 class="reviewname">
-                ${review.displayName} |      <b style="color:gold;font-size:20px;">
+                ${review.displayName}  (✔️ Verified Purchase)|      <b style="color:gold;font-size:20px;">
                 ${stars}</b>
             </h3>
 
-
-            
+           
 
             <p style=" white-space: pre-wrap;
     word-wrap: break-word;
@@ -944,6 +975,8 @@ for (let i = 1; i <= 5; i++) {
 document.getElementById("stars").textContent = starsHTML;
 document.getElementById("averageRating").textContent =
 `${average}/5 (${snapshot.size} reviews)`;
-</script>  
+document.body.style.pointerEvents = "auto";
+document.body.style.opacity = "1";
+</script> 
 </body>
 </html>

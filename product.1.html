@@ -875,7 +875,7 @@ const q = query(
 
 const snapshot = await getDocs(q);
 let reviewsHTML = "";
-if(snapshot.size > 0){
+if(snapshot.size === 0){
 
     document.getElementById("reviewsContainer").innerHTML = reviewsHTML;
 

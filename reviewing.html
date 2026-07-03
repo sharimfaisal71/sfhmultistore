@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<title>SFH Multistore - Review Product</title>
+<link rel="icon" type="image/png" sizes="144x144" href="https://lzd-img-global.slatic.net/3rd/q/aHR0cHM6Ly9way1saXZlLTIxLnNsYXRpYy5uZXQva2YvU2MwMWM1ZTM4NTNmNzRjZDRiYjk5ZGE5ZTI2MDNiN2FhMC5qcGc=_80x80q80.png_.webp">
+
+
+<style>
+
+body{
+    font-family:Arial,sans-serif;
+    background:linear-gradient(90deg,#050816,#2D336B);
+    color:white;
+    margin:0;
+}
+
+.container{
+    max-width:700px;
+    margin:40px auto;
+    padding:25px;
+    border:2px solid white;
+    border-radius:12px;
+}
+
+h1{
+    text-align:center;
+}
+
+label{
+    display:block;
+    margin-top:20px;
+    font-weight:bold;
+}
+
+#invoice{
+    color:#FFD700;
+}
+
+.stars{
+    display:flex;
+    justify-content:center;
+    gap:10px;
+    margin-top:15px;
+    font-size:35px;
+}
+
+.star{
+    cursor:pointer;
+}
+
+.star:hover{
+    color:gold;  
+}
+textarea{
+    width:96.5%;
+    height:150px;
+    margin-top:10px;
+    padding:10px;
+    border-radius:8px;
+    resize:vertical;
+    font-size:16px;
+}
+
+.checkbox{
+    margin-top:20px;
+}
+
+button{
+    width:100%;
+    margin-top:25px;
+    padding:15px;
+    border:none;
+    border-radius:8px;
+    background:#16a34a;
+    color:white;
+    font-size:18px;
+    cursor:pointer;
+}
+.uploadBtn{
+
+    display:inline-block;
+
+    margin-top:15px;
+
+    padding:12px 22px;
+
+    background:linear-gradient(90deg,#3b82f6,#8b5cf6);
+
+    color:white;
+
+    border-radius:10px;
+
+    cursor:pointer;
+
+    font-weight:600;
+
+    transition:.25s;
+
+    box-shadow:0 4px 12px rgba(0,0,0,.25);
+
+}
+
+.uploadBtn:hover{
+
+    transform:translateY(-2px);
+
+    box-shadow:0 6px 18px rgba(0,0,0,.35);
+
+}
+
+.uploadBtn:active{
+
+    transform:scale(.98);
+
+}
+
+#imageCount{
+
+    margin-left:15px;
+
+    color:#cbd5e1;
+
+    font-size:14px;
+
+}
+button:hover{
+    background:#15803d;
+}
+.uploadBtn:hover{
+
+    transform:translateY(-2px);
+
+    box-shadow:0 6px 18px rgba(0,0,0,.35);
+
+}
+
+.uploadBtn:active{
+
+    transform:scale(.98);
+
+}
+
+#imageCount{
+
+    margin-left:15px;
+
+    color:#cbd5e1;
+
+    font-size:14px;
+
+}
+
+#previewContainer{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:15px;
+
+    margin-top:20px;
+
+}
+
+.preview{
+    position:relative;
+    display:inline-block;
+}
+
+.preview img{
+    width:120px;
+    height:120px;
+    object-fit:cover;
+    border-radius:10px;
+    border:2px solid white;
+    display:block;
+}
+
+.remove{
+    position:absolute;
+    top:4px;
+    right:4px;
+
+    width:24px;
+    height:24px;
+
+    background:#ef4444;
+    color:white;
+    border:none;
+    border-radius:4px;   /* Square with slightly rounded corners */
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    padding:0;
+    margin:0;
+
+    font-size:16px;
+    font-weight:bold;
+    line-height:1;
+
+    cursor:pointer;
+    z-index:10;
+
+    transition:.2s;
+}
+
+.remove:hover{
+    background:#dc2626;
+    transform:scale(1.1);
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>⭐ Product Review</h1>
+
+<p>
+Invoice:
+<b id="invoice">Loading...</b>
+</p>
+<p>
+Name:
+<b id="customerName">Loading...</b>
+</p>
+
+<p>
+Thank you for shopping with SFH Multistore.
+Please rate the product you received.
+</p>
+
+<label>Rating:</label>
+
+<div class="stars">
+
+<span class="star" data-rating="1">☆</span>
+<span class="star" data-rating="2">☆</span>
+<span class="star" data-rating="3">☆</span>
+<span class="star" data-rating="4">☆</span>
+<span class="star" data-rating="5">☆</span>
+
+</div>
+
+<label>Your Review: </label>
+<div id="charCount" style="margin-top:8px; font-size:14px; color:yellow;">
+0 / 256 characters (Minimum 30)
+</div>
+<textarea
+id="review"
+maxlength="256"
+placeholder="Write your experience with this product..."></textarea>
+<div class="checkbox">
+
+
+<input
+    type="file"
+    id="reviewImages"
+    accept="image/*"
+    multiple
+    hidden>
+
+<label for="reviewImages" class="uploadBtn">
+    📷 Add Images
+</label>
+<span id="imageCount">No image(s) selected</span>
+<div id="previewContainer"></div>
+
+<label>
+<input
+type="checkbox"
+id="anonymous">
+Hide my name (Post as <span id="hideNameText"></span>)
+
+</label>
+
+</div>
+
+<button id="submitReview" onclick="submitReview()">
+
+Submit Review
+
+</button>
+
+</div>
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+
+import {
+    getFirestore,
+    doc,
+    getDoc,
+    setDoc
+ } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+import {
+    getStorage,
+    ref,
+    uploadBytes,
+    getDownloadURL,
+    deleteObject
+} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-storage.js";
+const firebaseConfig = {
+  apiKey: "AIzaSyAIvnb6gO0HwwtNUeK69hXcs5_9Tvoq5io",
+  authDomain: "sfh-multistore.firebaseapp.com",
+  projectId: "sfh-multistore",
+  storageBucket: "sfh-multistore.firebasestorage.app",
+  messagingSenderId: "645514728433",
+  appId: "1:645514728433:web:aefe52d615b1374302aa50",
+  measurementId: "G-E8W2LKR9G3"
+  };
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const storage = getStorage(app);
+const params = new URLSearchParams(window.location.search);
+console.log(window.location.search);
+console.log(params.get("invoice"));
+const invoiceNumber = params.get("invoice");
+
+
+const productId = params.get("prid");
+console.log(productId);
+document.getElementById("invoice").textContent = invoiceNumber;
+const orderRef = doc(db, "orders", invoiceNumber);
+const reviewId = `${invoiceNumber}_${productId}`;
+console.log(reviewId);
+const orderSnap = await getDoc(orderRef);
+const MAX_IMAGES = 7;
+if (!orderSnap.exists()) {
+
+    alert("Order not found.");
+
+    location.href = "file:///E:/hah.html";
+
+}
+const order = orderSnap.data();
+
+if (!order.status.includes("Delivered")) {
+
+    alert("Reviews can only be submitted after delivery.");
+
+    location.href = "https://www.sfhmultistore.online/tracking";
+
+};
+const imageInput = document.getElementById("reviewImages");
+const imageCount = document.getElementById("imageCount");
+const previewContainer = document.getElementById("previewContainer");
+const reviewRef = doc(db, "reviews", reviewId);
+let rating = 0;
+
+const stars = document.querySelectorAll(".star");
+
+stars.forEach(star => {
+
+    star.addEventListener("click", function () {
+
+        rating = Number(this.getAttribute("data-rating"));
+
+        console.log("Rating:", rating);
+
+        stars.forEach((s, index) => {
+
+            s.textContent = index < rating ? "★" : "☆";
+
+        });
+
+    });
+
+});
+
+
+function renderImages() {
+    previewContainer.innerHTML = "";
+
+const totalImages = images.length + selectedImages.length;
+
+imageCount.textContent =
+    totalImages === 0
+        ? `No images selected (0/${MAX_IMAGES})`
+        : `${totalImages}/${MAX_IMAGES} image(s) selected`;
+
+  images.forEach((image, index) => {
+    previewContainer.innerHTML += `
+        <div class="preview">
+            <img src="${image.url}">
+            <button
+                class="remove"
+                onclick="removeImage(${index})">
+                ×
+            </button>
+        </div>
+    `;
+});
+
+
+selectedImages.forEach((file, index) => {
+
+    const actualIndex = images.length + index;
+    const url = URL.createObjectURL(file);
+
+    previewContainer.innerHTML += `
+        <div class="preview">
+            <img src="${url}">
+            <button
+                class="remove"
+                onclick="removeImage(${index})">
+                ×
+            </button>
+        </div>
+    `;
+
+
+});
+
+
+}
+
+const reviewBox = document.getElementById("review");
+const charCount = document.getElementById("charCount");
+
+function updateCharCount() {
+    const length = reviewBox.value.length;
+
+    charCount.textContent =
+        `${length} / 256 characters (Minimum 30)`;
+
+    charCount.style.color =
+        length < 30 ? "yellow" : "lightgreen";
+}
+
+reviewBox.addEventListener("input", updateCharCount);
+
+const reviewSnap = await getDoc(reviewRef);
+let images = [];
+let selectedImages = [];
+if (reviewSnap.exists()) {
+    const review = reviewSnap.data();
+    reviewBox.value = review.review;
+    updateCharCount();
+
+images = review.images || [];
+renderImages();
+rating = review.rating;
+stars.forEach((star,index)=>{
+    star.textContent = index < rating ? "★" : "☆";
+});
+};
+const btn = document.getElementById("submitReview");
+
+
+
+
+
+
+
+imageInput.addEventListener("change", () => {
+
+    const remaining = MAX_IMAGES - (images.length + selectedImages.length);
+
+    if (remaining <= 0) {
+        alert(`You can upload a maximum of ${MAX_IMAGES} images.`);
+        imageInput.value = "";
+        return;
+    }
+
+    const files = Array.from(imageInput.files);
+
+    if (files.length > remaining) {
+        alert(`You can only add ${remaining} more image(s).`);
+    }
+
+    selectedImages.push(...files.slice(0, remaining));
+
+    imageInput.value = "";
+
+    renderImages();
+
+});
+
+
+
+async function removeImage(index){
+try {
+    if (index < images.length) {
+
+        const storageRef = ref(storage, images[index].path);
+
+        await deleteObject(storageRef);
+
+
+        await setDoc(reviewRef, {
+            images
+        }, { merge: true });
+
+    } else {
+
+        selectedImages.splice(index - images.length, 1);
+    }
+
+    renderImages();
+
+} catch (err) {
+
+    console.error(err);
+    alert("Couldn't delete image. Retry.");
+
+}
+}
+window.removeImage = removeImage;
+
+
+
+
+
+let customerName = order.name;
+document.getElementById("customerName").textContent = customerName;
+function hideName(customerName) {
+    if (customerName.length <= 2) return customerName;
+    let chars = customerName.split("");
+
+    for (let i = 1; i < chars.length - 1; i++) {
+
+        if (chars[i] !== " ") {
+            chars[i] = "*";
+        }
+
+    }
+
+    return chars.join("");
+
+
+
+   
+
+}
+
+const checkbox = document.getElementById("anonymous");
+const text = document.getElementById("hideNameText");
+
+text.textContent = order.name; // Show the real name initially
+
+checkbox.addEventListener("change", function () {
+
+    if (this.checked) {
+        text.textContent = hideName(order.name);
+    } else {
+        text.textContent = order.name;
+    }
+
+});
+
+
+
+
+
+
+
+
+async function submitReview() {
+
+
+    if (rating == 0) {
+        alert("Please select a rating.");
+        return;
+    }
+
+    let reviewText =
+        document.getElementById("review").value.trim();
+
+    
+    if (reviewText.length < 30) {
+        alert("Please write a review of atleast 30 characters.");
+        return;
+    }
+   let anonymous =
+        document.getElementById("anonymous").checked;
+
+document.getElementById("invoice").textContent = invoiceNumber;
+
+btn.disabled = true;
+btn.textContent = "Submitting...";
+
+
+try{
+for (const file of selectedImages) {
+
+    const imageRef = ref(
+        storage,
+        `reviewImages/${invoiceNumber}/${Date.now()}_${file.name}`
+    );
+
+    await uploadBytes(imageRef, file);
+
+const url = await getDownloadURL(imageRef);
+
+images.push({
+    url: url,
+    path: imageRef.fullPath
+});
+
+
+
+}
+}
+ catch (err) {
+    btn.disabled = false;
+    btn.textContent = "Submit Review";
+    alert(err.message);
+    return;
+}
+selectedImages = [];
+
+
+
+
+
+
+    stars.forEach((star, index) => {
+
+        star.textContent =
+            index < rating ? "★" : "☆";
+
+    });
+
+
+let displayName =
+    anonymous
+    ? hideName(customerName)
+    : customerName;
+
+
+const data = {
+    invoice: invoiceNumber,
+    productId: productId,
+    reviewerName: order.name,
+    displayName,
+    anonymous,
+    rating,
+    review: reviewText,
+    images
+};
+
+if (!reviewSnap.exists()) {
+    data.createdAt = Date.now();
+
+}
+try{
+await setDoc(reviewRef, data, { merge: true });
+    alert("Thank you for your review!");
+
+    window.location.href =
+        "file:///E:/hah.html";
+}
+catch(err){
+    btn.disabled = false;
+    btn.textContent = "Submit Review";
+    alert(err.message);
+}
+
+}
+
+
+ window.customerName = customerName;
+window.order = order;
+window.invoiceNumber = invoiceNumber;
+window.db = getFirestore(app);
+window.doc = doc;
+window.getDoc = getDoc;
+window.submitReview = submitReview;
+</script>
+
+</body>
+</html>

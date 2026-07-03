@@ -399,11 +399,19 @@ Made with ultra-soft, skin-friendly material, these wipes ensure a comfortable c
 
 
 
-<div class="reviews" id="reviewsBox">
+<div class="reviews"  id="reviewsBox" ">
 
-  <h2>Customer Reviews</h2>
-<h3> No reviews yet</h3>
+  <h2>Customer Reviews</h2> <button class="viewAllBtn" onclick="location.href='all-reviews.html?prid=' + productId">
+        View All →
+    </button>
+
+<div class="rating">
+    <span id="stars"><h3> No reviews yet </h3></span>
+    <span id="averageRating"></span>
+
 </div>
+
+<div id="reviewsContainer"></div>
 <!-- DETAILS -->
 <div class="section">
 <h2>Product Highlights</h2>

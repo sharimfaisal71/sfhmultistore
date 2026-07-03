@@ -290,6 +290,8 @@ Submit Review
 </div>
 
 <script type="module">
+document.body.style.pointerEvents = "none";
+document.body.style.opacity = "0.5";
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
 
@@ -674,6 +676,7 @@ window.doc = doc;
 window.getDoc = getDoc;
 window.submitReview = submitReview;
 </script>
-
+document.body.style.pointerEvents = "auto";
+document.body.style.opacity = "1";
 </body>
 </html>

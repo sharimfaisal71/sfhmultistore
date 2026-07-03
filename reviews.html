@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+
+body{
+    background:
+        radial-gradient(circle at top,#4452a8 0%,transparent 35%),
+        linear-gradient(135deg,#050816,#1e2a78,#2D336B);
+    background-attachment:fixed;
+    color:white;
+    margin:10px;
+font-family: 'Poppins',sans-serif;
+}
+.filters{
+
+    display:flex;
+    justify-content:space-between;
+    padding:20px;
+    border:2px solid white;
+    border-radius:10px;
+    margin-bottom:30px;
+
+}
+
+.ratingFilters label{
+
+    display:block;
+    margin:8px 0;
+
+}
+
+.review{
+
+    border:2px solid white;
+    background:rgba(255,255,255,0.05);
+    border-radius:10px;
+    padding:20px;
+    margin-bottom:20px;
+
+}
+.variant{
+    font-size:13px;
+    color:#9ca3af;
+    margin:4px 0 8px;
+}
+
+.variant span{
+    display:inline-block;
+    background:#374151;
+    color:white;
+    padding:3px 8px;
+    border-radius:6px;
+    margin-right:6px;
+}
+.reviewImages{
+
+    display:flex;
+    gap:10px;
+    margin-top:10px;
+
+}
+
+.reviewImages img{
+
+    width:90px;
+    height:90px;
+    object-fit:cover;
+    border-radius:8px;
+
+}
+.noReviews{
+    text-align:center;
+    padding:40px 20px;
+    font-size:20px;
+    color:#d1d5db;
+    border:2px dashed white;
+    border-radius:10px;
+    margin-top:20px;
+}
+
+.filterBar{
+    display:flex;
+    gap:15px;
+    margin:25px 0;
+    padding:18px;
+    border-radius:14px;
+    background:rgba(255,255,255,.08);
+    backdrop-filter:blur(10px);
+    border:1px solid rgba(255,255,255,.15);
+    box-shadow:0 8px 20px rgba(0,0,0,.25);
+}
+.filterBar select{
+
+    padding:12px 18px;
+
+    border:none;
+
+    border-radius:10px;
+
+    background:linear-gradient(135deg,#2d5bff,#5d7cff);
+
+    color:white;
+
+    font-size:15px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+    box-shadow:0 4px 10px rgba(0,0,0,.25);
+
+}
+.ratingFilters{
+    display:flex;
+    gap:15px;
+    align-items:center;
+    flex-wrap:wrap; /* Optional: wraps to next line on small screens */
+}
+
+.ratingFilters label{
+    display:flex;
+    align-items:center;
+    gap:4px;
+    font-weight:normal;
+    margin:0;
+}
+.filterBar select:hover{
+
+    transform:translateY(-2px);
+
+    box-shadow:0 8px 18px rgba(0,0,0,.35);
+
+}
+.filterBar select:focus{
+
+    outline:none;
+
+    box-shadow:
+        0 0 0 3px rgba(255,255,255,.25),
+        0 8px 18px rgba(0,0,0,.35);
+
+}
+.filterBar option{
+
+    background:#1e2a78;
+
+    color:white;
+
+}
+</style>
+<body>
+<button style="background: blue; color: white;"onclick="goBack()">
+    ← Back
+</button>
+
+<script>
+function goBack() {
+    if (window.history.length > 1) {
+        history.back();
+    } else {
+        window.location.href = "/";
+        // Or: "index.html"
+    }
+}
+</script>
+<div class="reviewsPage">
+
+    <div class="header">
+        <h1>Customer Reviews</h1>
+    </div>
+
+<div class="filterBar">
+
+ 
+<div class="ratingFilters" id="ratingFilters">
+
+    <label style="position: relative;">
+        <input type="checkbox" value="5">
+        5 ★
+    </label>
+
+    <label style="position: relative;">
+        <input type="checkbox" value="4">
+        4 ★
+    </label>
+
+    <label style="position: relative;">
+        <input type="checkbox" value="3">
+        3 ★
+    </label>
+
+    <label style="position: relative;">
+        <input type="checkbox" value="2">
+        2 ★
+    </label>
+
+    <label style="position: relative;">
+        <input type="checkbox" value="1">
+        1 ★
+    </label>
+
+</div>
+        
+        
+
+
+    <select id="sortReviews" style="position: relative;">
+
+                <option  value="newest">Newest → Oldest</option>
+                <option value="oldest">Oldest → Newest</option>
+
+            </select>
+
+
+    </div>
+
+    <div id="reviewsContainer"></div>
+
+</div>
+<script type="module">
+document.body.style.pointerEvents = "none";
+document.body.style.opacity = "0.5";
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+import {
+    collection,
+    query,
+    where,
+    getDocs,
+    orderBy,
+    limit,
+    getFirestore
+} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+const firebaseConfig = {
+  apiKey: "AIzaSyAIvnb6gO0HwwtNUeK69hXcs5_9Tvoq5io",
+  authDomain: "sfh-multistore.firebaseapp.com",
+  projectId: "sfh-multistore",
+  storageBucket: "sfh-multistore.firebasestorage.app",
+  messagingSenderId: "645514728433",
+  appId: "1:645514728433:web:aefe52d615b1374302aa50",
+  measurementId: "G-E8W2LKR9G3"
+  };
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+let reviews = [];
+const params = new URLSearchParams(window.location.search);
+const productId = params.get("prid");
+const q = query(
+    collection(db, "reviews"),
+    where("productId", "==", productId),
+    orderBy("rating", "desc"),
+    orderBy("createdAt", "desc"),
+    limit(4)
+);
+
+const snapshot = await getDocs(q);
+
+snapshot.forEach(doc => {
+    reviews.push(doc.data());
+});
+
+renderReviews();
+function renderReviews() {
+document.getElementById("ratingFilters").addEventListener("change", renderReviews);
+document.getElementById("sortReviews").addEventListener("change", renderReviews);
+
+
+    let filtered = [...reviews];
+
+    const checkedRatings =
+        [...document.querySelectorAll(".ratingFilters input:checked")]
+        .map(input => Number(input.value));
+
+    if (checkedRatings.length > 0) {
+        filtered = filtered.filter(review =>
+            checkedRatings.includes(review.rating)
+        );
+    }
+
+
+
+    // Sort filter
+    const sort = document.getElementById("sortReviews").value;
+
+    if (sort === "newest") {
+        filtered.sort((a, b) => b.createdAt - a.createdAt);
+    } else if (sort === "oldest") {
+        filtered.sort((a, b) => a.createdAt - b.createdAt);
+    }
+
+    // Display reviews
+    displayReviews(filtered);
+}
+
+
+
+
+
+function displayReviews(list){
+
+    let html="";
+if(list.length === 0){
+
+        document.getElementById("reviewsContainer").innerHTML = `
+            <div class="noReviews">
+                No reviews found for the selected filter.
+            </div>
+        `;
+
+        return;
+    }
+    list.forEach(review=>{
+
+let variantHTML = "";
+
+for (const [key, value] of Object.entries(review.variant)) {
+    variantHTML += `<span>${key}: ${value}</span> `;
+}
+const date = new Date(review.createdAt);
+
+const formattedDate = date.toLocaleDateString("en-GB", {
+    day: "numeric",
+    month: "long",
+    year: "numeric"
+});
+        html += `
+        <div class="review">
+
+            <h3>${review.displayName} | (✔️ Verified Purchase)</h3> <h4 style="    float:right;"> ${formattedDate}</h4>
+ <div class="variant">Variant Bought: ${variantHTML}</div>
+
+            <p>${"★".repeat(review.rating)}</p>
+
+            <p>${review.review}</p>
+
+            <!-- images -->
+
+        </div>
+        `;
+
+    });
+
+    document.getElementById("reviewsContainer").innerHTML = html;
+
+}
+document.body.style.pointerEvents = "auto";
+document.body.style.opacity = "1";
+</script>
+</body>
+</html>

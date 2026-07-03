@@ -472,7 +472,6 @@ Enjoy exciting cricket matches with this high-quality Cricket Tennis Ball, desig
 
 
 <script>
-
 document.body.style.pointerEvents = "none";
 document.body.style.opacity = "0.5";
 
@@ -842,7 +841,7 @@ function goToCheckout() {
     return; 
   }
 
-  window.location.href = "file:///e:/hi.html";
+  window.location.href = "https://www.sfhmultistore.online/checkout";
 }
 
 window.onload = function () {
@@ -852,7 +851,7 @@ window.onload = function () {
   checkout();
 };
 
-console.log(JSON.parse(localStorage.getItem("cart")));
+
 </script>
 <script type="module">
 import { initializeApp }
@@ -890,18 +889,19 @@ const q = query(
 
 const snapshot = await getDocs(q);
 let reviewsHTML = "";
-if(snapshot.size === 0){
-
-    document.getElementById("reviewsContainer").innerHTML = reviewsHTML;
-
-    document.querySelector(".reviews h3").remove();
-
-}
 if (snapshot.size > 4) {
     document.querySelector(".viewAllBtn").style.display = "inline-block";
 } else {
     document.querySelector(".viewAllBtn").style.display = "none";
 }
+if(snapshot.size === 0){
+
+    document.getElementById("reviewsContainer").innerHTML = reviewsHTML;
+
+
+
+} else {
+    document.querySelector(".reviews h3").remove();
 snapshot.forEach(doc => {
 
     const review = doc.data();
@@ -973,8 +973,11 @@ for (let i = 1; i <= 5; i++) {
 document.getElementById("stars").textContent = starsHTML;
 document.getElementById("averageRating").textContent =
 `${average}/5 (${snapshot.size} reviews)`;
+}
+
 document.body.style.pointerEvents = "auto";
 document.body.style.opacity = "1";
-</script> 
+
+</script>
 </body>
 </html>

@@ -4,7 +4,7 @@
   <title>SFH Multistore - Track My Order</title>
   <link rel="icon" type="image/png" sizes="144×144" href="https://lzd-img-global.slatic.net/3rd/q/aHR0cHM6Ly9way1saXZlLTIxLnNsYXRpYy5uZXQva2YvU2MwMWM1ZTM4NTNmNzRjZDRiYjk5ZGE5ZTI2MDNiN2FhMC5qcGc=_80x80q80.png_.webp">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
 
 *{
@@ -69,33 +69,7 @@ color:#60a5fa;
 /* HERO */
 
 
-.hero{
-height:100vh;
-display:flex;
-justify-content:center;
-align-items:center;
-text-align:center;
-padding:0 10%;
-background:
-radial-gradient(circle at top left,#1d4ed8 0%,transparent 30%),
-radial-gradient(circle at bottom right,#9333ea 0%,transparent 30%),
-#050816;
-}
 
-.hero-content h1{
-font-size:72px;
-line-height:1.1;
-margin-bottom:25px;
-}
-
-.hero-content p{
-max-width:700px;
-margin:auto;
-font-size:18px;
-line-height:1.8;
-color:#cbd5e1;
-margin-bottom:35px;
-}
 
 .btn{
 display:inline-block;
@@ -115,8 +89,22 @@ transform:translateY(-5px);
 
 /* PRODUCTS */
 
+.btn-remove{
+  width: 5%;
+  background: #ef4444 !important;
+  color: white !important;
+  border: none;
+  padding: 5px 5px;
+  border-radius: 4px;
+}
 
-
+.products{
+padding:120px 8%;
+background:
+radial-gradient(circle at top left,#2C5F2D 0%,transparent 30%),
+radial-gradient(circle at bottom right,#97BC62 0%,transparent 30%),
+#050816;
+}
 
 .section-title{
 text-align:center;
@@ -314,7 +302,15 @@ background:#059669;
 input::placeholder {
 color: grey;
 }
-  </style>
+
+.submit {
+width: 10%;
+background: grey;
+color: white;
+border-radius: 4px;
+}
+
+</style>
 </head>
 
 <body>
@@ -334,19 +330,19 @@ color: grey;
 </nav>
 
 
-<section class="products" id="products">
+<section class="products">
+<div>
 
-
-
-<input
+<input style="width: 94%;"
   type="text"
   id="invoiceInput"
   list="invoiceList"
-  placeholder="Enter or select Order/ Invoice Number..."
-  
-/><button style="background :white;black: white;" onclick="trackOrder()">&#x1F50D</button>
+  placeholder="Enter or select Order/ Invoice Number..." />
+<button style="width: 5%;" class="submit" onclick="trackOrder()">
+        <i class="fa fa-search"></i> <!-- Search icon -->
+    </button>
 <datalist id="invoiceList"></datalist>
-
+</div>
 
 <div id="result"></div>
 <div id="history"></div>
@@ -366,7 +362,7 @@ z-index:9999;
 
 <h3>🛒 Cart</h3>
 
-<div id="cartItems" style="margin:10px 0; font-size:14px; color:#cbd5e1;  white-space: nowrap;">
+<div id="cartItems" style="margin:10px 0; font-size:14px; color:#cbd5e1; white-space:nowrap;">
 No items yet
 </div>
 
@@ -408,7 +404,7 @@ Message Us
 
 <footer>
 
-� 2026 SFH Multistore � All Rights Reserved
+© 2026 SFH Multistore • All Rights Reserved
 
 </footer>
 
@@ -452,7 +448,6 @@ const db = getFirestore(app);
 
  const snapshot = await getDocs (collection(db, "orders"));
 
-let html = "";
 
 
 
@@ -463,6 +458,7 @@ let html = "";
 let invoices = JSON.parse(localStorage.getItem("myInvoices")) || [];
 
 let list = document.getElementById("invoiceList");
+let html = "";
 
 invoices.reverse().forEach(invoice => {
     list.innerHTML += `
@@ -517,8 +513,9 @@ Object.values(products).forEach(product => {
 
     <p><b>Variants purchased:</b></p>
 
-    <ul>
-        ${product.variants.map(v => `<li>${v}</li>`).join("")}
+    
+       <ul>
+      ${product.variants.map(v => `<ul>•  ${v}</ul>`).join("")}
     </ul>
 
     <button style="background:green; color:white;" onclick="location.href='https://www.sfhmultistore.online/revewing?invoice=${invoiceNumber}&prid=${product.pid}'">
@@ -554,7 +551,12 @@ order.history.forEach(item => {
 
 });
 
-        document.getElementById("result").innerHTML = `
+        document.getElementById("result").innerHTML = ` <div style="
+    border: 2px solid white;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 20px 0;"
+> 
             <hr>
             <h3>${invoiceNumber}</h3>
             <p>Name: ${order.name}</p>
@@ -565,7 +567,7 @@ order.history.forEach(item => {
             <p>Status: <b style="
     border: 2px solid white;
     border-radius: 0px;
-    padding: 5px;
+    padding: 0px;
     margin: 10px 0;
 ">${order.status}</b></p>
             <p>History: ⚪ Pending | 🟠 Processing | 🟡 Shipped | 🟢 Delivered | 🔴 Cancelled/ Failed | ${historyHTML}</p>
@@ -576,7 +578,7 @@ order.history.forEach(item => {
         border-radius:8px;
         cursor:pointer;
         font-size:16px;"> ${reviewButtons}</p>
-`;
+</div>`;
     } else {
 
         alert("Order/ Invoice Number not found!");
@@ -590,35 +592,11 @@ order.history.forEach(item => {
 document.getElementById("history").innerHTML;
 
 window.trackOrder = trackOrder;
-
-
-function searchProducts() {
-
-  let search =
-    document.getElementById("searchBar")
-    .value
-    .toLowerCase();
-
-  let products =
-    document.querySelectorAll(".card");
-  
-  let found = false;
-
-  products.forEach(card => {
-
-    let text =
-      card.innerText.toLowerCase();
-
-    if (text.includes(search)) {
-
-      card.style.display = "inline-block";
-
-    } else {
-      card.style.display = "none";
-}
-  });
-}
-                  
+document.body.style.pointerEvents = "auto";
+document.body.style.opacity = "1";
+</script>
+<script>
+           
 
 function formatPKR(amount) {
   return "Rs. " + Number(amount).toLocaleString("en-PK", {
@@ -670,7 +648,7 @@ function addToCart(v) {
   renderTotal();
 }
 
-
+window.goToCheckout = goToCheckout;
 function getCart() {
   return JSON.parse(localStorage.getItem("cart")) || [];
 }
@@ -727,6 +705,7 @@ function removeItem(index) {
   renderTotal();
 }
 
+
 let html = "";
 let total = 0;
 
@@ -756,7 +735,7 @@ function getTotal() {
     total += Number(item.price) * Number(item.quantity);
   });
 
-  return formatPKR("total");
+  return formatPKR(total);
 }
 
 
@@ -888,15 +867,12 @@ function goToCheckout() {
   window.location.href = "https://www.sfhmultistore.online/checkout";
 }
 
-window.onload = function () {
+window.onload = function() {
   renderCart();
   renderTotal();
   checkStock();
   checkout();
-};
-
-document.body.style.pointerEvents = "auto";
-document.body.style.opacity = "1";
+}
 
 </script>
 </body>

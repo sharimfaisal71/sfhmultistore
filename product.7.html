@@ -488,7 +488,7 @@ document.body.style.opacity = "0.5";
 
 let variant10 = {
   name: "70-100 Toothpicks Pack",
-  pid: "Eco-Friendly Toothpicks Pack",
+  pid: "Eco-FriendlyToothpicksSmall",
   id: "variant10",
   price: 89.00,
   stock: 10
@@ -881,7 +881,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-const productId = "Eco-Friendly Toothpicks Pack"; // Current product
+    const productId = "Eco-FriendlyToothpicksSmall"; // Current product
 window.productId = productId;
 const q = query(
     collection(db, "reviews"),

@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>SFH Multistore - Women's Half Moon Shoulder Bag</title>
+<link rel="icon" type="image/png" sizes="144×144" href="https://lzd-img-global.slatic.net/3rd/q/aHR0cHM6Ly9way1saXZlLTIxLnNsYXRpYy5uZXQva2YvU2MwMWM1ZTM4NTNmNzRjZDRiYjk5ZGE5ZTI2MDNiN2FhMC5qcGc=_80x80q80.png_.webp">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+
+<style>
+.viewAllBtn {
+    float:right;
+    padding:8px 14px;
+    border:none;
+    border-radius:8px;
+    background:#2563eb;
+    color:white;
+    cursor:pointer;
+    font-size:14px;
+}
+
+.viewAllBtn:hover{
+    background:#1d4ed8;
+}
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+background:#050816;
+color:white;
+}
+
+header{
+  background:#111827;
+  padding:20px;
+  text-align:center;
+  font-size:28px;
+  font-weight:bold;
+  color:#60a5fa;
+}
+ header:hover{
+     color:red
+    }
+/* NAVBAR */
+
+nav{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:22px 8%;
+position:fixed;
+top:0;
+width:100%;
+backdrop-filter:blur(18px);
+background:rgba(5,8,22,0.75);
+z-index:1000;
+border-bottom:1px solid rgba(255,255,255,0.08);
+}
+
+.logo{
+font-size:28px;
+font-weight:700;
+background:linear-gradient(90deg,#60a5fa,#a855f7);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+}
+
+nav ul{
+display:flex;
+list-style:none;
+gap:30px;
+}
+
+nav a{
+color:white;
+text-decoration:none;
+font-size:15px;
+transition:0.3s;
+}
+nav a:hover{
+color:#60a5fa;
+}
+
+/* CONTAINER */
+.container{
+max-width:1100px;
+margin:auto;
+padding:30px 8%;
+}
+
+/* IMAGE GALLERY TOP */
+.gallery{
+  display: flex;
+  flex-wrap: nowrap;
+  width: 100%;
+  padding-bottom:15px;
+  gap: 20px;
+  overflow-x: auto;
+  max-width: 100%;
+  padding: 10px;
+}
+
+.gallery-img{
+width:300px;
+height: 300px;
+object-fit:cover;
+border-radius:18px;
+cursor:zoom-in;
+border:1px solid rgba(255,255,255,0.1);
+transition:0.3s;
+}
+
+.gallery-img:hover{
+transform:scale(1.03);
+}
+
+
+.zoom-container {
+
+   flex: 0 0 300px;
+
+  width: 300px;
+
+  position: relative;
+
+}
+
+
+.productImage {
+ width:300px;
+height: 300px;
+object-fit:cover;
+border-radius:18px;
+cursor:zoom-in;
+border:1px solid rgba(255,255,255,0.1);
+transition:0.3s;
+ width: 100%;
+
+  border: 1px solid #ddd;
+
+  cursor: crosshair;
+}
+
+.productImgage:hover{
+transform:scale(1.03);
+}
+
+.zoomResult {
+   position: relative;
+  width: 450px;
+  height: 450px;
+  margin-top: 20px;
+  border: 1px solid #ddd;
+  background-repeat: no-repeat;
+  display: none;
+}
+
+
+/* PRODUCT TITLE */
+.title{
+font-size:36px;
+font-weight:700;
+margin-top:30px;
+}
+
+.price{
+font-size:24px;
+color:#60a5fa;
+margin:15px 0;
+}
+
+.reviews {
+
+  margin-top: 30px;
+
+
+  margin-bottom: 20px;
+
+  padding: 20px;
+
+  border: 1px solid #ddd;
+
+  border-radius: 8px;
+
+  background:rgba(255,255,255,0.05);
+
+  margin-bottom: 50px;}
+
+.review {
+
+  margin-top: 15px;
+
+  padding: 15px;
+
+  background:rgba(255,255,255,0.05);
+
+  border-radius: 8px;
+
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+
+  margin-bottom: 50px;
+}
+.review {
+
+  border: 1px solid #ddd;
+
+  padding: 15px;
+
+  background:rgba(255,255,255,0.05);
+
+  margin-bottom: 15px;
+
+  border-radius: 8px;
+
+}
+
+.desc{
+color:#cbd5e1;
+line-height:1.8;
+font-size:15px;
+margin-bottom:20px;
+}
+
+/* VARIANTS */
+.variant{
+background:rgba(255,255,255,0.05);
+padding:15px;
+border-radius:12px;
+margin-top:10px;
+border:1px solid rgba(255,255,255,0.1);
+}
+
+.btn-primary{
+  display:inline-block;
+
+  padding:14px 30px;
+
+  background:linear-gradient(90deg,#3b82f6,#8b5cf6) !important;;
+
+  color:white !important;;
+
+  border:none;
+
+  border-radius:50px;
+
+  text-decoration:none;
+
+  font-weight:600;
+
+  cursor:pointer;
+
+}
+.btn-remove{
+  background: #ef4444 !important;
+  color: white !important;
+  border: none;
+  padding: 5px 5px;
+  border-radius: 4px;
+}
+
+/* SECTIONS */
+.section{
+background:#1e293b;
+  margin-top:10px;
+  border-radius:15px;
+  padding:10px;
+}
+
+.section h2{
+  margin-bottom:15px;
+  color:#60a5fa;
+}
+ul{
+  padding-left:20px;
+  line-height:2;
+}
+table{
+  width:100%;
+  border-collapse:collapse;
+}
+
+td{
+  padding:12px;
+  border-bottom:2px solid #334155;
+}
+/* MOBILE */
+@media(max-width:768px){
+.logo{
+   font-size: 15px;
+}
+.hero-content h1{
+font-size:46px;
+}
+
+.section-title{
+font-size:38px;
+}
+
+nav ul{
+display:flex;
+font-size: 0px;
+gap: 10px;
+}
+
+nav a{
+    font-size: 10px;
+}
+.gallery img{
+width:220px;
+height:220px;
+}
+.title{
+font-size:28px;
+}
+}
+
+.cart-btn{
+display:inline-block;
+margin-top:10px;
+width: 320px;
+padding: 15px;
+border-radius: 12px;
+background:#10b981;
+color:red;
+text-decoration:none;
+font-weight:600;
+border:none;
+outline:none;
+appearance:none;
+cursor:pointer;
+transition:0.3s;
+}
+
+.cart-btn:hover{
+transform:translateY(-3px);
+background:#059669;
+}
+
+
+</style>
+</head>
+
+<body>
+
+<nav>
+
+<a href="https://www.sfhmultistore.online">
+<div class="logo">SFH Multistore</div>
+
+<ul>
+<li><a href="https://www.sfhmultistore.online/#">Home</a></li>
+<li><a href="https://www.sfhmultistore.online/tracking">Track My Order</a></li>
+<li><a href="https://www.sfhmultistore.online/products">Products</a></li>
+<li><a href="https://www.sfhmultistore.online/#about">About</a></li>
+<li><a href="https://www.sfhmultistore.online/#contact">Contact</a></li>
+</ul>
+
+</nav>
+<header>f</header>
+
+<div class="container">
+
+<!-- IMAGE GALLERY (TOP) -->
+<div class="gallery">
+<div class="zoom-container">
+    <img class="productImage" src="https://img.drz.lazcdn.com/g/kf/S8e05a83288dc424b8527b8293b51c98cI.jpg_960x960q80.jpg_.webp">
+    <div class="zoomResult"></div>
+  </div>
+<div class="zoom-container">    
+     <img class="productImage" src="https://img.drz.lazcdn.com/g/kf/S31069a439b0e45efb4cfd6f1a40348ed4.jpg_960x960q80.jpg_.webp">
+    <div class="zoomResult"></div>
+   </div>
+<div class="zoom-container">    
+     <img class="productImage" src="https://img.drz.lazcdn.com/g/kf/S7008a91bb30141dabd902304ef30306eI.jpg_960x960q80.jpg_.webp">
+    <div class="zoomResult"></div>
+   </div>
+</div>
+<!-- TITLE -->
+<div class="title">
+Premium Stylish Half Moon Ladies Shoulder Handbag for Casual, Office, Shopping & Parties
+</div>
+
+<div class="price">Rs. 949</div>
+
+<div class="desc">
+<h2>Product Description</h2>
+
+
+Upgrade your everyday style with this elegant Half Moon Ladies Handbag, designed for women who love fashion, convenience, and versatility. Featuring a modern crescent (half-moon) silhouette, this handbag adds a sophisticated touch to any outfit while providing ample space for your daily essentials.
+</div>
+<div class="desc">
+Crafted with a smooth finish, this fashionable handbag is lightweight, durable, and comfortable to carry all day. The spacious main compartment easily accommodates your phone, wallet, cosmetics, keys, sunglasses, and other necessities. Its secure zipper closure keeps your belongings safe, while the comfortable shoulder strap allows for effortless carrying.
+</div>
+<div class="desc">
+Perfect for casual outings, office use, shopping, college, travel, dinners, parties, and special occasions, this trendy half moon bag complements both western and traditional outfits. Its timeless design makes it a must-have fashion accessory and an excellent gift for birthdays, Eid, anniversaries, or any special occasion.
+</div>
+<div class="desc">
+Whether you're looking for a stylish everyday purse or a chic statement accessory, this half moon handbag combines fashion, functionality, and durability in one elegant package.
+</div>
+<div class="variant">
+<h1>Black - Rs. 949.00</h1>
+<h2><s>Rs. 1999.00</s> 53% OFF!</h2>
+<b></b>
+</div>
+<div class="button">
+<button class="btn-primary" onclick="addToCart(variant11)">
+  Add to Cart
+</button>
+</div>
+
+
+
+
+<div class="reviews"  id="reviewsBox" ">
+
+  <h2>Customer Reviews</h2> <button class="viewAllBtn" onclick="location.href='https://www.sfhmultistore.online/reviews?prid=' + productId">
+        View All →
+    </button>
+<div class="rating">
+    <span id="stars"><h3> No reviews yet </h3></span>
+    <span id="averageRating"></span>
+
+</div>
+
+<div id="reviewsContainer"></div>
+  </div>
+<!-- DETAILS -->
+<div class="section">
+<h2>Product Highlights</h2>
+<ul>
+<li>Elegant and trendy half moon (crescent) design</li>
+<li>Spacious compartment for daily essentials</li>
+<li>Smooth and secure zipper closure</li>
+<li>Lightweight and comfortable to carry</li>
+<li>Durable stitching for long-lasting use</li>
+<li>Stylish shoulder bag for everyday fashion</li>
+<li>Suitable for casual, office, shopping, and travel</li>
+<li>Modern minimalist design complements any outfit</li>
+<li>Comfortable shoulder strap for easy carrying</li>
+<li>Easy to clean and maintain</li>
+<li>Perfect for carrying phone, wallet, makeup, keys, and accessories</li>
+<li>Ideal gift for birthdays, Eid, anniversaries, and special occasions</li>
+<li>Fashionable accessory for women and girls</li>
+</ul>
+</div>
+
+<!-- SPEC -->
+<div class="section">
+<h2>Specifications</h2>
+
+<table>
+<td></td>
+<td></td>
+<tr>
+<td>Brand</td>
+<td>No Brand</td>
+</tr>
+<tr>
+<td>Lockable</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Age Rating</td>
+<td>Standard</td>
+</tr>
+<tr>
+<td>Bag</td>
+<td>Shoulder Bag</td>
+</tr>
+<td>Season</td>
+<td>Year Round</td>
+</tr>
+</table>
+</div>
+
+</div>
+
+
+
+
+
+
+
+<script>
+document.body.style.pointerEvents = "none";
+document.body.style.opacity = "0.5";
+
+let variant11 = {
+  name: "Black Half Moon Shoulder Bag",
+  pid: "Half Moon Shoulder Bag",
+  id: "variant10",
+  price: 949.00,
+  stock: 1
+};
+
+
+
+document.querySelectorAll(".zoom-container").forEach(container => {
+
+  let img = container.querySelector(".productImage");
+  let zoom = container.querySelector(".zoomResult");
+
+  img.addEventListener("mousemove", function(e) {
+
+    zoom.style.display = "block";
+
+    let rect = img.getBoundingClientRect();
+
+    let x = e.clientX - rect.left;
+    let y = e.clientY - rect.top;
+
+    let xPercent = (x / rect.width) * 100;
+    let yPercent = (y / rect.height) * 100;
+
+    zoom.style.backgroundImage = `url(${img.src})`;
+
+    let zoomLevel = 3;
+
+    zoom.style.backgroundSize =
+      `${rect.width * zoomLevel}px ${rect.height * zoomLevel}px`;
+
+    zoom.style.backgroundPosition =
+      `${xPercent}% ${yPercent}%`;
+
+  });
+
+  img.addEventListener("mouseleave", function() {
+    zoom.style.display = "none";
+  });
+
+});
+
+</script>
+<div id="cartBox" style="
+position:fixed;
+right:20px;
+bottom:20px;
+width:350px;
+background:#111827;
+border:1px solid rgba(255,255,255,0.1);
+border-radius:15px;
+padding:15px;
+z-index:9999;
+">
+
+
+<h3>🛒 Cart</h3>
+
+<div id="cartItems" style="margin:10px 0; font-size:14px; color:#cbd5e1; white-space:nowrap;">
+No items yet
+</div>
+
+<div id="total" style="margin:10px 0; font-weight:600;">
+Total: Rs. 0.00
+</div>
+
+<button onclick="goToCheckout()" style="
+width:100%;
+padding:10px;
+border:none;
+border-radius:10px;
+background:linear-gradient(90deg,#3b82f6,#8b5cf6);
+color:white;
+font-weight:600;
+cursor:pointer;
+">
+Go to Checkout Page
+</button>
+</div>
+
+<script>
+function formatPKR(amount) {
+  return "Rs. " + Number(amount).toLocaleString("en-PK", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  });
+}
+
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+function saveCart() {
+  localStorage.setItem("cart", JSON.stringify(cart));
+}
+
+function addToCart(v) {
+
+  // get cart
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+  // find existing item
+  let item = cart.find(i => i.name === v.name);
+
+  // stock check
+  let qty = item ? item.quantity : 0;
+
+  if (qty >= v.stock) {
+    alert("Out of stock");
+    return;
+  }
+
+  // add quantity
+  if (item) {
+
+    item.quantity++;
+
+  } else {
+
+    cart.push({
+      pid: v.pid,
+      id: v.id,
+      name: v.name,
+      price: v.price,
+      quantity: 1
+    });
+
+  }
+
+  localStorage.setItem("cart", JSON.stringify(cart));
+  renderCart();
+  renderTotal();
+}
+
+
+function getCart() {
+  return JSON.parse(localStorage.getItem("cart")) || [];
+}
+
+
+function renderCart() {
+
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+  let box = document.getElementById("cartItems");
+
+  box.innerHTML = "";
+
+  if (cart.length === 0) {
+    box.innerHTML = "No items yet";
+    return;
+  }
+
+  cart.forEach((item, index) => {
+
+    box.innerHTML += `
+      <div>
+        ${item.name} x ${item.quantity} - Rs. ${item.price}
+
+        <button class="btn-remove" onclick="removeItem(${index})" style="
+background: #ef4444 !important;
+  color: white !important;
+  border: none;
+  padding: 5px 5px !important;
+  border-radius: 4px !important;
+">
+x</button>
+      </div>
+    `;
+
+  });
+let total =
+    cart.reduce((sum,item)=>
+      sum + (item.price * item.qty),0);
+
+  localStorage.setItem("total", total);
+
+}
+
+
+function removeItem(index) {
+
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+  if (cart[index].quantity > 1) {
+    cart[index].quantity -= 1;
+  } else {
+    cart.splice(index, 1);
+  }
+
+  localStorage.setItem("cart", JSON.stringify(cart));
+
+  renderCart();
+  renderTotal();
+}
+
+let html = "";
+let total = 0;
+
+cart.forEach((item,qty)=>{
+html += `
+<div style="margin-bottom:8px;">
+${item.name} - Rs. ${item.price}
+<button class="btn-remove" onclick="removeItem(${qty})" style="
+background: #ef4444 !important;
+  color: white !important;
+  border: none;
+  padding: 5px 5px !important;
+  border-radius: 4px !important;
+">X</button>
+</div>
+`;
+total += item.price;
+});
+
+function getTotal() {
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+  let total = 0;
+
+  cart.forEach(item => {
+    total += Number(item.price) * Number(item.quantity);
+  });
+
+  return formatPKR("total");
+
+}
+
+
+
+function renderTotal() {
+
+  let totalBox = document.getElementById("total");
+
+  if (!totalBox) return;
+
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+  let total = 0;
+
+  cart.forEach(item => {
+    total += Number(item.price) * Number(item.quantity || 1);
+  });
+
+
+  totalBox.innerHTML = "Total:    " + formatPKR(total);
+}
+
+
+let box = document.getElementById("cartItems");
+let totalBox = document.getElementById("total");
+  if (box) {
+box.innerHTML = html;
+totalBox.innerHTML = "Total:    "  + formatPKR(total);
+}
+
+
+function checkout() {
+
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+  let box = document.getElementById("cartItems");
+  
+
+  box.innerHTML = "";
+
+  if (cart.length === 0) {
+    box.innerHTML = "No items yet";
+    return;
+  }
+
+  cart.forEach((item, index) => {
+
+    box.innerHTML += `
+      <div>
+        ${item.name} x ${item.quantity} - Rs. ${item.price}
+
+        <button onclick="removeItem(${index})" style="
+display:inline-block;
+
+  padding:5px 5px;
+
+  background:#ef4444;
+
+  color:white;
+
+  border:none;
+
+  border-radius:4px;
+
+  cursor:pointer;
+
+  line-height:2;
+
+  font-size:10px;
+
+  outline:none;
+
+  box-sizing:border-box;
+
+">
+          X
+        </button>
+      </div>
+    `;
+
+  });
+}
+
+function checkStock() {
+
+
+  cart = cart.filter(function(item) {
+    let variant = eval(item.id);
+        let oldquantity = item.quantity;
+    if (!variant) {
+      return false;
+    }
+
+    if (variant.stock <= 0) {
+      return false;
+    }
+
+    if (item.quantity > variant.stock) {
+      item.quantity = variant.stock;
+    alert(
+    item.name +
+    "'s quantity changed from " +
+    oldquantity +
+    " to " +
+    item.quantity +
+    " in Cart"
+    );
+    }
+
+    return true;
+
+  });
+  
+  localStorage.setItem("cart", JSON.stringify(cart));
+  
+  saveCart();
+  getTotal();
+  renderTotal();
+  renderCart();
+
+
+};
+  
+function goToCheckout() {
+
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+  if (!cart || cart.length === 0) {
+    alert("Cart is empty!");
+    return; 
+  }
+
+  window.location.href = "https://www.sfhmultistore.online/checkout";
+}
+
+window.onload = function () {
+  renderCart();
+  renderTotal();
+  checkStock();
+  checkout();
+};
+
+
+</script>
+<script type="module">
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+import {
+    collection,
+    query,
+    where,
+    getDocs,
+    orderBy,
+    limit,
+    getFirestore
+} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+const firebaseConfig = {
+  apiKey: "AIzaSyAIvnb6gO0HwwtNUeK69hXcs5_9Tvoq5io",
+  authDomain: "sfh-multistore.firebaseapp.com",
+  projectId: "sfh-multistore",
+  storageBucket: "sfh-multistore.firebasestorage.app",
+  messagingSenderId: "645514728433",
+  appId: "1:645514728433:web:aefe52d615b1374302aa50",
+  measurementId: "G-E8W2LKR9G3"
+  };
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+const productId = "Half Moon Shoulder Bag"; // Current product
+window.productId = productId;
+const q = query(
+    collection(db, "reviews"),
+    where("productId", "==", productId),
+    orderBy("rating", "desc"),
+    orderBy("createdAt", "desc"),
+    limit(4)
+);
+
+const snapshot = await getDocs(q);
+let reviewsHTML = "";
+if (snapshot.size > 4) {
+    document.querySelector(".viewAllBtn").style.display = "inline-block";
+} else {
+    document.querySelector(".viewAllBtn").style.display = "none";
+}
+if(snapshot.size === 0){
+
+    document.getElementById("reviewsContainer").innerHTML = reviewsHTML;
+
+
+
+} else {
+    document.querySelector(".reviews h3").remove();
+snapshot.forEach(doc => {
+
+    const review = doc.data();
+
+    let stars = "";
+
+    for (let i = 1; i <= 5; i++) {
+        stars += i <= review.rating ? "★" : "☆";
+    }
+
+    reviewsHTML += `
+<div style="border: 1px solid #ddd;
+
+  padding: 15px;
+
+  background:rgba(255,255,255,0.05);
+  
+  margin-top: 10px;
+
+  margin-bottom: 10px;
+
+  border-radius: 8px;">
+            <h3 class="reviewname">
+                ${review.displayName}  (✔️ Verified Purchase)|      <b style="color:gold;font-size:20px;">
+                ${stars}</b>
+            </h3>
+
+           
+
+            <p style=" white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.6;">${review.review}</p>
+        </div>
+    `;
+
+});
+
+document.getElementById("reviewsContainer").innerHTML = reviewsHTML;
+let total = 0;
+
+snapshot.forEach(doc => {
+    total += doc.data().rating;
+});
+
+let average = 0;
+
+if (snapshot.size > 0) {
+    average = total / snapshot.size;
+}
+
+average = average.toFixed(1);
+
+let starsHTML = "";
+
+for (let i = 1; i <= 5; i++) {
+
+    if (average >= i - 0.5) {
+
+        starsHTML += "★";
+
+    } else {
+
+        starsHTML += "☆";
+
+    }
+
+}
+document.getElementById("stars").textContent = starsHTML;
+document.getElementById("averageRating").textContent =
+`${average}/5 (${snapshot.size} reviews)`;
+}
+
+document.body.style.pointerEvents = "auto";
+document.body.style.opacity = "1";
+
+</script>
+</body>
+</html>

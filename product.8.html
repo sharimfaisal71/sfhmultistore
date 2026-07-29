@@ -493,7 +493,7 @@ document.body.style.opacity = "0.5";
 
 let variant11 = {
   name: "Black Half Moon Shoulder Bag",
-  pid: "Half Moon Shoulder Bag",
+  pid: "HalfMoonShoulderBag",
   id: "variant10",
   price: 949.00,
   stock: 1
@@ -886,7 +886,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-const productId = "Half Moon Shoulder Bag"; // Current product
+const productId = "HalfMoonShoulderBag"; // Current product
 window.productId = productId;
 const q = query(
     collection(db, "reviews"),

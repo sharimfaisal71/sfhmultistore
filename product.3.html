@@ -492,8 +492,8 @@ document.body.style.pointerEvents = "none";
 document.body.style.opacity = "0.5";
 
 let variant6 = {
-  name: "Crystal Tec Beading Wire",
-  pid: "Crystal Tec Beading Wire 0.7mm",
+  name: "Crystal Tec Beading Wire 0.7mm",
+  pid: "CrystalTecBeadingWire",
   id: "variant6",
   price: 160.00,
   stock: 2
@@ -885,7 +885,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-const productId = "Crystal Tec Beading Wire"; // Current product
+const productId = "CrystalTecBeadingWire"; // Current product
 window.productId = productId;
 const q = query(
     collection(db, "reviews"),

@@ -490,14 +490,14 @@ document.body.style.opacity = "0.5";
 
 let variant1 = {
   name: "Cricket Tennis Ball Pack of 1",
-  pid: "CricketTennisBall",
+  pid: "Cricket Tennis Ball",
   id: "variant1",
   price: 134.00,
   stock: 3
 };
 let variant2 = {
   name: "Cricket Tennis Ball Pack of 3",
-  pid: "CricketTennisBall",
+  pid: "Cricket Tennis Ball",
   id: "variant2",
   price: 349.00,
   stock: 1
@@ -890,7 +890,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-const productId = "CricketTennisBall"; // Current product
+const productId = "Cricket Tennis Ball"; // Current product
 window.productId = productId;
 const q = query(
     collection(db, "reviews"),

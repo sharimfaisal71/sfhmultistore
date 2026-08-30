@@ -337,7 +337,7 @@ border-radius: 4px;
   type="text"
   id="invoiceInput"
   list="invoiceList"
-  placeholder="Enter or select Order/ Invoice Number..." />
+  placeholder="Enter or Select Order/Invoice Number..." />
 <button style="width: 5%;" class="submit" onclick="trackOrder()">
         <i class="fa fa-search"></i> <!-- Search icon -->
     </button>
@@ -559,6 +559,7 @@ order.history.forEach(item => {
 > 
             <hr>
             <h3>${invoiceNumber}</h3>
+            <h4>⚠️ For the safety and security of the Customer, the Customer's name and phone number will not be shown on the tracking information.</h4>
             <p>City: ${order.city}</p>
             <p>Address: ${order.address}</p>
             <p>Total: <b>${order.total}</b></p>

@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>SFH Multistore</title>
+<link rel="icon" type="image/png" sizes="192×192" href="https://lzd-img-global.slatic.net/3rd/q/aHR0cHM6Ly9way1saXZlLTIxLnNsYXRpYy5uZXQva2YvU2MwMWM1ZTM4NTNmNzRjZDRiYjk5ZGE5ZTI2MDNiN2FhMC5qcGc=_192x192q80.png_.webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+scroll-behavior:smooth;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  color: white;
+}
+
+/* NAVBAR */
+
+nav{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:22px 8%;
+position:fixed;
+top:0;
+width:100%;
+backdrop-filter:blur(18px);
+background:rgba(5,8,22,0.75);
+z-index:1000;
+border-bottom:1px solid rgba(255,255,255,0.08);
+}
+
+.logo{
+font-size:28px;
+font-weight:700;
+background:linear-gradient(90deg,#60a5fa,#a855f7);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+}
+
+nav ul{
+display:flex;
+list-style:none;
+gap:30px;
+}
+
+nav a{
+color:white;
+text-decoration:none;
+font-size:15px;
+transition:0.3s;
+}
+
+nav a:hover{
+color:#60a5fa;
+}
+
+/* HERO */
+
+
+.hero{
+height:1075vh;
+display:flex;
+justify-content:center;
+align-items:center;
+text-align:left;
+padding:0 10%;
+background:
+radial-gradient(circle at top left,#1d4ed8 0%,transparent 30%),
+radial-gradient(circle at bottom right,#9333ea 0%,transparent 30%),
+#050816;
+}
+
+.hero-content h1{
+font-size:72px;
+line-height:1.1;
+margin-bottom:25px;
+}
+.hero-content h3{
+    font-size:56px;
+}
+.hero-content p{
+max-width:700px;
+margin:auto;
+font-size:36px;
+line-height:1.8;
+color:#cbd5e1;
+margin-bottom:35px;
+}
+
+.btn{
+display:inline-block;
+padding:16px 34px;
+border-radius:50px;
+background:linear-gradient(90deg,#3b82f6,#8b5cf6);
+text-decoration:none;
+color:white;
+font-weight:600;
+transition:0.3s;
+box-shadow:0 15px 40px rgba(59,130,246,0.25);
+}
+
+.btn:hover{
+transform:translateY(-5px);
+}
+
+/* PRODUCTS */
+
+.products{
+padding:120px 8%;
+background:
+radial-gradient(circle at top left,#2C5F2D 0%,transparent 30%),
+radial-gradient(circle at bottom right,#97BC62 0%,transparent 30%),
+#050816;
+}
+}
+
+.section-title{
+text-align:center;
+font-size:48px;
+margin-bottom:70px;
+}
+
+.product-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+gap:35px;
+}
+
+.card{
+background:rgba(255,255,255,0.05);
+border:1px solid rgba(255,255,255,0.08);
+backdrop-filter:blur(20px);
+border-radius:25px;
+overflow:hidden;
+transition:0.4s;
+}
+
+.card:hover{
+transform:translateY(-12px);
+box-shadow:0 20px 50px rgba(59,130,246,0.2);
+}
+
+.card img{
+  max-width: 100%;
+  height: auto;
+}
+
+
+.card-content{
+padding:25px;
+}
+
+.card-content h3{
+font-size:24px;
+margin-bottom:12px;
+}
+
+.card-content p{
+font-size:14px;
+line-height:1.7;
+color:#cbd5e1;
+margin-bottom:20px;
+}
+
+.price{
+font-size:22px;
+font-weight:700;
+color:#60a5fa;
+margin-bottom:20px;
+}
+
+.tag{
+display:inline-block;
+padding:7px 14px;
+background:rgba(59,130,246,0.15);
+border:1px solid rgba(96,165,250,0.2);
+border-radius:30px;
+font-size:12px;
+margin-bottom:18px;
+color:#93c5fd;
+}
+
+/* ABOUT */
+
+.about{
+padding:120px 10%;
+text-align:center;
+background:
+radial-gradient(circle at top left,#2D336B 0%,transparent 30%),
+radial-gradient(circle at bottom right,#6F9BD1 0%,transparent 30%),
+#050816;
+}
+
+.about h2{
+font-size:46px;
+margin-bottom:25px;
+}
+
+.about p{
+max-width:850px;
+margin:auto;
+font-size:18px;
+line-height:1.9;
+color:#cbd5e1;
+}
+
+/* CONTACT */
+
+.contact{
+padding:100px 10%;
+text-align:center;
+background:
+radial-gradient(circle at top left,#DF3C5F 0%,transparent 30%),
+radial-gradient(circle at bottom right,#FFF0F5 0%,transparent 30%),
+#050816;
+}
+
+.contact h2{
+font-size:42px;
+margin-bottom:20px;
+}
+
+.contact p{
+color:#cbd5e1;
+margin-bottom:30px;
+}
+
+/* FOOTER */
+
+footer{
+padding:40px;
+text-align:center;
+border-top:1px solid rgba(255,255,255,0.08);
+color:#94a3b8;
+background:
+radial-gradient(circle at top left,#393939 0%,transparent 30%),
+radial-gradient(circle at bottom right,#FF5A09 0%,transparent 30%),
+#050816;
+}
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+.logo{
+   font-size: 20px;
+}
+.hero-content h1{
+font-size:46px;
+}
+
+.section-title{
+font-size:38px;
+}
+
+nav ul{
+display:flex;
+font-size: 0px;
+gap: 10px;
+}
+
+nav a{
+    font-size: 10px;
+}
+.cart-btn{
+display:inline-block;
+margin-top:10px;
+width: 320px;
+padding: 15px;
+border-radius: 12px;
+background:#10b981;
+color:red;
+text-decoration:none;
+font-weight:600;
+border:none;
+outline:none;
+appearance:none;
+cursor:pointer;
+transition:0.3s;
+}
+
+.cart-btn:hover{
+transform:translateY(-3px);
+background:#059669;
+}
+
+</style>
+</head>
+
+<body>
+
+<nav>
+<a href="https://www.sfhmultistore.online">
+<div class="logo">SFH Multistore</div>
+
+<ul>
+<li><a href="#">Home</a></li>
+<li><a href="https://www.sfhmultistore.online/tracking">Track My Order</a></li>
+<li><a href="https://www.sfhmultistore.online/products">Products</a></li>
+<li><a href="#about">About</a></li>
+<li><a href="#contact">Contact</a></li>
+</ul>
+
+</nav>
+
+<section class="hero">
+
+<div class="hero-content">
+
+<h1 style="text-align:center;">
+Return & Refund <br>
+Policy
+</h1>
+
+<h2 style="font-size:56px;">
+
+
+Effective Date: 1 September 2026 <br>
+Store: SFH Multistore
+</h2>
+<p>
+At SFH Multistore, we want every order to reach you in the condition you expect. Please read the following Return & Refund Policy carefully before placing an order.</p>
+
+<h3>1. Return & Refund Eligibility</h3>
+
+<p>Customers may request a return or refund within 14 days of receiving their order.
+
+Returns and refunds are accepted only when the issue is caused by the seller, including:<br>
+
+● The wrong product was sent.<br>
+
+● The product does not match the product ordered.<br>
+
+● The product was received defective or damaged due to a seller or packing fault.<br>
+
+● An item or part of an item is missing due to a seller error.<br>
+
+
+All return and refund requests are subject to verification by SFH Multistore.</p>
+
+<h3>2. Cases Not Eligible for Return or Refund</h3>
+
+<p>Returns and refunds will not be accepted for:
+<br>
+
+● Change of mind after placing or receiving an order.<br>
+
+● Ordering the wrong item, size, colour, model, or quantity.<br>
+
+● Products that have been worn, used, washed, altered, or otherwise used by the buyer.<br>
+
+● Products that have been torn, broken, scratched, damaged, or otherwise made unusable due to buyer handling.<br>
+
+● Damage caused by improper use, installation, storage, or handling.<br>
+
+● Products returned with missing components, accessories, tags, labels, or packaging where these are required for verification.<br>
+
+● Any defect or damage caused by the buyer after delivery.<br>
+
+● Any issue that is not caused by the seller.
+<br>
+
+Important: Seller-caused defects or damage may qualify for a refund after verification. Damage, defects, or breakage caused by the buyer are not eligible for a refund.</p>
+
+<h3>3. Return Request Period</h3>
+
+<p>A return or refund request must be submitted within 14 days of delivery.
+
+Requests submitted after this period may not be accepted.</p>
+
+<h3>4. How to Request a Return or Refund
+</h3>
+<p>All return and refund requests must be discussed directly with SFH Multistore through our official WhatsApp number or email address.
+<br>
+
+Please do not arrange or discuss a return, refund, replacement, or compensation with third parties, delivery personnel, agents, or any other person who is not officially authorized by SFH Multistore.<br>
+
+
+Official Contact Details:
+<br>
+
+WhatsApp: 03291615406<br>
+
+Email: sfhmultistore@hotmail.com
+<br>
+
+When contacting us, please provide your order number and a clear description of the issue.</p>
+
+<h3>5. Evidence & Verification
+</h3><p>
+SFH Multistore may request photographs, videos, or other evidence to verify a return or refund request.<br>
+
+
+An unboxing video may or may not be required, depending on the circumstances of the claim.<br>
+
+
+Customers should therefore keep the product, packaging, and any relevant evidence until the return/refund process has been completed.<br>
+
+
+Providing insufficient evidence may delay the review or result in the request being declined.
+</p><h3>
+6. Return Shipping & Shipping Label
+</h3><p>
+For an approved return caused by a seller fault, SFH Multistore will provide the buyer with a return shipping label.
+<br>
+
+The buyer should:<br>
+
+
+1. Pack the product securely.<br>
+
+2. Use the same flyer/packaging in which the order was delivered, where possible.<br>
+
+3. If the original flyer is unavailable or unsuitable, the product may be packed in another suitable flyer or box.<br>
+
+4. Attach the return shipping label provided by SFH Multistore.<br>
+
+5. Return the parcel according to the instructions provided by the store.<br>
+
+6. Keep the shipping receipt or tracking information until the return has been completed.<br>
+
+
+Do not return a product without first receiving official return instructions from SFH Multistore.<br>
+
+
+The return label must be used within 14 days of being issued, unless otherwise agreed by the store.
+</p><h3>
+7. Original Shipping Fee
+</h3><p>
+The original shipping fee paid by the buyer is non-refundable.<br>
+
+
+However, if the buyer placed an order of more than Rs. 1,000 and received free shipping, there is no shipping fee to deduct from the refund because no shipping fee was charged to the buyer.<br>
+
+
+For approved seller-fault returns, return shipping will be handled according to the return instructions provided by SFH Multistore.
+</p><h3>
+8. Inspection of Returned Products
+</h3><p>
+Once the returned order is received, SFH Multistore will inspect the product and verify the reported issue.<br>
+
+
+The inspection process will normally take 2–3 days after the returned product is received.<br>
+
+
+If the inspection confirms that the issue was caused by the seller, the refund will be approved.
+<br>
+
+If inspection determines that the issue was caused by the buyer, the return may be rejected.
+</p><h3>
+9. Refund Processing
+</h3><p>
+Once a return has been approved, the refund will normally be processed within approximately 7 days of SFH Multistore receiving the returned order.<br>
+
+
+Refunds will be made to a bank account provided by the buyer.<br>
+
+
+For Cash on Delivery (COD) orders, the buyer will be required to provide valid bank-account details so that the approved refund can be transferred.
+<br>
+
+The time required for the refunded amount to appear in the buyer’s bank account may vary depending on the banking system.
+</p><h3>
+10. Partial Refunds
+</h3><p>
+Where only part of an order is affected by a seller fault, SFH Multistore may provide a partial refund for the affected item or portion of the order rather than requiring the entire order to be returned.
+<br>
+
+The amount of any partial refund will be determined after reviewing the specific issue.
+</p><h3>
+11. Replacements / Exchanges
+</h3><p>
+SFH Multistore does not provide exchanges or replacement orders under this Return & Refund Policy. Customers will be given a separate refund (if applicable) and will be required to reorder the product they desired to exchange.
+<br>
+
+If a customer receives a product affected by a verified seller fault, the applicable refund will be processed according to this policy.
+<br>
+
+If the customer wants another product, a separate new order must be placed.
+</p><h3>
+12. Non-Delivery or Delivery Issues
+</h3><p>
+If an order has not been delivered, or there is an issue with the delivery of the parcel, please contact SFH Multistore through our official WhatsApp number or email for support.
+<br>
+
+<b>WhatsApp: 03291615406<br>
+
+Email: sfhmultistore@hotmail.com</b>
+</p><h3>
+13. Fraudulent or Misleading Claims
+</h3><p>
+SFH Multistore reserves the right to reject claims involving:
+<br>
+
+● False or misleading information.<br>
+
+● Intentionally damaged products.<br>
+
+● Products altered or misused by the buyer.<br>
+
+● Repeated misuse of the return/refund process.<br>
+
+● Fraudulent claims or attempts to obtain an unjustified refund.<br>
+
+</p><h3>
+14. Order Cancellation
+</h3><p>
+Orders may be cancelled before the product has been dispatched.<br>
+
+
+To request a cancellation, contact SFH Multistore through our official:
+<br>
+
+<b>WhatsApp: 03291615406<br>
+
+Email: sfhmultistore@hotmail.com</b>
+<br>
+
+Once an order has been dispatched, it will be subject to the Return & Refund Policy rather than the cancellation policy.
+</p><h3>
+15. Policy & Applicable Law
+</h3><p>
+SFH Multistore reserves the right to update this Return & Refund Policy when necessary.<br>
+
+
+Nothing in this policy is intended to remove or restrict any consumer rights that cannot legally be excluded under applicable laws and regulations.
+<br>
+
+The latest version of this policy published by SFH Multistore will apply to eligible orders.
+</p><h3>
+16. Return Authorization Requirement
+</h3><p>
+All returns must be authorized by SFH Multistore before the product is sent back.
+<br>
+
+Customers must contact SFH Multistore first through our official WhatsApp number (<b>03291615406</b>) or email (<b>sfhmultistore@hotmail.com</b>) and receive return instructions before sending any product back.<br>
+
+
+Any product returned without first contacting SFH Multistore and receiving official return authorization will be rejected and will not qualify for a refund.
+<br>
+
+Customers should not send returns directly to the seller, delivery company, courier, or any third party without receiving official instructions from SFH Multistore.
+
+</p><h3>
+CUSTOMER SUPPORT
+</h3><p>
+For all return, refund, cancellation, or delivery-related matters, please contact SFH Multistore directly:
+<br>
+
+<b>WhatsApp: 03291615406<br>
+
+Email: sfhmultistore@hotmail.com</b><br>
+
+
+Please keep your order number and proof of purchase available when contacting us.<br>
+
+
+Thank you for shopping with SFH Multistore.
+</p>
+
+
+
+</div>
+
+</section>
+
+
+<div id="cartBox" style="
+position:fixed;
+right:20px;
+bottom:20px;
+width:350px;
+background:#111827;
+border:1px solid rgba(255,255,255,0.1);
+border-radius:15px;
+padding:15px;
+z-index:9999;
+">
+
+
+<h3>🛒 Cart</h3>
+
+<div id="cartItems" style="margin:10px 0; font-size:14px; color:#cbd5e1; white-space:nowrap; overflow:auto; max-height:170px;">
+No items yet
+</div>
+
+<div id="total" style="margin:10px 0; font-weight:600;">
+Total: Rs. 0.00
+</div>
+
+<button onclick="goToCheckout()" style="
+width:100%;
+padding:10px;
+border:none;
+border-radius:10px;
+background:linear-gradient(90deg,#3b82f6,#8b5cf6);
+color:white;
+font-weight:600;
+cursor:pointer;
+">
+Go to Checkout Page
+</button>
+</div>
+
+<section class="about" id="about">
+
+<h2>About SFH Multistore</h2>
+
+<p>
+SFH Multistore is focused on practical, affordable,
+and premium-quality everyday products.
+Our goal is to provide reliable items for sports,
+travel hygiene, baby care, and creative hobbies
+while maintaining modern design and customer convenience.
+</p>
+
+</section>
+
+<section class="contact" id="contact">
+
+<h2>Contact Us</h2>
+
+<p>
+For orders, inquiries, or collaborations,
+contact SFH Multistore through social media
+or messaging platforms.
+</p>
+
+<a class="btn" href="https://wa.me/923291615406">
+Message Us
+</a>
+
+</section>
+
+<footer>
+
+� 2026 SFH Multistore � All Rights Reserved
+
+</footer>
+<script>
+function formatPKR(amount) {
+  return "Rs. " + Number(amount).toLocaleString("en-PK", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  });
+}
+
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+function saveCart() {
+  localStorage.setItem("cart", JSON.stringify(cart));
+}
+
+function addToCart(v) {
+
+  
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+ 
+  let item = cart.find(i => i.name === v.name);
+
+ 
+  let qty = item ? item.quantity : 0;
+
+  if (qty >= v.stock) {
+    alert("Out of stock");
+    return;
+  }
+
+
+  if (item) {
+
+    item.quantity++;
+
+  } else {
+
+    cart.push({
+      pid: v.pid,
+      id: v.id,
+      name: v.name,
+      price: v.price,
+      quantity: 1
+    });
+
+  }
+
+  localStorage.setItem("cart", JSON.stringify(cart));
+  renderCart();
+  renderTotal();
+}
+
+
+function getCart() {
+  return JSON.parse(localStorage.getItem("cart")) || [];
+}
+
+
+function renderCart() {
+
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+  let box = document.getElementById("cartItems");
+
+  box.innerHTML = "";
+
+  if (cart.length === 0) {
+    box.innerHTML = "No items yet";
+    return;
+  }
+
+  cart.forEach((item, index) => {
+
+    box.innerHTML += `
+      <div>
+        ${item.name} x ${item.quantity} - Rs. ${item.price}
+        
+        <button class="btn-remove" onclick="removeItem(${index})" style="
+background: #ef4444 !important;
+  color: white !important;
+  border: none;
+  padding: 5px 5px !important;
+  border-radius: 4px !important;
+">
+x</button>
+      </div>
+    `;
+
+  });
+}
+
+
+
+function removeItem(index) {
+
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+  if (cart[index].quantity > 1) {
+    cart[index].quantity -= 1;
+  } else {
+    cart.splice(index, 1);
+  }
+
+  localStorage.setItem("cart", JSON.stringify(cart));
+
+  renderCart();
+  renderTotal();
+}
+
+let html = "";
+let total = 0;
+
+cart.forEach((item,qty)=>{
+html += `
+<div style="margin-bottom:8px;">
+${item.name} - Rs. ${item.price}
+
+<button class="btn-remove" onclick="removeItem(${qty})" style="
+background: #ef4444 !important;
+  color: white !important;
+  border: none;
+  padding: 5px 5px !important;
+  border-radius: 4px !important;
+">X</button>
+</div>
+`;
+total += item.price;
+});
+
+function getTotal() {
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+  let total = 0;
+
+  cart.forEach(item => {
+    total += Number(item.price) * Number(item.quantity);
+  });
+
+  return formatPKR("total");
+}
+
+
+
+function renderTotal() {
+
+  let totalBox = document.getElementById("total");
+
+  if (!totalBox) return;
+
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+  let total = 0;
+
+  cart.forEach(item => {
+    total += Number(item.price) * Number(item.quantity || 1);
+  });
+
+
+  totalBox.innerHTML = "Total:    " + formatPKR(total);
+}
+
+
+let box = document.getElementById("cartItems");
+let totalBox = document.getElementById("total");
+  if (box) {
+box.innerHTML = html;
+totalBox.innerHTML = "Total:    "  + formatPKR(total);
+}
+function checkStock() {
+
+
+  cart = cart.filter(function(item) {
+    let variant = eval(item.id);
+        let oldquantity = item.quantity;
+    if (!variant) {
+      return false;
+    }
+
+    if (variant.stock <= 0) {
+      return false;
+    }
+
+    if (item.quantity > variant.stock) {
+      item.quantity = variant.stock;
+    alert(
+    item.name +
+    "'s quantity changed from " +
+    oldquantity +
+    " to " +
+    item.quantity +
+    " in Cart"
+    );
+    }
+
+    return true;
+
+  });
+  
+  localStorage.setItem("cart", JSON.stringify(cart));
+  
+  saveCart();
+  getTotal();
+  renderTotal();
+  renderCart();
+
+
+};
+function checkout() {
+
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+  let box = document.getElementById("cartItems");
+
+  box.innerHTML = "";
+
+  if (cart.length === 0) {
+    box.innerHTML = "No items yet";
+    return;
+  }
+
+  cart.forEach((item, index) => {
+
+    box.innerHTML += `
+      <div>
+        ${item.name} x ${item.quantity} - Rs. ${item.price}
+
+        <button onclick="removeItem(${index})" style="
+display:inline-block;
+
+  padding:5px 5px;
+
+  background:#ef4444;
+
+  color:white;
+
+  border:none;
+
+  border-radius:4px;
+
+  cursor:pointer;
+
+  line-height:2;
+
+  font-size:10px;
+
+  outline:none;
+
+  box-sizing:border-box;
+
+">
+          X
+        </button>
+      </div>
+    `;
+
+  });
+}
+function goToCheckout() {
+
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+  if (!cart || cart.length === 0) {
+    alert("Cart is empty!");
+    return; 
+  }
+
+  window.location.href = "https://www.sfhmultistore.online/checkout";
+}
+
+window.onload = function () {
+  renderCart();
+  renderTotal();
+  checkStock();
+  checkout();
+};
+
+console.log(JSON.parse(localStorage.getItem("cart")));
+</script>
+</body>
+</html>

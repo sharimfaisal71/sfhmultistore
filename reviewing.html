@@ -599,6 +599,8 @@ try {
             `reviewImages/${invoiceNumber}/${Date.now()}_${file.name}`
         );
 
+        await uploadBytes(imageRef, file);
+
         const url = await getDownloadURL(imageRef);
 
         alert("Uploading:\n" + url);
@@ -615,6 +617,7 @@ try {
     );
 
 } catch (err) {
+
     alert("IMAGE ERROR:\n\n" + err.message);
     return;
 }
@@ -677,6 +680,7 @@ if (!reviewSnap.exists()) {
 
 }
 try{
+    alert("FIRESTORE WRITE SUCCESSFUL");
 await setDoc(reviewRef, data, { merge: true });
     alert("Thank you for your review!");
 

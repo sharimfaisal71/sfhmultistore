@@ -592,7 +592,7 @@ alert(
     selectedImages.length
 );
         for (const file of selectedImages) {
-
+alert("ENTERED UPLOAD LOOP: " + file.name);
             const fileName =
                 `${Date.now()}_${Math.random().toString(36).substring(2)}_${file.name}`;
 

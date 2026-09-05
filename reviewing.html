@@ -606,20 +606,26 @@ alert(
     alert("2 — STORAGE REF CREATED\n\n" + imageRef.fullPath);
 
     try {
+    alert("3 — STARTING UPLOAD");
 
-        await uploadBytes(imageRef, file);
+    const uploadResult = await uploadBytes(imageRef, file);
 
-        alert("3 — UPLOAD SUCCESSFUL");
+    alert(
+        "4 — UPLOAD SUCCESSFUL\n\n" +
+        "Path: " + uploadResult.metadata.fullPath
+    );
 
-    } catch (error) {
+} catch (error) {
 
-        alert(
-            "❌ UPLOAD FAILED\n\n" +
-            "Code: " + error.code + "\n\n" +
-            "Message: " + error.message
-        );
+    alert(
+        "❌ UPLOAD FAILED\n\n" +
+        "Code: " + error.code + "\n\n" +
+        "Message: " + error.message
+    );
 
-        throw error;
+    console.error("UPLOAD ERROR:", error);
+
+    throw error;
     }
 
     try {

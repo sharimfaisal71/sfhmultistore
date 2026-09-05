@@ -561,7 +561,6 @@ checkbox.addEventListener("change", function () {
 
 
 
-
 async function submitReview() {
 
     if (rating == 0) {
@@ -569,45 +568,50 @@ async function submitReview() {
         return;
     }
 
-    const reviewText = reviewBox.value.trim();
+    const reviewText =
+        document.getElementById("review").value.trim();
 
     if (reviewText.length < 30) {
         alert("Please write a review of at least 30 characters.");
         return;
     }
 
-    const anonymous = checkbox.checked;
+    const anonymous =
+        document.getElementById("anonymous").checked;
 
     btn.disabled = true;
     btn.textContent = "Submitting...";
 
-    // =========================
-    // UPLOAD NEW IMAGES
-    // =========================
-
     try {
+
+        // =========================
+        // 1. UPLOAD IMAGES
+        // =========================
 
         for (const file of selectedImages) {
 
-            const uniqueName =
-                Date.now() + "_" +
-                Math.random().toString(36).substring(2, 8) +
-                "_" +
-                file.name;
+            const fileName =
+                `${Date.now()}_${Math.random().toString(36).substring(2)}_${file.name}`;
 
             const imageRef = ref(
                 storage,
-                `reviewImages/${invoiceNumber}/${uniqueName}`
+                `reviewImages/${invoiceNumber}/${fileName}`
             );
+
+            console.log("Uploading:", file.name);
 
             await uploadBytes(imageRef, file);
 
+            console.log("Upload successful:", imageRef.fullPath);
+
             const url = await getDownloadURL(imageRef);
 
-            alert(
-                "IMAGE URL:\n\n" +
-                url
-            );
+            console.log("Download URL:", url);
+
+            // Make sure we actually received a URL
+            if (!url || typeof url !== "string") {
+                throw new Error("Firebase did not return a valid image URL.");
+            }
 
             images.push({
                 url: url,
@@ -615,85 +619,91 @@ async function submitReview() {
             });
         }
 
-    } catch (err) {
-
-        alert(
-            "IMAGE UPLOAD ERROR:\n\n" +
-            err.message
-        );
-
-        btn.disabled = false;
-        btn.textContent = "Submit Review";
-
-        return;
-    }
-
-    // =========================
-    // CREATE DISPLAY NAME
-    // =========================
-
-    const displayName = anonymous
-        ? hideName(customerName)
-        : customerName;
-
-    // =========================
-    // CREATE FIRESTORE DATA
-    // =========================
-
-    const data = {
-        invoice: invoiceNumber,
-        productId: productId,
-        reviewerName: order.name,
-        displayName: displayName,
-        anonymous: anonymous,
-        rating: rating,
-        review: reviewText,
-        images: images
-    };
-
-    if (!reviewSnap.exists()) {
-        data.createdAt = Date.now();
-    }
-
-    // =========================
-    // DEBUG
-    // =========================
-
-    alert(
-        "DATA TO FIRESTORE:\n\n" +
-        JSON.stringify(data, null, 2)
-    );
-
-    // =========================
-    // SAVE
-    // =========================
-
-    try {
-
-        await setDoc(reviewRef, data, { merge: true });
-
-        alert("FIRESTORE SAVE SUCCESSFUL!");
-
+        // Clear newly selected files
         selectedImages = [];
 
-        renderImages();
+        // =========================
+        // 2. PREPARE FIRESTORE DATA
+        // =========================
 
-        btn.textContent = "Submitted";
+        const displayName =
+            anonymous
+                ? hideName(customerName)
+                : customerName;
+
+        const data = {
+            invoice: invoiceNumber,
+            productId: productId,
+            reviewerName: order.name,
+            displayName: displayName,
+            anonymous: anonymous,
+            rating: rating,
+            review: reviewText,
+            images: images
+        };
+
+        if (!reviewSnap.exists()) {
+            data.createdAt = Date.now();
+        }
+
+        console.log("FINAL FIRESTORE DATA:", data);
+        console.log("IMAGES:", data.images);
+
+        // =========================
+        // 3. SAVE TO FIRESTORE
+        // =========================
+
+        await setDoc(
+            reviewRef,
+            data,
+            { merge: true }
+        );
+
+        console.log("Firestore write successful.");
+
+        // =========================
+        // 4. READ IT BACK
+        // =========================
+
+        const verifySnap = await getDoc(reviewRef);
+
+        if (!verifySnap.exists()) {
+            throw new Error(
+                "Firestore write completed, but the review document could not be read back."
+            );
+        }
+
+        const savedData = verifySnap.data();
+
+        console.log("DATA READ BACK FROM FIRESTORE:", savedData);
+
+        alert(
+            "FIRESTORE SAVED DATA:\n\n" +
+            JSON.stringify(savedData, null, 2)
+        );
+
+        // =========================
+        // 5. FINISH
+        // =========================
+
+        alert("Thank you for your review!");
 
         window.location.href =
             "https://www.sfhmultistore.online";
 
     } catch (err) {
 
+        console.error("REVIEW SUBMISSION ERROR:", err);
+
         alert(
-            "FIRESTORE ERROR:\n\n" +
+            "REVIEW SUBMISSION ERROR:\n\n" +
             err.message
         );
 
         btn.disabled = false;
         btn.textContent = "Submit Review";
     }
-    }
+                    }
 
 
 

@@ -587,7 +587,10 @@ async function submitReview() {
         // =========================
         // 1. UPLOAD IMAGES
         // =========================
-
+alert(
+    "SELECTED IMAGES:\n\n" +
+    selectedImages.length
+);
         for (const file of selectedImages) {
 
             const fileName =

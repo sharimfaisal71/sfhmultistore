@@ -592,35 +592,66 @@ alert(
     selectedImages.length
 );
         for (const file of selectedImages) {
-alert("ENTERED UPLOAD LOOP: " + file.name);
-            const fileName =
-                `${Date.now()}_${Math.random().toString(36).substring(2)}_${file.name}`;
 
-            const imageRef = ref(
-                storage,
-                `reviewImages/${invoiceNumber}/${fileName}`
-            );
+    alert("1 — ENTERED LOOP\n\n" + file.name);
 
-            console.log("Uploading:", file.name);
+    const fileName =
+        `${Date.now()}_${Math.random().toString(36).substring(2)}_${file.name}`;
 
-            await uploadBytes(imageRef, file);
+    const imageRef = ref(
+        storage,
+        `reviewImages/${invoiceNumber}/${fileName}`
+    );
 
-            console.log("Upload successful:", imageRef.fullPath);
+    alert("2 — STORAGE REF CREATED\n\n" + imageRef.fullPath);
 
-            const url = await getDownloadURL(imageRef);
+    try {
 
-            console.log("Download URL:", url);
+        await uploadBytes(imageRef, file);
 
-            // Make sure we actually received a URL
-            if (!url || typeof url !== "string") {
-                throw new Error("Firebase did not return a valid image URL.");
-            }
+        alert("3 — UPLOAD SUCCESSFUL");
 
-            images.push({
-                url: url,
-                path: imageRef.fullPath
-            });
-        }
+    } catch (error) {
+
+        alert(
+            "❌ UPLOAD FAILED\n\n" +
+            "Code: " + error.code + "\n\n" +
+            "Message: " + error.message
+        );
+
+        throw error;
+    }
+
+    try {
+
+        const url = await getDownloadURL(imageRef);
+
+        alert(
+            "4 — URL GENERATED\n\n" +
+            url
+        );
+
+        images.push({
+            url: url,
+            path: imageRef.fullPath
+        });
+
+        alert(
+            "5 — ADDED TO ARRAY\n\n" +
+            JSON.stringify(images, null, 2)
+        );
+
+    } catch (error) {
+
+        alert(
+            "❌ GET URL FAILED\n\n" +
+            "Code: " + error.code + "\n\n" +
+            "Message: " + error.message
+        );
+
+        throw error;
+    }
+}
 
         // Clear newly selected files
         selectedImages = [];

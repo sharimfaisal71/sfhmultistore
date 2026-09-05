@@ -562,7 +562,6 @@ checkbox.addEventListener("change", function () {
 
 
 
-
 async function submitReview() {
 
     if (rating == 0) {
@@ -570,16 +569,14 @@ async function submitReview() {
         return;
     }
 
-    let reviewText =
-        document.getElementById("review").value.trim();
+    const reviewText = reviewBox.value.trim();
 
     if (reviewText.length < 30) {
         alert("Please write a review of at least 30 characters.");
         return;
     }
 
-    let anonymous =
-        document.getElementById("anonymous").checked;
+    const anonymous = checkbox.checked;
 
     btn.disabled = true;
     btn.textContent = "Submitting...";
@@ -592,19 +589,25 @@ async function submitReview() {
 
         for (const file of selectedImages) {
 
-            const uniqueId =
-    Date.now() + "_" + Math.random().toString(36).substring(2, 10);
+            const uniqueName =
+                Date.now() + "_" +
+                Math.random().toString(36).substring(2, 8) +
+                "_" +
+                file.name;
 
-const imageRef = ref(
-    storage,
-    `reviewImages/${invoiceNumber}/${uniqueId}_${file.name}`
-);
+            const imageRef = ref(
+                storage,
+                `reviewImages/${invoiceNumber}/${uniqueName}`
+            );
 
             await uploadBytes(imageRef, file);
 
             const url = await getDownloadURL(imageRef);
 
-            alert("IMAGE URL GENERATED:\n\n" + url);
+            alert(
+                "IMAGE URL:\n\n" +
+                url
+            );
 
             images.push({
                 url: url,
@@ -614,7 +617,10 @@ const imageRef = ref(
 
     } catch (err) {
 
-        alert("IMAGE UPLOAD ERROR:\n\n" + err.message);
+        alert(
+            "IMAGE UPLOAD ERROR:\n\n" +
+            err.message
+        );
 
         btn.disabled = false;
         btn.textContent = "Submit Review";
@@ -622,19 +628,17 @@ const imageRef = ref(
         return;
     }
 
-    // Clear newly selected images
-    selectedImages = [];
-
-    renderImages();
-
     // =========================
-    // CREATE REVIEW DATA
+    // CREATE DISPLAY NAME
     // =========================
 
-    let displayName =
-        anonymous
-            ? hideName(customerName)
-            : customerName;
+    const displayName = anonymous
+        ? hideName(customerName)
+        : customerName;
+
+    // =========================
+    // CREATE FIRESTORE DATA
+    // =========================
 
     const data = {
         invoice: invoiceNumber,
@@ -652,25 +656,29 @@ const imageRef = ref(
     }
 
     // =========================
-    // SHOW WHAT WILL BE SAVED
+    // DEBUG
     // =========================
 
     alert(
-        "DATA BEING SAVED TO FIRESTORE:\n\n" +
+        "DATA TO FIRESTORE:\n\n" +
         JSON.stringify(data, null, 2)
     );
 
     // =========================
-    // SAVE TO FIRESTORE
+    // SAVE
     // =========================
 
     try {
 
         await setDoc(reviewRef, data, { merge: true });
 
-        alert("FIRESTORE WRITE SUCCESSFUL!");
+        alert("FIRESTORE SAVE SUCCESSFUL!");
 
-        alert("Thank you for your review!");
+        selectedImages = [];
+
+        renderImages();
+
+        btn.textContent = "Submitted";
 
         window.location.href =
             "https://www.sfhmultistore.online";
@@ -685,7 +693,7 @@ const imageRef = ref(
         btn.disabled = false;
         btn.textContent = "Submit Review";
     }
-}
+    }
 
 
 

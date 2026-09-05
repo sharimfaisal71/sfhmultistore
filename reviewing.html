@@ -491,14 +491,15 @@ async function removeImage(index){
 try {
     if (index < images.length) {
 
-        const storageRef = ref(storage, images[index].path);
+    const storageRef = ref(storage, images[index].path);
 
-        await deleteObject(storageRef);
+    await deleteObject(storageRef);
 
+    images.splice(index, 1);
 
-        await setDoc(reviewRef, {
-            images
-        }, { merge: true });
+    await setDoc(reviewRef, {
+        images: images
+    }, { merge: true });
 
     } else {
 
@@ -589,33 +590,45 @@ btn.disabled = true;
 btn.textContent = "Submitting...";
 
 
-try{
-for (const file of selectedImages) {
+try {
 
-    const imageRef = ref(
-        storage,
-        `reviewImages/${invoiceNumber}/${Date.now()}_${file.name}`
+    for (const file of selectedImages) {
+
+        alert("Uploading: " + file.name);
+
+        const imageRef = ref(
+            storage,
+            `reviewImages/${invoiceNumber}/${Date.now()}_${file.name}`
+        );
+
+        await uploadBytes(imageRef, file);
+
+        alert("Upload successful!\nPath: " + imageRef.fullPath);
+
+        const url = await getDownloadURL(imageRef);
+
+        alert("URL generated:\n" + url);
+
+        images.push({
+            url: url,
+            path: imageRef.fullPath
+        });
+
+    }
+
+    alert(
+        "FINAL IMAGES ARRAY:\n\n" +
+        JSON.stringify(images, null, 2)
     );
 
-    await uploadBytes(imageRef, file);
+} catch (err) {
 
-const url = await getDownloadURL(imageRef);
+    alert("IMAGE UPLOAD ERROR:\n\n" + err.message);
 
-images.push({
-    url: url,
-    path: imageRef.fullPath
-});
-
-
-
-}
-}
- catch (err) {
     btn.disabled = false;
     btn.textContent = "Submit Review";
-    alert(err.message);
     return;
-}
+    }
 selectedImages = [];
 
 
@@ -629,7 +642,29 @@ selectedImages = [];
             index < rating ? "★" : "☆";
 
     });
+alert(
+    "DATA BEING SAVED TO FIRESTORE:\n\n" +
+    JSON.stringify(data, null, 2)
+);
 
+try {
+
+    await setDoc(reviewRef, data, { merge: true });
+
+    alert("Firestore save successful!");
+
+    alert("Thank you for your review!");
+
+    window.location.href =
+        "https://www.sfhmultistore.online";
+
+} catch (err) {
+
+    alert("FIRESTORE ERROR:\n\n" + err.message);
+
+    btn.disabled = false;
+    btn.textContent = "Submit Review";
+    }
 
 let displayName =
     anonymous

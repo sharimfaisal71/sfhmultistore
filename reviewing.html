@@ -567,7 +567,6 @@ checkbox.addEventListener("change", function () {
 
 async function submitReview() {
 
-
     if (rating == 0) {
         alert("Please select a rating.");
         return;
@@ -576,124 +575,119 @@ async function submitReview() {
     let reviewText =
         document.getElementById("review").value.trim();
 
-    
     if (reviewText.length < 30) {
-        alert("Please write a review of atleast 30 characters.");
+        alert("Please write a review of at least 30 characters.");
         return;
     }
-   let anonymous =
+
+    let anonymous =
         document.getElementById("anonymous").checked;
 
-document.getElementById("invoice").textContent = invoiceNumber;
+    btn.disabled = true;
+    btn.textContent = "Submitting...";
 
-btn.disabled = true;
-btn.textContent = "Submitting...";
+    // =========================
+    // UPLOAD NEW IMAGES
+    // =========================
 
+    try {
 
-try {
+        for (const file of selectedImages) {
 
-    for (const file of selectedImages) {
+            const imageRef = ref(
+                storage,
+                `reviewImages/${invoiceNumber}/${Date.now()}_${file.name}`
+            );
 
-        const imageRef = ref(
-            storage,
-            `reviewImages/${invoiceNumber}/${Date.now()}_${file.name}`
-        );
+            await uploadBytes(imageRef, file);
 
-        await uploadBytes(imageRef, file);
+            const url = await getDownloadURL(imageRef);
 
-        const url = await getDownloadURL(imageRef);
+            alert("IMAGE URL GENERATED:\n\n" + url);
 
-        alert("Uploading:\n" + url);
+            images.push({
+                url: url,
+                path: imageRef.fullPath
+            });
+        }
 
-        images.push({
-            url: url,
-            path: imageRef.fullPath
-        });
+    } catch (err) {
+
+        alert("IMAGE UPLOAD ERROR:\n\n" + err.message);
+
+        btn.disabled = false;
+        btn.textContent = "Submit Review";
+
+        return;
     }
+
+    // Clear newly selected images
+    selectedImages = [];
+
+    renderImages();
+
+    // =========================
+    // CREATE REVIEW DATA
+    // =========================
+
+    let displayName =
+        anonymous
+            ? hideName(customerName)
+            : customerName;
+
+    const data = {
+        invoice: invoiceNumber,
+        productId: productId,
+        reviewerName: order.name,
+        displayName: displayName,
+        anonymous: anonymous,
+        rating: rating,
+        review: reviewText,
+        images: images
+    };
+
+    if (!reviewSnap.exists()) {
+        data.createdAt = Date.now();
+    }
+
+    // =========================
+    // SHOW WHAT WILL BE SAVED
+    // =========================
 
     alert(
-        "Images array BEFORE FIRESTORE:\n\n" +
-        JSON.stringify(images, null, 2)
+        "DATA BEING SAVED TO FIRESTORE:\n\n" +
+        JSON.stringify(data, null, 2)
     );
 
-} catch (err) {
+    // =========================
+    // SAVE TO FIRESTORE
+    // =========================
 
-    alert("IMAGE ERROR:\n\n" + err.message);
-    return;
-}
-selectedImages = [];
+    try {
 
+        await setDoc(reviewRef, data, { merge: true });
 
+        alert("FIRESTORE WRITE SUCCESSFUL!");
 
+        alert("Thank you for your review!");
 
+        window.location.href =
+            "https://www.sfhmultistore.online";
 
+    } catch (err) {
 
-    stars.forEach((star, index) => {
+        alert(
+            "FIRESTORE ERROR:\n\n" +
+            err.message
+        );
 
-        star.textContent =
-            index < rating ? "★" : "☆";
-
-    });
-alert(
-    "DATA BEING SAVED TO FIRESTORE:\n\n" +
-    JSON.stringify(data, null, 2)
-);
-
-try {
-
-    await setDoc(reviewRef, data, { merge: true });
-
-    alert("Firestore save successful!");
-
-    alert("Thank you for your review!");
-
-    window.location.href =
-        "https://www.sfhmultistore.online";
-
-} catch (err) {
-
-    alert("FIRESTORE ERROR:\n\n" + err.message);
-
-    btn.disabled = false;
-    btn.textContent = "Submit Review";
+        btn.disabled = false;
+        btn.textContent = "Submit Review";
     }
-
-let displayName =
-    anonymous
-    ? hideName(customerName)
-    : customerName;
-
-
-const data = {
-    invoice: invoiceNumber,
-    productId: productId,
-    reviewerName: order.name,
-    displayName,
-    anonymous,
-    rating,
-    review: reviewText,
-    images
-};
-
-if (!reviewSnap.exists()) {
-    data.createdAt = Date.now();
-
-}
-try{
-    alert("FIRESTORE WRITE SUCCESSFUL");
-await setDoc(reviewRef, data, { merge: true });
-    alert("Thank you for your review!");
-
-    window.location.href =
-        "https://www.sfhmultistore.online";
-}
-catch(err){
-    btn.disabled = false;
-    btn.textContent = "Submit Review";
-    alert(err.message);
 }
 
-}
+
+
 
 
  window.customerName = customerName;

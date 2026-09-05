@@ -594,41 +594,30 @@ try {
 
     for (const file of selectedImages) {
 
-        alert("Uploading: " + file.name);
-
         const imageRef = ref(
             storage,
             `reviewImages/${invoiceNumber}/${Date.now()}_${file.name}`
         );
 
-        await uploadBytes(imageRef, file);
-
-        alert("Upload successful!\nPath: " + imageRef.fullPath);
-
         const url = await getDownloadURL(imageRef);
 
-        alert("URL generated:\n" + url);
+        alert("Uploading:\n" + url);
 
         images.push({
             url: url,
             path: imageRef.fullPath
         });
-
     }
 
     alert(
-        "FINAL IMAGES ARRAY:\n\n" +
+        "Images array BEFORE FIRESTORE:\n\n" +
         JSON.stringify(images, null, 2)
     );
 
 } catch (err) {
-
-    alert("IMAGE UPLOAD ERROR:\n\n" + err.message);
-
-    btn.disabled = false;
-    btn.textContent = "Submit Review";
+    alert("IMAGE ERROR:\n\n" + err.message);
     return;
-    }
+}
 selectedImages = [];
 
 

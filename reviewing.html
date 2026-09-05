@@ -594,10 +594,13 @@ async function submitReview() {
 
         for (const file of selectedImages) {
 
-            const imageRef = ref(
-                storage,
-                `reviewImages/${invoiceNumber}/${Date.now()}_${file.name}`
-            );
+            const uniqueId =
+    Date.now() + "_" + Math.random().toString(36).substring(2, 10);
+
+const imageRef = ref(
+    storage,
+    `reviewImages/${invoiceNumber}/${uniqueId}_${file.name}`
+);
 
             await uploadBytes(imageRef, file);
 

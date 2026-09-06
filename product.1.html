@@ -290,35 +290,63 @@ td{
   padding:12px;
   border-bottom:2px solid #334155;
 }
-/* MOBILE */
+  
 @media(max-width:768px){
-.gallery img{
-width:220px;
-height:220px;
-}
-.title{
-font-size:28px;
-}
-  .logo{
-   font-size: 15px;
-}
-.hero-content h1{
-font-size:46px;
-}
 
-.section-title{
-font-size:38px;
-}
+    .gallery{
+        display:flex;
+        flex-wrap:nowrap;
+        gap:5px;
+        padding:5px 0;
+        overflow-x:auto;
+        width:100%;
+    }
 
-nav ul{
-display:flex;
-font-size: 0px;
-gap: 10px;
-}
+    .zoom-container{
+        flex:0 0 calc(33.333% - 4px);
+        width:calc(33.333% - 4px);
+        min-width:0;
+    }
 
-nav a{
-    font-size: 10px;
-}
+    .productImage{
+        width:100%;
+        height:auto;
+        aspect-ratio:1 / 1;
+        object-fit:cover;
+        border-radius:10px;
+        cursor:pointer;
+    }
+
+    /* Completely disable the desktop zoom box on phones */
+    .zoomResult{
+        display:none !important;
+    }
+
+    .title{
+        font-size:28px;
+    }
+
+    .logo{
+        font-size:15px;
+    }
+
+    nav ul{
+        display:flex;
+        font-size:0;
+        gap:10px;
+    }
+
+    nav a{
+        font-size:10px;
+    }
+
+    /* Tap image to enlarge */
+    .productImage.expanded{
+        transform:scale(1.4);
+        position:relative;
+        z-index:100;
+        transition:transform:0.25s ease;
+    }
 }
 
 .cart-btn{
@@ -503,42 +531,54 @@ let variant2 = {
   stock: 1
 };
 
-
-
 document.querySelectorAll(".zoom-container").forEach(container => {
 
-  let img = container.querySelector(".productImage");
-  let zoom = container.querySelector(".zoomResult");
+    let img = container.querySelector(".productImage");
+    let zoom = container.querySelector(".zoomResult");
 
-  img.addEventListener("mousemove", function(e) {
+    /* DESKTOP ONLY */
+    if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
 
-    zoom.style.display = "block";
+        img.addEventListener("mousemove", function(e) {
 
-    let rect = img.getBoundingClientRect();
+            zoom.style.display = "block";
 
-    let x = e.clientX - rect.left;
-    let y = e.clientY - rect.top;
+            let rect = img.getBoundingClientRect();
 
-    let xPercent = (x / rect.width) * 100;
-    let yPercent = (y / rect.height) * 100;
+            let x = e.clientX - rect.left;
+            let y = e.clientY - rect.top;
 
-    zoom.style.backgroundImage = `url(${img.src})`;
+            let xPercent = (x / rect.width) * 100;
+            let yPercent = (y / rect.height) * 100;
 
-    let zoomLevel = 3;
+            zoom.style.backgroundImage = `url(${img.src})`;
 
-    zoom.style.backgroundSize =
-      `${rect.width * zoomLevel}px ${rect.height * zoomLevel}px`;
+            let zoomLevel = 3;
 
-    zoom.style.backgroundPosition =
-      `${xPercent}% ${yPercent}%`;
+            zoom.style.backgroundSize =
+                `${rect.width * zoomLevel}px ${rect.height * zoomLevel}px`;
 
-  });
+            zoom.style.backgroundPosition =
+                `${xPercent}% ${yPercent}%`;
+        });
 
-  img.addEventListener("mouseleave", function() {
-    zoom.style.display = "none";
-  });
+        img.addEventListener("mouseleave", function() {
+            zoom.style.display = "none";
+        });
+    }
+
+    /* PHONE / TOUCH ONLY */
+    if (window.matchMedia("(hover: none) and (pointer: coarse)").matches) {
+
+        img.addEventListener("click", function() {
+
+            this.classList.toggle("expanded");
+
+        });
+    }
 
 });
+
 
 </script>
 <div id="cartBox" style="

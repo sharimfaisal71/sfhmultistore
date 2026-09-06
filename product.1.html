@@ -575,19 +575,18 @@ document.querySelectorAll(".zoom-container").forEach(container => {
             `${xPercent}% ${yPercent}%`;
     });
 
+    // Don't hide it when mouse leaves
     img.addEventListener("mouseleave", function() {
-        zoom.style.display = "none";
+        zoom.style.display = "block";
     });
 
-    // Click image to keep its zoom underneath
+    // Clicking another image changes the zoom
     img.addEventListener("click", function() {
 
-        // Hide every other zoom
         document.querySelectorAll(".zoomResult").forEach(z => {
             z.style.display = "none";
         });
 
-        // Show this image's zoom
         zoom.style.display = "block";
         zoom.style.backgroundImage = `url("${img.src}")`;
         zoom.style.backgroundSize = "contain";

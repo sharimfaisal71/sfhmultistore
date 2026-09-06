@@ -290,7 +290,23 @@ td{
   padding:12px;
   border-bottom:2px solid #334155;
 }
-  
+  .zoomResult{
+    display:none;
+    width:100%;
+    max-width:500px;
+    height:500px;
+    margin:15px auto 0;
+    background-repeat:no-repeat;
+    background-size:contain;
+    background-position:center;
+    border:1px solid #ddd;
+    border-radius:10px;
+    background-color:white;
+}
+
+.zoom-container{
+    position:relative;
+}
 @media(max-width:768px){
 
     .gallery{
@@ -533,49 +549,50 @@ let variant2 = {
 
 document.querySelectorAll(".zoom-container").forEach(container => {
 
-    let img = container.querySelector(".productImage");
-    let zoom = container.querySelector(".zoomResult");
+    const img = container.querySelector(".productImage");
+    const zoom = container.querySelector(".zoomResult");
 
-    /* DESKTOP ONLY */
-    if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
+    img.addEventListener("mousemove", function(e) {
 
-        img.addEventListener("mousemove", function(e) {
+        zoom.style.display = "block";
 
-            zoom.style.display = "block";
+        const rect = img.getBoundingClientRect();
 
-            let rect = img.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
 
-            let x = e.clientX - rect.left;
-            let y = e.clientY - rect.top;
+        const xPercent = (x / rect.width) * 100;
+        const yPercent = (y / rect.height) * 100;
 
-            let xPercent = (x / rect.width) * 100;
-            let yPercent = (y / rect.height) * 100;
+        zoom.style.backgroundImage = `url("${img.src}")`;
 
-            zoom.style.backgroundImage = `url(${img.src})`;
+        const zoomLevel = 3;
 
-            let zoomLevel = 3;
+        zoom.style.backgroundSize =
+            `${rect.width * zoomLevel}px ${rect.height * zoomLevel}px`;
 
-            zoom.style.backgroundSize =
-                `${rect.width * zoomLevel}px ${rect.height * zoomLevel}px`;
+        zoom.style.backgroundPosition =
+            `${xPercent}% ${yPercent}%`;
+    });
 
-            zoom.style.backgroundPosition =
-                `${xPercent}% ${yPercent}%`;
+    img.addEventListener("mouseleave", function() {
+        zoom.style.display = "none";
+    });
+
+    // Click image to keep its zoom underneath
+    img.addEventListener("click", function() {
+
+        // Hide every other zoom
+        document.querySelectorAll(".zoomResult").forEach(z => {
+            z.style.display = "none";
         });
 
-        img.addEventListener("mouseleave", function() {
-            zoom.style.display = "none";
-        });
-    }
-
-    /* PHONE / TOUCH ONLY */
-    if (window.matchMedia("(hover: none) and (pointer: coarse)").matches) {
-
-        img.addEventListener("click", function() {
-
-            this.classList.toggle("expanded");
-
-        });
-    }
+        // Show this image's zoom
+        zoom.style.display = "block";
+        zoom.style.backgroundImage = `url("${img.src}")`;
+        zoom.style.backgroundSize = "contain";
+        zoom.style.backgroundPosition = "center";
+    });
 
 });
 

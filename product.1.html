@@ -290,23 +290,22 @@ td{
   padding:12px;
   border-bottom:2px solid #334155;
 }
-  .zoomResult{
-    display:none;
-    width:100%;
-    max-width:500px;
-    height:500px;
-    margin:15px auto 0;
-    background-repeat:no-repeat;
-    background-size:contain;
-    background-position:center;
-    border:1px solid #ddd;
-    border-radius:10px;
-    background-color:white;
+.zoomResult {
+    display: none;
+    width: 100%;
+    max-width: 500px;
+    height: 500px;
+    margin: 15px auto;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    overflow: hidden;
 }
 
-.zoom-container{
-    position:relative;
-}
+
+
 @media(max-width:768px){
 
     .gallery{
@@ -548,52 +547,23 @@ let variant2 = {
 };
 
 document.querySelectorAll(".zoom-container").forEach(container => {
+.zoomResult {
+    display: none;
+    width: 100%;
+    max-width: 500px;
+    height: 500px;
+    margin: 15px auto;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    overflow: hidden;
+}
 
-    const img = container.querySelector(".productImage");
-    const zoom = container.querySelector(".zoomResult");
-
-    img.addEventListener("mousemove", function(e) {
-
-        zoom.style.display = "block";
-
-        const rect = img.getBoundingClientRect();
-
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-
-        const xPercent = (x / rect.width) * 100;
-        const yPercent = (y / rect.height) * 100;
-
-        zoom.style.backgroundImage = `url("${img.src}")`;
-
-        const zoomLevel = 3;
-
-        zoom.style.backgroundSize =
-            `${rect.width * zoomLevel}px ${rect.height * zoomLevel}px`;
-
-        zoom.style.backgroundPosition =
-            `${xPercent}% ${yPercent}%`;
-    });
-
-    // Don't hide it when mouse leaves
-    img.addEventListener("mouseleave", function() {
-        zoom.style.display = "block";
-    });
-
-    // Clicking another image changes the zoom
-    img.addEventListener("click", function() {
-
-        document.querySelectorAll(".zoomResult").forEach(z => {
-            z.style.display = "none";
-        });
-
-        zoom.style.display = "block";
-        zoom.style.backgroundImage = `url("${img.src}")`;
-        zoom.style.backgroundSize = "contain";
-        zoom.style.backgroundPosition = "center";
-    });
-
-});
+.zoom-container {
+    position: relative;
+  }
 
 
 </script>

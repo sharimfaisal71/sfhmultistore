@@ -255,15 +255,17 @@ radial-gradient(circle at bottom right,#FF5A09 0%,transparent 30%),
 
 @media(max-width:768px){
 @media(max-width:768px){
+@media(max-width:768px){
 
+    /* Products grid: 2 per row */
     .products{
-        padding:100px 5px 40px;
+        padding:100px 8px 40px;
     }
 
     .product-grid{
         display:grid;
-        grid-template-columns:repeat(3, minmax(0, 1fr));
-        gap:6px;
+        grid-template-columns:repeat(2, minmax(0, 1fr));
+        gap:16px 12px;
         width:100%;
     }
 
@@ -280,39 +282,58 @@ radial-gradient(circle at bottom right,#FF5A09 0%,transparent 30%),
     }
 
     .card-content{
-        padding:7px;
+        padding:9px;
     }
 
     .card-content h3{
-        font-size:10px;
-        line-height:1.3;
-        margin-bottom:5px;
-    }
-
-    .card-content p{
-        font-size:7px;
-        line-height:1.35;
-        margin-bottom:7px;
-    }
-
-    .tag{
-        font-size:6px;
-        padding:3px 4px;
-        margin-bottom:5px;
-    }
-
-    .price{
-        font-size:8px;
+        font-size:12px;
         line-height:1.3;
         margin-bottom:6px;
     }
 
-    .card .btn{
-        font-size:8px;
-        padding:6px 8px;
+    .card-content p{
+        font-size:9px;
+        line-height:1.35;
+        margin-bottom:8px;
     }
-}
 
+    .tag{
+        font-size:7px;
+        padding:3px 5px;
+        margin-bottom:6px;
+    }
+
+    .price{
+        font-size:10px;
+        line-height:1.3;
+        margin-bottom:7px;
+    }
+
+    .card .btn{
+        font-size:9px;
+        padding:7px 9px;
+    }
+
+
+    /* Fix mobile navigation overflow */
+    nav ul{
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        gap:6px;
+        padding:0;
+        margin:0;
+        width:100%;
+        overflow:hidden;
+    }
+
+    nav li{
+        flex-shrink:1;
+        min-width:0;
+    }
+
+    nav a{
+       
 .cart-btn{
 display:inline-block;
 margin-top:10px;

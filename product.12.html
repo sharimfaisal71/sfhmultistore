@@ -1009,19 +1009,23 @@ window.productId = productId;
 const q = query(
     collection(db, "reviews"),
     where("productId", "==", productId),
-    orderBy("rating", "desc"),
     orderBy("createdAt", "desc"),
     limit(4)
 );
+const allReviewsQuery = query(
+    collection(db, "reviews"),
+    where("productId", "==", productId)
+);
 
-const snapshot = await getDocs(q);
-let reviewsHTML = "";
-if (snapshot.size > 4) {
+const allSnapshot = await getDocs(allReviewsQuery);
+const reviewCount = allSnapshot.size;
+
+if (reviewCount > 4) {
     document.querySelector(".viewAllBtn").style.display = "inline-block";
 } else {
     document.querySelector(".viewAllBtn").style.display = "none";
-}
-if(snapshot.size === 0){
+    }
+if(reviewCount === 0){
 
     document.getElementById("reviewsContainer").innerHTML = reviewsHTML;
 
@@ -1068,19 +1072,18 @@ snapshot.forEach(doc => {
 });
 
 document.getElementById("reviewsContainer").innerHTML = reviewsHTML;
-let total = 0;
 
-snapshot.forEach(doc => {
-    total += doc.data().rating;
+let totalRating = 0;
+
+allSnapshot.forEach(doc => {
+    totalRating += Number(doc.data().rating);
 });
 
-let average = 0;
+const average = reviewCount > 0
+    ? (totalRating / reviewCount).toFixed(1)
+    : "0.0";
 
-if (snapshot.size > 0) {
-    average = total / snapshot.size;
-}
 
-average = average.toFixed(1);
 
 let starsHTML = "";
 
@@ -1099,7 +1102,7 @@ for (let i = 1; i <= 5; i++) {
 }
 document.getElementById("stars").textContent = starsHTML;
 document.getElementById("averageRating").textContent =
-`${average}/5 (${snapshot.size} reviews)`;
+`${average}/5 (${allSnapshot.size} reviews)`;
 }
 
 document.body.style.pointerEvents = "auto";

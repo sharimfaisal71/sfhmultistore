@@ -1029,7 +1029,18 @@ alert("5 - Documents found: " + allSnapshot.size);
 allSnapshot.forEach(doc => {
     alert("Product ID: " + doc.data().productId);
 });
+const expected = "Cosee Interdental Flossticks";
 
+allSnapshot.forEach(doc => {
+    const id = doc.data().productId;
+
+    alert(
+        "[" + id + "]\n" +
+        "Exact match: " + (id === expected) + "\n" +
+        "Stored length: " + id.length + "\n" +
+        "Expected length: " + expected.length
+    );
+});
             </script>
 </body>
 </html>

@@ -1028,19 +1028,23 @@ try {
         limit(4)
     );
 
-    const snapshot = await getDocs(q);
+    const allReviewsQuery = query(
+        collection(db, "reviews"),
+        where("productId", "==", productId)
+    );
+const snapshot = await getDocs(q);
+alert("q results: " + snapshot.size);
 
+const allSnapshot = await getDocs(allReviewsQuery);
+alert("all results: " + allSnapshot.size);
 
     /* =========================
        ALL REVIEWS
     ========================= */
 
-    const allReviewsQuery = query(
-        collection(db, "reviews"),
-        where("productId", "==", productId)
-    );
+    
 
-    const allSnapshot = await getDocs(allReviewsQuery);
+    
 
     const reviewCount = allSnapshot.size;
 

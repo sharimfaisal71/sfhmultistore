@@ -1016,10 +1016,10 @@ const allReviewsQuery = query(
     collection(db, "reviews"),
     where("productId", "==", productId)
 );
-
+const snapshot = await getDocs(q);
 const allSnapshot = await getDocs(allReviewsQuery);
 const reviewCount = allSnapshot.size;
-
+let reviewsHTML = "";
 if (reviewCount > 4) {
     document.querySelector(".viewAllBtn").style.display = "inline-block";
 } else {
@@ -1102,7 +1102,7 @@ for (let i = 1; i <= 5; i++) {
 }
 document.getElementById("stars").textContent = starsHTML;
 document.getElementById("averageRating").textContent =
-`${average}/5 (${allSnapshot.size} reviews)`;
+`${average}/5 (${reviewCount} reviews)`;
 }
 
 document.body.style.pointerEvents = "auto";

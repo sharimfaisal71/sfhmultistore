@@ -1004,13 +1004,14 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-const productId = "WardaBeauty Lip Gloss"; // Current product
+const productId = "Cosee Interdental Flossticks"; // Current product
 window.productId = productId;
 const q = query(
     collection(db, "reviews"),
     where("productId", "==", productId),
     orderBy("rating", "desc"),
     orderBy("createdAt", "desc"),
+    limit(5)
 );
 
 const snapshot = await getDocs(q);

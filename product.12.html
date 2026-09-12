@@ -1033,8 +1033,6 @@ const allReviewsQuery = query(
     collection(db, "reviews"),
     where("productId", "==", "Cosee Interdental Flossticks")
 );
-
-const snapshot = await getDocs(q);
 const allSnapshot = await getDocs(allReviewsQuery);
 
 

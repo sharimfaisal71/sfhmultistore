@@ -251,11 +251,10 @@ const params = new URLSearchParams(window.location.search);
 const productId = params.get("prid");
 const q = query(
     collection(db, "reviews"),
-    where("productId", "==", productId),
-    orderBy("rating", "desc"),
-    orderBy("createdAt", "desc"),
-    limit(4)
+    where("productId", "==", productId)
 );
+
+const snapshot = await getDocs(q);
 
 const snapshot = await getDocs(q);
 

@@ -1016,9 +1016,17 @@ alert("3 - Firebase initialized");
 
 const db = getFirestore(app);
 
+const allSnapshot = await getDocs(allReviewsQuery);
+
+alert("Filtered results: " + allSnapshot.size);
 const allReviewsQuery = query(
-    collection(db, "reviews")
+    collection(db, "reviews"),
+    where("productId", "==", "Cosee Interdental Flossticks")
 );
+
+const allSnapshot = await getDocs(allReviewsQuery);
+
+alert("Filtered results: " + allSnapshot.size);
 
 alert("4 - Query created");
 

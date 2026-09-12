@@ -1030,7 +1030,7 @@ try {
 
     const allReviewsQuery = query(
         collection(db, "reviews"),
-        where("productId", "==", productId)
+        
     );
 const snapshot = await getDocs(q);
 alert("q results: " + snapshot.size);

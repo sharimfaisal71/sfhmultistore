@@ -980,14 +980,9 @@ window.onload = function () {
 
 
 </script>
-                    
-            <script type="module">
-
-alert("1 - Firebase script started");
-
+<script type="module">
 import { initializeApp }
 from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
-
 import {
     collection,
     query,
@@ -997,56 +992,117 @@ import {
     limit,
     getFirestore
 } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
-
-alert("2 - Firebase modules loaded");
-
 const firebaseConfig = {
-  apiKey: "AIzaSyAIvnb6gO0HwwtNUyK69hXcs5_9Tvoq5io",
+  apiKey: "AIzaSyAIvnb6gO0HwwtNUeK69hXcs5_9Tvoq5io",
   authDomain: "sfh-multistore.firebaseapp.com",
   projectId: "sfh-multistore",
   storageBucket: "sfh-multistore.firebasestorage.app",
   messagingSenderId: "645514728433",
   appId: "1:645514728433:web:aefe52d615b1374302aa50",
   measurementId: "G-E8W2LKR9G3"
-};
-
+  };
 const app = initializeApp(firebaseConfig);
-
-alert("3 - Firebase initialized");
-
 const db = getFirestore(app);
 
-const testQuery = query(
+const productId = "WardaBeauty Lip Gloss"; // Current product
+window.productId = productId;
+const q = query(
     collection(db, "reviews"),
-    where("productId", "==", "Cosee Interdental Flossticks"),
-    orderBy("createdAt", "desc")
+    where("productId", "==", productId),
+    orderBy("rating", "desc"),
+    orderBy("createdAt", "desc"),
 );
 
-alert("Query created");
+const snapshot = await getDocs(q);
+let reviewsHTML = "";
+if (snapshot.size > 4) {
+    document.querySelector(".viewAllBtn").style.display = "inline-block";
+} else {
+    document.querySelector(".viewAllBtn").style.display = "none";
+}
+if(snapshot.size === 0){
 
-const testSnapshot = await getDocs(testQuery);
-
-alert("Query results: " + testSnapshot.size);
-
-
-const allReviewsQuery = query(
-    collection(db, "reviews"),
-    where("productId", "==", "Cosee Interdental Flossticks")
-);
-const allSnapshot = await getDocs(allReviewsQuery);
+    document.getElementById("reviewsContainer").innerHTML = reviewsHTML;
 
 
-alert("Filtered results: " + allSnapshot.size);
 
-alert("4 - Query created");
+} else {
+    document.querySelector(".reviews h3").remove();
+snapshot.forEach(doc => {
 
+    const review = doc.data();
 
-alert("5 - Documents found: " + allSnapshot.size + snapshot.size);
+    let stars = "";
 
-allSnapshot.forEach(doc => {
-    alert("Product ID: " + doc.data().productId);
+    for (let i = 1; i <= 5; i++) {
+        stars += i <= review.rating ? "★" : "☆";
+    }
+
+    reviewsHTML += `
+<div style="border: 1px solid #ddd;
+
+  padding: 15px;
+
+  background:rgba(255,255,255,0.05);
+  
+  margin-top: 10px;
+
+  margin-bottom: 10px;
+
+  border-radius: 8px;">
+            <h3 class="reviewname">
+                ${review.displayName}  (✔️ Verified Purchase)|      <b style="color:gold;font-size:20px;">
+                ${stars}</b>
+            </h3>
+
+           
+
+            <p style=" white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.6;">${review.review}</p>
+        </div>
+    `;
+
 });
 
-            </script>
+document.getElementById("reviewsContainer").innerHTML = reviewsHTML;
+let total = 0;
+
+snapshot.forEach(doc => {
+    total += doc.data().rating;
+});
+
+let average = 0;
+if (snapshot.size > 0) {
+    average = total / snapshot.size;
+}
+
+average = average.toFixed(1);
+
+let starsHTML = "";
+
+for (let i = 1; i <= 5; i++) {
+
+    if (average >= i - 0.5) {
+
+        starsHTML += "★";
+
+    } else {
+
+        starsHTML += "☆";
+
+    }
+
+}
+document.getElementById("stars").textContent = starsHTML;
+document.getElementById("averageRating").textContent =
+`${average}/5 (${snapshot.size} reviews)`;
+}
+
+document.body.style.pointerEvents = "auto";
+document.body.style.opacity = "1";
+
+</script>
 </body>
 </html>

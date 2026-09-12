@@ -980,7 +980,10 @@ window.onload = function () {
 
 
 </script>
-<script type="module">
+                    
+            <script type="module">
+
+alert("1 - Firebase script started");
 
 import { initializeApp }
 from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
@@ -995,6 +998,7 @@ import {
     getFirestore
 } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
+alert("2 - Firebase modules loaded");
 
 const firebaseConfig = {
   apiKey: "AIzaSyAIvnb6gO0HwwtNUyK69hXcs5_9Tvoq5io",
@@ -1006,222 +1010,26 @@ const firebaseConfig = {
   measurementId: "G-E8W2LKR9G3"
 };
 
+const app = initializeApp(firebaseConfig);
 
-try {
+alert("3 - Firebase initialized");
 
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
+const db = getFirestore(app);
 
-    const productId = "Cosee Interdental Flossticks";
+const allReviewsQuery = query(
+    collection(db, "reviews")
+);
 
-    window.productId = productId;
-
-
-    /* =========================
-       LATEST 4 REVIEWS
-    ========================= */
-
-    const q = query(
-        collection(db, "reviews"),
-        where("productId", "==", productId),
-        orderBy("createdAt", "desc"),
-        limit(4)
-    );
-
-    const allReviewsQuery = query(
-        collection(db, "reviews"),
-        
-    );
-const snapshot = await getDocs(q);
-alert("q results: " + snapshot.size);
+alert("4 - Query created");
 
 const allSnapshot = await getDocs(allReviewsQuery);
-alert("all results: " + allSnapshot.size);
 
-    /* =========================
-       ALL REVIEWS
-    ========================= */
+alert("5 - Documents found: " + allSnapshot.size);
 
-    
+allSnapshot.forEach(doc => {
+    alert("Product ID: " + doc.data().productId);
+});
 
-    
-
-    const reviewCount = allSnapshot.size;
-
-
-    /* =========================
-       VIEW ALL BUTTON
-    ========================= */
-
-    const viewAllBtn = document.querySelector(".viewAllBtn");
-
-    if (reviewCount > 4) {
-
-        viewAllBtn.style.display = "inline-block";
-
-    } else {
-
-        viewAllBtn.style.display = "none";
-
-    }
-
-
-    /* =========================
-       DISPLAY REVIEWS
-    ========================= */
-
-    let reviewsHTML = "";
-
-    const noReviews = document.querySelector(".reviews h3");
-
-
-    if (reviewCount === 0) {
-
-        document.getElementById("reviewsContainer").innerHTML = "";
-
-        if (noReviews) {
-            noReviews.style.display = "block";
-        }
-
-    } else {
-
-        if (noReviews) {
-            noReviews.remove();
-        }
-
-
-        snapshot.forEach(doc => {
-
-            const review = doc.data();
-
-            let stars = "";
-
-            for (let i = 1; i <= 5; i++) {
-
-                stars +=
-                    i <= Number(review.rating)
-                    ? "★"
-                    : "☆";
-
-            }
-
-
-            reviewsHTML += `
-
-            <div style="
-                border:1px solid #ddd;
-                padding:15px;
-                background:rgba(255,255,255,0.05);
-                margin-top:10px;
-                margin-bottom:10px;
-                border-radius:8px;
-            ">
-
-                <h3 class="reviewname">
-
-                    ${review.displayName}
-
-                    (✔️ Verified Purchase)
-
-                    <b style="
-                        color:gold;
-                        font-size:20px;
-                    ">
-                        ${stars}
-                    </b>
-
-                </h3>
-
-
-                <p style="
-                    white-space:pre-wrap;
-                    word-wrap:break-word;
-                    overflow-wrap:break-word;
-                    line-height:1.6;
-                ">
-                    ${review.review}
-                </p>
-
-            </div>
-
-            `;
-
-        });
-
-
-        document.getElementById("reviewsContainer").innerHTML =
-            reviewsHTML;
-
-    }
-
-
-    /* =========================
-       AVERAGE RATING
-    ========================= */
-
-    let totalRating = 0;
-
-
-    allSnapshot.forEach(doc => {
-
-        totalRating += Number(doc.data().rating);
-
-    });
-
-
-    const average = reviewCount > 0
-        ? (totalRating / reviewCount).toFixed(1)
-        : "0.0";
-
-
-    /* =========================
-       RATING STARS
-    ========================= */
-
-    let starsHTML = "";
-
-    for (let i = 1; i <= 5; i++) {
-
-        if (Number(average) >= i - 0.5) {
-
-            starsHTML += "★";
-
-        } else {
-
-            starsHTML += "☆";
-
-        }
-
-    }
-
-
-    document.getElementById("stars").textContent =
-        starsHTML;
-
-
-    document.getElementById("averageRating").textContent =
-        `${average}/5 (${reviewCount} reviews)`;
-
-
-    console.log("Reviews loaded successfully.");
-    console.log("Total reviews:", reviewCount);
-
-
-}
-catch (error) {
-
-    console.error("Firebase review error:", error);
-
-}
-finally {
-
-    /* ALWAYS ENABLE PAGE */
-
-    document.body.style.pointerEvents = "auto";
-    document.body.style.opacity = "1";
-
-}
-
-    </script>
+            </script>
 </body>
 </html>

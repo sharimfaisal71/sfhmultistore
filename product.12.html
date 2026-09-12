@@ -1016,7 +1016,6 @@ alert("3 - Firebase initialized");
 
 const db = getFirestore(app);
 
-const allSnapshot = await getDocs(allReviewsQuery);
 
 
 const allReviewsQuery = query(
@@ -1030,7 +1029,6 @@ alert("Filtered results: " + allSnapshot.size);
 
 alert("4 - Query created");
 
-const allSnapshot = await getDocs(allReviewsQuery);
 
 alert("5 - Documents found: " + allSnapshot.size);
 

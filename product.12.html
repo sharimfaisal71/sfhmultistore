@@ -1016,21 +1016,28 @@ alert("3 - Firebase initialized");
 
 const db = getFirestore(app);
 
-
+const q = query(
+    collection(db, "reviews"),
+    where("productId", "==", "Cosee Interdental Flossticks"),
+    orderBy("createdAt", "desc"),
+    limit(4)
+);
 
 const allReviewsQuery = query(
     collection(db, "reviews"),
     where("productId", "==", "Cosee Interdental Flossticks")
 );
 
+const snapshot = await getDocs(q);
 const allSnapshot = await getDocs(allReviewsQuery);
+
 
 alert("Filtered results: " + allSnapshot.size);
 
 alert("4 - Query created");
 
 
-alert("5 - Documents found: " + allSnapshot.size);
+alert("5 - Documents found: " + allSnapshot.size + snapshot.size);
 
 allSnapshot.forEach(doc => {
     alert("Product ID: " + doc.data().productId);

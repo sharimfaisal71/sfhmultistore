@@ -31,12 +31,41 @@ font-family: 'Poppins',sans-serif;
 }
 
 .review{
-
     border:2px solid white;
     background:rgba(255,255,255,0.05);
     border-radius:10px;
     padding:20px;
     margin-bottom:20px;
+    overflow:hidden;
+
+}
+
+
+.review h3{
+    margin:0;
+}
+
+.stars{
+    color:yellow;
+    margin:5px 0 0;
+}
+
+.reviewDate{
+    margin:0;
+    white-space:nowrap;
+    flex-shrink:0;
+}
+
+@media (max-width:600px){
+
+    .review{
+        flex-direction:column;
+        gap:5px;
+    }
+
+    .reviewDate{
+        white-space:normal;
+    }
 
 }
 .variant{
@@ -445,34 +474,21 @@ function displayReviews(list) {
 
             <div class="review">
 
-                <h3>
-                    ${review.displayName || "Anonymous"}
-                    | (✔️ Verified Purchase) <h2 style="color:yellow;">${stars}</h2>
-                </h3>
+    <div>
+        <h3>
+            ${review.displayName || "Anonymous"}
+            | (✔️ Verified Purchase)
+        </h3>
 
-                <h4 style="float:right;">
-                    ${formattedDate}
-                </h4>
+        <h2 class="stars">${stars}</h2>
+    </div>
 
+    <h4 class="reviewDate" style="float:right;">
+        ${formattedDate}
+    </h4>
+ <p>${review.review || ""}</p>
 
-                ${
-                    variantHTML
-                    ? `<div class="variant">
-                        Variant Bought: ${variantHTML}
-                      </div>`
-                    : ""
-                }
-
-
-  
-
-
-                <p>
-                    ${review.review || ""}
-                </p>
-
-
-            </div>
+</div>
 
         `;
 

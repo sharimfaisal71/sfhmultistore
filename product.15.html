@@ -907,7 +907,13 @@ function updateStockWarnings() {
 
     if (!variant) return;
 
-    if (variant.stock > 0 && variant.stock <= 5) {
+    if (variant.stock === 0) {
+
+      warning.style.display = "block";
+      warning.style.color = "#ef4444";
+      warning.textContent = "Sorry, this product is out of stock!";
+
+    } else if (variant.stock > 0 && variant.stock <= 5) {
 
       warning.style.display = "block";
       warning.textContent = variant.stock + " Left - Hurry Up!";

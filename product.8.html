@@ -436,7 +436,7 @@ Whether you're looking for a stylish everyday purse or a chic statement accessor
 <div class="variant">
 <h1>Black - Rs. 949.00</h1>
 <h2><s>Rs. 1999.00</s> 53% OFF!</h2>
-<b>1 Left- Hurry Up!</b>
+<b class="stockWarning" data-variant="variant11"></b>
 </div>
 <div class="button">
 <button class="btn-primary" onclick="addToCart(variant11)">
@@ -750,7 +750,38 @@ function getTotal() {
 
 }
 
+const variants = {
+variant11
+};
 
+function updateStockWarnings() {
+
+  document.querySelectorAll(".stockWarning").forEach(warning => {
+
+    let variant = variants[warning.dataset.variant];
+
+    if (!variant) return;
+
+    if (variant.stock === 0) {
+
+      warning.style.display = "block";
+      warning.style.color = "#ef4444";
+      warning.textContent = "Sorry, this product is out of stock!";
+
+    } else if (variant.stock > 0 && variant.stock <= 5) {
+
+      warning.style.display = "block";
+      warning.textContent = variant.stock + " Left - Hurry Up!";
+
+    } else {
+
+      warning.style.display = "none";
+
+    }
+
+  });
+
+}
 
 function renderTotal() {
 
@@ -884,6 +915,7 @@ function goToCheckout() {
 }
 
 window.onload = function () {
+updateStockWarnings();
   renderCart();
   renderTotal();
   checkStock();

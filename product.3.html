@@ -451,7 +451,7 @@ Perfect for bracelet making, beading, craft work, and custom jewellery designs, 
 <div class="variant">
 <h1>0.7 mm - Rs. 160.00</h1>
 <h2><s>Rs. 299.00</s> 46% OFF!</h2>
-<b> 2 Left - Hurry Up!</b>
+<b class="stockWarning" data-variant="variant6"></b>
 </div>
 <div class="button">
 <button class="btn-primary" onclick="addToCart(variant6)">
@@ -462,7 +462,7 @@ Perfect for bracelet making, beading, craft work, and custom jewellery designs, 
 <div class="variant">
 <h1>1.0 mm - Rs. 160.00</h1>
 <h2><s>Rs. 299.00</s> 46% OFF!</h2>
-<b> 3 Left - Hurry Up!</b>
+<b class="stockWarning" data-variant="variant23"></b>
 </div>
 <div class="button">
 <button class="btn-primary" onclick="addToCart(variant23)">
@@ -900,8 +900,41 @@ function goToCheckout() {
 
   window.location.href = "https://www.sfhmultistore.online/checkout";
 }
+const variants = {
+variant6,
+variant23
+};
 
+function updateStockWarnings() {
+
+  document.querySelectorAll(".stockWarning").forEach(warning => {
+
+    let variant = variants[warning.dataset.variant];
+
+    if (!variant) return;
+
+    if (variant.stock === 0) {
+
+      warning.style.display = "block";
+      warning.style.color = "#ef4444";
+      warning.textContent = "Sorry, this product is out of stock!";
+
+    } else if (variant.stock > 0 && variant.stock <= 5) {
+
+      warning.style.display = "block";
+      warning.textContent = variant.stock + " Left - Hurry Up!";
+
+    } else {
+
+      warning.style.display = "none";
+
+    }
+
+  });
+
+}
 window.onload = function () {
+    updateStockWarnings();
   renderCart();
   renderTotal();
   checkStock();

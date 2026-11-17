@@ -434,7 +434,7 @@ Its compact and lightweight design makes it easy to carry and use at home, in th
 <div class="variant">
 <h1>Random Colour - Rs. 279.00</h1>
 <h2><s>Rs. 399.00</s> 30% OFF!</h2>
-<b>Sorry, this product is out of stock!</b>
+<b class="stockWarning" data-variant="variant26"></b>
 </div>
 <div class="button">
 <button class="btn-primary" onclick="addToCart(variant26)">
@@ -768,7 +768,38 @@ box.innerHTML = html;
 totalBox.innerHTML = "Total:    "  + formatPKR(total);
 }
 
+const variants = {
+  variant26
+};
 
+function updateStockWarnings() {
+
+  document.querySelectorAll(".stockWarning").forEach(warning => {
+
+    let variant = variants[warning.dataset.variant];
+
+    if (!variant) return;
+
+    if (variant.stock === 0) {
+
+      warning.style.display = "block";
+      warning.style.color = "#ef4444";
+      warning.textContent = "Sorry, this product is out of stock!";
+
+    } else if (variant.stock > 0 && variant.stock <= 5) {
+
+      warning.style.display = "block";
+      warning.textContent = variant.stock + " Left - Hurry Up!";
+
+    } else {
+
+      warning.style.display = "none";
+
+    }
+
+  });
+
+}
 function checkout() {
 
   let cart = JSON.parse(localStorage.getItem("cart")) || [];

@@ -445,7 +445,7 @@ Compact packaging makes it easy to store and carry anywhere, while the natural b
 <div class="variant">
 <h1>Picks Packet/ Box of 200 - Rs. 134.00</h1>
 <h2><s>Rs. 199.00</s> 33% OFF!</h2>
-<b> 5 Left - Hurry Up!</b>
+<b class="stockWarning" data-variant="variant8"></b>
 </div>
 <div class="button">
 <button class="btn-primary" onclick="addToCart(variant8)">
@@ -759,6 +759,38 @@ function getTotal() {
 
 }
 
+const variants = {
+variant8
+};
+
+function updateStockWarnings() {
+
+  document.querySelectorAll(".stockWarning").forEach(warning => {
+
+    let variant = variants[warning.dataset.variant];
+
+    if (!variant) return;
+
+    if (variant.stock === 0) {
+
+      warning.style.display = "block";
+      warning.style.color = "#ef4444";
+      warning.textContent = "Sorry, this product is out of stock!";
+
+    } else if (variant.stock > 0 && variant.stock <= 5) {
+
+      warning.style.display = "block";
+      warning.textContent = variant.stock + " Left - Hurry Up!";
+
+    } else {
+
+      warning.style.display = "none";
+
+    }
+
+  });
+
+}
 
 
 function renderTotal() {
@@ -893,6 +925,7 @@ function goToCheckout() {
 }
 
 window.onload = function () {
+updateStockWarnings();
   renderCart();
   renderTotal();
   checkStock();

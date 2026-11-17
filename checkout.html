@@ -367,7 +367,16 @@ function checkStock() {
 };
 
 
+function clearCartAfterOrder() {
+  cart = [];
 
+  localStorage.removeItem("cart");
+  localStorage.removeItem("total");
+
+  saveCart();
+  renderCart();
+  updateShipping();
+}
 let now = new Date();
 
 let invoiceNumber =
@@ -492,7 +501,7 @@ let invoices = JSON.parse(localStorage.getItem("myInvoices")) || [];
 if (!invoices.includes(invoiceNumber)) {
     invoices.push(invoiceNumber);
 }
-
+clearCartAfterOrder();
 localStorage.setItem("myInvoices", JSON.stringify(invoices));
   let number = "923291615406";
 window.open(
@@ -635,7 +644,7 @@ let invoices = JSON.parse(localStorage.getItem("myInvoices")) || [];
 if (!invoices.includes(invoiceNumber)) {
     invoices.push(invoiceNumber);
 }
-
+clearCartAfterOrder();
 localStorage.setItem("myInvoices", JSON.stringify(invoices));
   location.href = "https://www.sfhmultistore.online";
 })

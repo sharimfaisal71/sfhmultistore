@@ -435,7 +435,8 @@ This collection includes three flattering shades to suit different moods and mak
 <div class="variant">
 <h1>Shade 1 - Rs. 369.00</h1>
 <h2><s>Rs. 475.00</s> 22% OFF!</h2>
-<b>1 Left - Hurry Up!</b>
+
+<b class="stockWarning" data-variant="variant14"></b>
 </div>
 <div class="button">
 <button class="btn-primary" onclick="addToCart(variant14)">
@@ -446,7 +447,8 @@ This collection includes three flattering shades to suit different moods and mak
 <div class="variant">
 <h1>Shade 2 - Rs. 369.00</h1>
 <h2><s>Rs. 475.00</s> 22% OFF!</h2>
-<b>1 Left - Hurry Up!</b>
+
+<b class="stockWarning" data-variant="variant15"></b>
 </div>
 <div class="button">
 <button class="btn-primary" onclick="addToCart(variant15)">
@@ -457,7 +459,8 @@ This collection includes three flattering shades to suit different moods and mak
 <div class="variant">
 <h1>Shade 3 - Rs. 369.00</h1>
 <h2><s>Rs. 475.00</s> 22% OFF!</h2>
-<b>1 Left - Hurry Up!</b>
+
+<b class="stockWarning" data-variant="variant16"></b>
 </div>
 <div class="button">
 <button class="btn-primary" onclick="addToCart(variant16)">
@@ -790,7 +793,40 @@ function getTotal() {
 
 }
 
+const variants = {
+  variant14,
+  variant15,
+  variant16
+};
 
+function updateStockWarnings() {
+
+  document.querySelectorAll(".stockWarning").forEach(warning => {
+
+    let variant = variants[warning.dataset.variant];
+
+    if (!variant) return;
+
+    if (variant.stock === 0) {
+
+      warning.style.display = "block";
+      warning.style.color = "#ef4444";
+      warning.textContent = "Sorry, this product is out of stock!";
+
+    } else if (variant.stock > 0 && variant.stock <= 5) {
+
+      warning.style.display = "block";
+      warning.textContent = variant.stock + " Left - Hurry Up!";
+
+    } else {
+
+      warning.style.display = "none";
+
+    }
+
+  });
+
+}
 
 function renderTotal() {
 
@@ -924,6 +960,7 @@ function goToCheckout() {
 }
 
 window.onload = function () {
+    updateStockWarnings();
   renderCart();
   renderTotal();
   checkStock();

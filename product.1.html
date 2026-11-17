@@ -442,7 +442,7 @@ Enjoy exciting cricket matches with this high-quality Cricket Tennis Ball, desig
 <div class="variant">
 <h1>Pack of 1 - Rs. 134.00</h1>
 <h2><s>Rs. 249.00</s> 46% OFF!</h2>
-<b> 3 Left - Hurry Up!</b>
+<b class="stockWarning" data-variant="variant1"></b>
 </div>
 <div class="button">
 <button class="btn-primary" onclick="addToCart(variant1)">
@@ -453,7 +453,7 @@ Enjoy exciting cricket matches with this high-quality Cricket Tennis Ball, desig
 <div class="variant">
 <h1>Pack of 3 - Rs. 349.00</h1>
 <h2><s>Rs. 747.00</s> 53% OFF!</h2>
-<b> 1 Left - Hurry Up!</b>
+<b class="stockWarning" data-variant="variant2"></b>
 </div>
 <div class="button">
 <button class="btn-primary" onclick="addToCart(variant2)">
@@ -896,8 +896,44 @@ function goToCheckout() {
 
   window.location.href = "https://www.sfhmultistore.online/checkout";
 }
+const variants = {
+variant1,
+variant2
+};
+
+function updateStockWarnings() {
+
+  document.querySelectorAll(".stockWarning").forEach(warning => {
+
+    let variant = variants[warning.dataset.variant];
+
+    if (!variant) return;
+
+    if (variant.stock === 0) {
+
+      warning.style.display = "block";
+      warning.style.color = "#ef4444";
+      warning.textContent = "Sorry, this product is out of stock!";
+
+    } else if (variant.stock > 0 && variant.stock <= 5) {
+
+      warning.style.display = "block";
+      warning.textContent = variant.stock + " Left - Hurry Up!";
+
+    } else {
+
+      warning.style.display = "none";
+
+    }
+
+  });
+
+}
+
+
 
 window.onload = function () {
+  updateStockWarnings();
   renderCart();
   renderTotal();
   checkStock();

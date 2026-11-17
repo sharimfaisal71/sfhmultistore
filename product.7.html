@@ -438,7 +438,7 @@ The compact, lightweight packet easily fits into your pocket, handbag, backpack,
 <div class="variant">
 <h1>70-100 Eco-Friendly Toothpicks Pack - Rs. 89.00</h1>
 <h2><s>Rs. 145.00</s> 38% OFF!</h2>
-<b></b>
+<b class="stockWarning" data-variant="variant10"></b>
 </div>
 <div class="button">
 <button class="btn-primary" onclick="addToCart(variant10)">
@@ -745,7 +745,38 @@ function getTotal() {
 
 }
 
+const variants = {
+variant10
+};
 
+function updateStockWarnings() {
+
+  document.querySelectorAll(".stockWarning").forEach(warning => {
+
+    let variant = variants[warning.dataset.variant];
+
+    if (!variant) return;
+
+    if (variant.stock === 0) {
+
+      warning.style.display = "block";
+      warning.style.color = "#ef4444";
+      warning.textContent = "Sorry, this product is out of stock!";
+
+    } else if (variant.stock > 0 && variant.stock <= 5) {
+
+      warning.style.display = "block";
+      warning.textContent = variant.stock + " Left - Hurry Up!";
+
+    } else {
+
+      warning.style.display = "none";
+
+    }
+
+  });
+
+}
 
 function renderTotal() {
 
@@ -879,6 +910,7 @@ function goToCheckout() {
 }
 
 window.onload = function () {
+    updateStockWarnings();
   renderCart();
   renderTotal();
   checkStock();

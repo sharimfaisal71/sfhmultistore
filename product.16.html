@@ -436,57 +436,63 @@ Their compact size makes them easy to store in your kitchen, dining area, or tra
 <div class="variant">
 <h1>Pack of 1 (Ambassador Flat Toothpicks) - Rs. 199.00</h1>
 <h2><s>Rs. 299.00</s> 33% OFF!</h2>
-<b>4 Left - Hurry Up!</b>
+<b class="stockWarning" data-variant="variant30"></b>
 </div>
 <div class="button">
 <button class="btn-primary" onclick="addToCart(variant30)">
   Add to Cart
 </button>
 </div>
+
 <div class="variant">
 <h1>Pack of 1 (Noor Flat Toothpicks) - Rs. 189.00</h1>
 <h2><s>Rs. 299.00</s> 37% OFF!</h2>
-<b>4 Left - Hurry Up!</b>
+<b class="stockWarning" data-variant="variant31"></b>
 </div>
+
 <div class="button">
 <button class="btn-primary" onclick="addToCart(variant31)">
   Add to Cart
 </button>
 </div>
+
 <div class="variant">
 <h1>Pack of 1 (Crown Flat Toothpicks)- Rs. 199.00</h1>
 <h2><s>Rs. 299.00</s> 33% OFF!</h2>
-<b>4 Left - Hurry Up!</b>
+<b class="stockWarning" data-variant="variant32"></b>
 </div>
 <div class="button">
 <button class="btn-primary" onclick="addToCart(variant32)">
   Add to Cart
 </button>
 </div>
+
 <div class="variant">
 <h1>Pack of 3 (Ambassador Flat Toothpicks)- Rs. 469.00</h1>
 <h2><s>Rs. 897.00</s> 48% OFF!</h2>
-<b>5 Left - Hurry Up!</b>
+<b class="stockWarning" data-variant="variant33"></b>
 </div>
 <div class="button">
 <button class="btn-primary" onclick="addToCart(variant33)">
   Add to Cart
 </button>
 </div>
+
 <div class="variant">
 <h1>Pack of 3 (Noor Flat Toothpicks)- Rs. 439.00</h1>
 <h2><s>Rs. 897.00</s> 51% OFF!</h2>
-<b>5 Left - Hurry Up!</b>
+<b class="stockWarning" data-variant="variant34"></b>
 </div>
 <div class="button">
 <button class="btn-primary" onclick="addToCart(variant34)">
   Add to Cart
 </button>
 </div>
+
 <div class="variant">
 <h1>Pack of 3 (Crown Flat Toothpicks - Rs. 469.00</h1>
 <h2><s>Rs. 897.00</s> 48% OFF!</h2>
-<b>5 Left - Hurry Up!</b>
+<b class="stockWarning" data-variant="variant35"></b>
 </div>
 <div class="button">
 <button class="btn-primary" onclick="addToCart(variant35)">
@@ -937,7 +943,37 @@ function checkStock() {
 
 
 };
-  
+const variants = {
+  variant30,
+  variant31,
+  variant32,
+  variant33,
+  variant34,
+  variant35
+};
+
+function updateStockWarnings() {
+
+  document.querySelectorAll(".stockWarning").forEach(warning => {
+
+    let variant = variants[warning.dataset.variant];
+
+    if (!variant) return;
+
+    if (variant.stock > 0 && variant.stock <= 5) {
+
+      warning.style.display = "block";
+      warning.textContent = variant.stock + " Left - Hurry Up!";
+
+    } else {
+
+      warning.style.display = "none";
+
+    }
+
+  });
+
+}
 function goToCheckout() {
 
   let cart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -951,6 +987,7 @@ function goToCheckout() {
 }
 
 window.onload = function () {
+  updateStockWarnings();
   renderCart();
   renderTotal();
   checkStock();

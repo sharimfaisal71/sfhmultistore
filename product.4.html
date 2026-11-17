@@ -432,7 +432,7 @@ Made with ultra-soft, skin-friendly material, these wipes ensure a comfortable c
 <div class="variant">
 <h1>Blue - Rs. 299.00</h1>
 <h2><s>Rs. 599.00</s> 50% OFF!</h2>
-<b> 4 Left - Hurry Up!</b>
+<b class="stockWarning" data-variant="variant7"></b>
 </div>
 <div class="button">
 <button class="btn-primary" onclick="addToCart(variant7)">
@@ -856,7 +856,38 @@ function checkStock() {
 
 
 };
-  
+  const variants = {
+variant7
+};
+
+function updateStockWarnings() {
+
+  document.querySelectorAll(".stockWarning").forEach(warning => {
+
+    let variant = variants[warning.dataset.variant];
+
+    if (!variant) return;
+
+    if (variant.stock === 0) {
+
+      warning.style.display = "block";
+      warning.style.color = "#ef4444";
+      warning.textContent = "Sorry, this product is out of stock!";
+
+    } else if (variant.stock > 0 && variant.stock <= 5) {
+
+      warning.style.display = "block";
+      warning.textContent = variant.stock + " Left - Hurry Up!";
+
+    } else {
+
+      warning.style.display = "none";
+
+    }
+
+  });
+
+}
 function goToCheckout() {
 
   let cart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -870,6 +901,7 @@ function goToCheckout() {
 }
 
 window.onload = function () {
+    updateStockWarnings();
   renderCart();
   renderTotal();
   checkStock();

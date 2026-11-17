@@ -501,15 +501,16 @@ let invoices = JSON.parse(localStorage.getItem("myInvoices")) || [];
 if (!invoices.includes(invoiceNumber)) {
     invoices.push(invoiceNumber);
 }
-clearCartAfterOrder();
+
 localStorage.setItem("myInvoices", JSON.stringify(invoices));
   let number = "923291615406";
 window.open(
-    `https://wa.me/${number}?text=${encodeURIComponent(message)}`
+    `https://wa.me/${number}?text=${encodeURIComponent(message)}` 
   );
-  
+  clearCartAfterOrder();
+    location.href = "https://www.sfhmultistore.online";
 };
- location.href = "https://www.sfhmultistore.online";
+
  }
 
 async function sendEmail(){

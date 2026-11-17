@@ -433,7 +433,7 @@ Keep everyday personal-care and cleaning tasks convenient with this pack of 70â€
 <div class="variant">
 <h1>Pack of 1 - Rs. 169.00</h1>
 <h2><s>Rs. 199.00</s> 15% OFF!</h2>
-<b>2 Left - Hurry Up!</b>
+<b class="stockWarning" data-variant="variant27"></b>
 </div>
 <div class="button">
 <button class="btn-primary" onclick="addToCart(variant27)">
@@ -443,7 +443,7 @@ Keep everyday personal-care and cleaning tasks convenient with this pack of 70â€
 <div class="variant">
 <h1>Pack of 2 - Rs. 255.00</h1>
 <h2><s>Rs. 398.00</s> 36% OFF!</h2>
-<b>3 Left - Hurry Up!</b>
+<b class="stockWarning" data-variant="variant28"></b>
 </div>
 <div class="button">
 <button class="btn-primary" onclick="addToCart(variant28)">
@@ -453,7 +453,7 @@ Keep everyday personal-care and cleaning tasks convenient with this pack of 70â€
 <div class="variant">
 <h1>Pack of 3 - Rs. 329.00</h1>
 <h2><s>Rs. 597.00</s> 45% OFF!</h2>
-<b>5 Left - Hurry Up!</b>
+<b class="stockWarning" data-variant="variant29"></b>
 </div>
 <div class="button">
 <button class="btn-primary" onclick="addToCart(variant29)">
@@ -893,7 +893,34 @@ function checkStock() {
 
 
 };
-  
+const variants = {
+  variant27,
+  variant28,
+  variant29
+};
+
+function updateStockWarnings() {
+
+  document.querySelectorAll(".stockWarning").forEach(warning => {
+
+    let variant = variants[warning.dataset.variant];
+
+    if (!variant) return;
+
+    if (variant.stock > 0 && variant.stock <= 5) {
+
+      warning.style.display = "block";
+      warning.textContent = variant.stock + " Left - Hurry Up!";
+
+    } else {
+
+      warning.style.display = "none";
+
+    }
+
+  });
+
+}  
 function goToCheckout() {
 
   let cart = JSON.parse(localStorage.getItem("cart")) || [];

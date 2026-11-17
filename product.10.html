@@ -435,7 +435,7 @@ Whether you're heading to work, college, a party, or a special event, these styl
 <div class="variant">
 <h1>Brown - Rs. 359.00</h1>
 <h2><s>Rs. 649.00</s> 45% OFF!</h2>
-<b>1 Left- Hurry Up!</b>
+<b class="stockWarning" data-variant="variant13"></b>
 </div>
 <div class="button">
 <button class="btn-primary" onclick="addToCart(variant13)">
@@ -745,7 +745,38 @@ function getTotal() {
 }
 
 
+const variants = {
+  variant13
+};
 
+function updateStockWarnings() {
+
+  document.querySelectorAll(".stockWarning").forEach(warning => {
+
+    let variant = variants[warning.dataset.variant];
+
+    if (!variant) return;
+
+    if (variant.stock === 0) {
+
+      warning.style.display = "block";
+      warning.style.color = "#ef4444";
+      warning.textContent = "Sorry, this product is out of stock!";
+
+    } else if (variant.stock > 0 && variant.stock <= 5) {
+
+      warning.style.display = "block";
+      warning.textContent = variant.stock + " Left - Hurry Up!";
+
+    } else {
+
+      warning.style.display = "none";
+
+    }
+
+  });
+
+}
 function renderTotal() {
 
   let totalBox = document.getElementById("total");
@@ -878,6 +909,8 @@ function goToCheckout() {
 }
 
 window.onload = function () {
+    
+updateStockWarnings();
   renderCart();
   renderTotal();
   checkStock();
